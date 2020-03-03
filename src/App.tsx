@@ -1,21 +1,20 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { Layout } from "./components/Layout";
-import { CreateSnap } from "./components/CreateSnap";
-import SimpleCard from "./components/Snap";
-import { LineSpacer } from "./components/LineSpacer";
-import CryptoJS from "crypto-js";
-import ApolloClient from "apollo-client";
-
+import { ApolloProvider } from "@apollo/react-hooks";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
+import ApolloClient from "apollo-client";
 import { HttpLink } from "apollo-link-http";
-import { ApolloProvider, useQuery } from "@apollo/react-hooks";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { SignUpPage } from "./pages/SignUp";
-import { PrivacyPage } from "./pages/Privacy";
-import { TnCPage } from "./pages/TnC";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import { CreateSnap } from "./components/CreateSnap";
+import { Layout } from "./components/Layout";
+import { LineSpacer } from "./components/LineSpacer";
+import { PrivateRoute } from "./components/PrivateRoute";
+import SimpleCard from "./components/Snap";
 import { routerUri } from "./config/routerUri";
+import { PrivacyPage } from "./pages/Privacy";
+import { SignInPage } from "./pages/SignIn";
+import { SignUpPage } from "./pages/SignUp";
+import { TnCPage } from "./pages/TnC";
 
 // // Encrypt
 // var ciphertext = CryptoJS.AES.encrypt(
@@ -57,14 +56,17 @@ function App() {
             <Route path={routerUri.termAndConditions}>
               <TnCPage />
             </Route>
-            <Route path="/">
+            <Route path={routerUri.signIn}>
+              <SignInPage />
+            </Route>
+            <PrivateRoute path="/">
               <Layout>
                 <LineSpacer />
                 <CreateSnap />
                 <LineSpacer />
                 <SimpleCard />
               </Layout>
-            </Route>
+            </PrivateRoute>
           </Switch>
         </Router>
       </ApolloProvider>

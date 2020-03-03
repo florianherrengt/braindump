@@ -38,7 +38,6 @@ export const SignUpPage = () => {
         !!(getUserByIdResults.data && getUserByIdResults.data.userById)
       }
       onUsernameChange={throttle(username => {
-        console.log("onUsernameChange");
         setUsername(username);
       }, 2000)}
       onSubmit={async input => {

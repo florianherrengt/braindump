@@ -77,6 +77,7 @@ export const SignUp = (props: SignUpProps) => {
             onChange={({ target }) => setPassword(target.value)}
             variant="outlined"
             label="Password"
+            type="password"
           />
         </div>
         <LineSpacer />
