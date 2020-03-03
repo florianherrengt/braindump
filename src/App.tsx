@@ -5,16 +5,13 @@ import { HttpLink } from "apollo-link-http";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { CreateSnap } from "./components/CreateSnap";
-import { Layout } from "./components/Layout";
-import { LineSpacer } from "./components/LineSpacer";
 import { PrivateRoute } from "./components/PrivateRoute";
-import SimpleCard from "./components/Snap";
 import { routerUri } from "./config/routerUri";
 import { PrivacyPage } from "./pages/Privacy";
 import { SignInPage } from "./pages/SignIn";
 import { SignUpPage } from "./pages/SignUp";
 import { TnCPage } from "./pages/TnC";
+import { NotesPage } from "./pages/Notes";
 
 // // Encrypt
 // var ciphertext = CryptoJS.AES.encrypt(
@@ -60,12 +57,7 @@ function App() {
               <SignInPage />
             </Route>
             <PrivateRoute path="/">
-              <Layout>
-                <LineSpacer />
-                <CreateSnap />
-                <LineSpacer />
-                <SimpleCard />
-              </Layout>
+              <NotesPage />
             </PrivateRoute>
           </Switch>
         </Router>
