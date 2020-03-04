@@ -1,16 +1,30 @@
+import { QueryResult } from "@apollo/react-common";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
-import { CreateNote } from "../components/CreateSnap";
+import { CreateNote } from "../components/CreateNote";
 import { Layout } from "../components/Layout";
 import { LineSpacer } from "../components/LineSpacer";
-import { NoteCard } from "../components/NoteCard";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { NoteList } from "../components/NoteList";
 
 const GET_CURRENT_USER_NOTES = gql`
   {
     currentUserNotes {
       id
       text
+      tags {
+        id
+        label
+      }
+    }
+  }
+`;
+
+const GET_CURRENT_USER_TAGS = gql`
+  {
+    currentUserTags {
+      id
+      label
     }
   }
 `;
@@ -20,18 +34,24 @@ const CREATE_NOTE_MUTATION = gql`
     createNote(input: $input) {
       id
       text
+      tags {
+        id
+        label
+      }
     }
   }
 `;
 
+const getErrors = (queryResult: QueryResult): string[] | undefined => {
+  return queryResult.error?.graphQLErrors.map(({ message }) => message);
+};
+
 export const NotesPage = () => {
   const getCurrentUserNotesResults = useQuery(GET_CURRENT_USER_NOTES);
+  const getCurrentUserTagsResults = useQuery(GET_CURRENT_USER_TAGS);
   const [createNoteMutation, createNoteResults] = useMutation(
     CREATE_NOTE_MUTATION
   );
-  if (getCurrentUserNotesResults.loading) {
-    return <div>Loading</div>;
-  }
   if (getCurrentUserNotesResults.error) {
     return (
       <div>
@@ -49,17 +69,23 @@ export const NotesPage = () => {
     <Layout>
       <LineSpacer />
       <CreateNote
-        onSubmit={input =>
+        userTags={{
+          data: getCurrentUserTagsResults.data?.currentUserTags,
+          errors: getErrors(getCurrentUserTagsResults),
+          loading: getCurrentUserTagsResults.loading
+        }}
+        onSubmit={input => {
+          console.log(input);
           createNoteMutation({
             variables: { input },
-            optimisticResponse: {
-              __typename: "Mutation",
-              createNote: {
-                __typename: "Note",
-                id: "optimistic" + Math.random().toString(),
-                ...input
-              }
-            },
+            // optimisticResponse: {
+            //   __typename: "Mutation",
+            //   createNote: {
+            //     __typename: "Note",
+            //     id: "optimistic" + Math.random().toString(),
+            //     ...input
+            //   }
+            // },
             update(cache, { data: { createNote } }) {
               const { currentUserNotes } =
                 cache.readQuery({
@@ -72,15 +98,15 @@ export const NotesPage = () => {
                 }
               });
             }
-          })
-        }
+          });
+        }}
       />
-      {getCurrentUserNotesResults.data.currentUserNotes.map((note: any) => (
-        <div key={note.id}>
-          <LineSpacer />
-          <NoteCard note={note} />
-        </div>
-      ))}
+      <LineSpacer />
+      <NoteList
+        errors={getErrors(getCurrentUserNotesResults)}
+        loading={getCurrentUserNotesResults.loading}
+        notes={getCurrentUserNotesResults.data?.currentUserNotes}
+      />
     </Layout>
   );
 };

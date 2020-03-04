@@ -1,18 +1,35 @@
-import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import {
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Typography
+} from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
+import React, { useState } from "react";
 import styled from "styled-components";
-import CardActions from "@material-ui/core/CardActions";
+import { LineSpacer } from "./LineSpacer";
+import { Tag } from "./SelectTag";
 
-interface NoteCardProps {
-  note: { id: string; text: string };
+export interface Note {
+  id: string;
+  text: string;
+  tags?: Tag[];
 }
 
-const Container = styled.div<{ optimistic: boolean }>`
+interface NoteCardProps {
+  note: Note;
+}
+
+// using number instead of boolean because react complains about it otherwise...
+const Container = styled(Card)<{ optimistic: number }>`
   position: relative;
   opacity: ${props => (props.optimistic ? 0.5 : 1)};
+  white-space: pre-wrap;
+  cursor: pointer;
+  &:hover {
+    border-color: ${grey[500]};
+  }
 `;
 
 const Spinner = styled(CircularProgress)`
@@ -21,18 +38,36 @@ const Spinner = styled(CircularProgress)`
   bottom: 10px;
 `;
 
+const TypographyEllipsis = styled(Typography)`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+`;
+
 export const NoteCard: React.SFC<NoteCardProps> = props => {
+  const [expanded, setExpanded] = useState(false);
   const isOptimistic = props.note.id.includes("optimistic");
+  const text = decodeURIComponent(props.note.text);
   return (
-    <Container optimistic={isOptimistic}>
-      <Card variant="outlined">
-        <CardContent>
-          {isOptimistic && <Spinner size={10} />}
-          <Typography variant="body1" component="p">
-            {props.note.text}
-          </Typography>
-        </CardContent>
-      </Card>
+    <Container variant="outlined" optimistic={isOptimistic ? 1 : 0}>
+      <CardContent onClick={() => setExpanded(!expanded)}>
+        {isOptimistic && <Spinner size={10} />}
+        {expanded ? (
+          <Typography variant="body1">{text}</Typography>
+        ) : (
+          <TypographyEllipsis variant="body1">{text}</TypographyEllipsis>
+        )}
+        <LineSpacer />
+        {props.note.tags?.map(tag => (
+          <Chip
+            key={tag.id}
+            variant="outlined"
+            size="small"
+            label={tag.label}
+          />
+        ))}
+      </CardContent>
     </Container>
   );
 };

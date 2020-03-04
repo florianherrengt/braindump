@@ -26,7 +26,7 @@ import { NotesPage } from "./pages/Notes";
 // console.log(originalText); // 'my message'
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({ addTypename: false });
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,

@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import styled from "styled-components";
-import { LineSpacer } from "./LineSpacer";
-import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
-import { routerUri } from "../config/routerUri";
-import throttle from "lodash.throttle";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import throttle from "lodash.throttle";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { routerUri } from "../config/routerUri";
+import { LineSpacer } from "./LineSpacer";
 
 interface SignUpProps {
   usernameExists: boolean;
