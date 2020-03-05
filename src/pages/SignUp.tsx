@@ -4,12 +4,11 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { SignUp } from "../components/SignUp";
 import { useHistory } from "react-router-dom";
 import throttle from "lodash.throttle";
+import { routerUri } from "../config";
 
 const GET_USER_BY_ID = gql`
-  query userById($username: String!) {
-    userById(username: $username) {
-      username
-    }
+  query userExists($username: String!) {
+    userExists(username: $username)
   }
 `;
 
@@ -21,21 +20,21 @@ const SIGN_UP_MUTATION = gql`
 
 export const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");
-  const getUserByIdResults = useQuery(GET_USER_BY_ID, {
+  const getUserExistsResults = useQuery(GET_USER_BY_ID, {
     variables: { username }
   });
   const [signUpMutation] = useMutation(SIGN_UP_MUTATION);
   const history = useHistory();
 
-  if (getUserByIdResults.error) {
-    return <div>{getUserByIdResults.error}</div>;
+  if (getUserExistsResults.error) {
+    return <div>{getUserExistsResults.error.message}</div>;
   }
 
   return (
     <SignUp
-      loading={getUserByIdResults.loading}
+      loading={getUserExistsResults.loading}
       usernameExists={
-        !!(getUserByIdResults.data && getUserByIdResults.data.userById)
+        !!(getUserExistsResults.data && getUserExistsResults.data.userExists)
       }
       onUsernameChange={throttle(username => {
         setUsername(username);
@@ -50,7 +49,7 @@ export const SignUpPage = () => {
             alert(errors.map(e => e.message).join(" "));
           }
           localStorage.setItem("token", data.signUp);
-          history.push("/");
+          history.push(routerUri.notes);
         } catch (error) {
           alert(error);
         }

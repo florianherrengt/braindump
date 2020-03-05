@@ -7,35 +7,41 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { routerUri } from "./config/routerUri";
+import { NotesPage } from "./pages/Notes";
 import { PrivacyPage } from "./pages/Privacy";
 import { SignInPage } from "./pages/SignIn";
 import { SignUpPage } from "./pages/SignUp";
 import { TnCPage } from "./pages/TnC";
-import { NotesPage } from "./pages/Notes";
+import { ApolloLink } from "apollo-link";
 
-// // Encrypt
-// var ciphertext = CryptoJS.AES.encrypt(
-//   "my message",
-//   "secret key 123"
-// ).toString();
+import { onError } from "apollo-link-error";
+import CryptoJS from "crypto-js";
 
-// // Decrypt
-// var bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
-// var originalText = bytes.toString(CryptoJS.enc.Utf8);
+const errorLink = onError(
+  ({ graphQLErrors, networkError, operation, forward }) => {
+    if (graphQLErrors) {
+      for (let err of graphQLErrors) {
+        if (err.extensions?.code === "UNAUTHENTICATED") {
+          window.location.replace(routerUri.signIn);
+        }
+      }
+    }
+  }
+);
+const httpLink = new HttpLink({
+  uri: "http://localhost:8080/api/graphql",
+  headers: {
+    authorization: "Bearer " + localStorage.getItem("token")
+  }
+});
 
-// console.log(originalText); // 'my message'
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
 const cache = new InMemoryCache({ addTypename: false });
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
-  link: new HttpLink({
-    uri: "http://localhost:8080/api/graphql",
-    headers: {
-      authorization: "Bearer " + localStorage.getItem("token")
-    }
-  })
+  link: ApolloLink.from([errorLink, httpLink])
 });
 
 function App() {
@@ -56,7 +62,7 @@ function App() {
             <Route path={routerUri.signIn}>
               <SignInPage />
             </Route>
-            <PrivateRoute path="/">
+            <PrivateRoute path="/notes">
               <NotesPage />
             </PrivateRoute>
           </Switch>

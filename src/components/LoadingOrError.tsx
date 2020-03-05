@@ -1,24 +1,24 @@
 import { CircularProgress, Typography } from "@material-ui/core";
 import React from "react";
+import { QueryResult } from "@apollo/react-common";
 
 interface LoadingOrErrorProps {
-  loading: boolean;
-  errors?: string[];
+  query: QueryResult;
 }
 
 export const LoadingOrError: React.SFC<LoadingOrErrorProps> = props => {
-  if (props.loading) {
+  if (props.query.loading) {
     return (
       <div>
         <CircularProgress />
       </div>
     );
   }
-  if (props.errors) {
+  if (props.query.error) {
     return (
       <div>
-        {props.errors.map(error => (
-          <Typography>{error}</Typography>
+        {props.query.error?.graphQLErrors.map(({ message }) => (
+          <Typography color="error">{message}</Typography>
         ))}
       </div>
     );

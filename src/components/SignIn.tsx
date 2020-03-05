@@ -10,6 +10,7 @@ import red from "@material-ui/core/colors/red";
 
 interface SignInProps {
   errors?: string[];
+  loading: boolean;
   onSubmit(input: { username: string; password: string }): void;
 }
 
@@ -58,6 +59,7 @@ export const SignIn = (props: SignInProps) => {
       >
         <div>
           <CustomTextField
+            disabled={props.loading}
             onChange={({ target }) => setUsername(target.value)}
             variant="outlined"
             label="Username"
@@ -66,6 +68,7 @@ export const SignIn = (props: SignInProps) => {
         <LineSpacer />
         <div>
           <CustomTextField
+            disabled={props.loading}
             onChange={({ target }) => setPassword(target.value)}
             variant="outlined"
             label="Password"
@@ -73,16 +76,16 @@ export const SignIn = (props: SignInProps) => {
           />
         </div>
         <LineSpacer />
+        <SignInButton disabled={props.loading} type="submit" variant="outlined">
+          Sign In
+        </SignInButton>
         {props.errors &&
           props.errors.map(error => (
             <div key={btoa(error)}>
-              <ErrorTypography>{error}</ErrorTypography>
               <LineSpacer />
+              <ErrorTypography>{error}</ErrorTypography>
             </div>
           ))}
-        <SignInButton type="submit" variant="outlined">
-          Sign In
-        </SignInButton>
         <LineSpacer />
         <SmallPrintTypography variant="body2">
           Don't have an account yet?
