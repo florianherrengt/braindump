@@ -11,8 +11,10 @@ import styled from "styled-components";
 import { SelectTag, Tag } from "./SelectTag";
 import { Tooltip } from "@material-ui/core";
 import CryptoJS from "crypto-js";
+import { decrypt } from "../helpers";
 
 interface AesPassphraseFormProps {
+  testNote?: string;
   onSubmit(input: { passphrase: string }): any;
 }
 
@@ -26,15 +28,13 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   const [error, setError] = useState<string>();
 
   const submit = () => {
-    // const aesTestString = localStorage.getItem("aesTestString");
-    // if (!aesTestString) {
-    //   localStorage.setItem("aesTestString", text);
-    // } else {
-    //   if (!CryptoJS.AES.decrypt(aesTestString, text).toString()) {
-    //     setError("Invalid passphrase");
-    //     return;
-    //   }
-    // }
+    console.log(props.testNote);
+    if (props.testNote) {
+      if (!decrypt(props.testNote, text)) {
+        setError("Invalid passphrase");
+        return;
+      }
+    }
     props.onSubmit({ passphrase: text });
     setText("");
   };

@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import React from "react";
 import { LoadingOrError, NoteList } from "../../components";
 import CryptoJS from "crypto-js";
+import { decrypt } from "../../helpers";
 
 export const GET_CURRENT_USER_NOTES = gql`
   {
@@ -32,10 +33,7 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
             return {
               ...note,
               text: props.aesPassphrase
-                ? CryptoJS.AES.decrypt(
-                    decodeURIComponent(note.text),
-                    props.aesPassphrase
-                  ).toString(CryptoJS.enc.Utf8)
+                ? decrypt(note.text, props.aesPassphrase)
                 : note.text
             };
           }

@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import React from "react";
 import { CreateNote } from "../../components";
 import { GET_CURRENT_USER_NOTES } from "./NoteListContainer";
+import { encrypt } from "../../helpers";
 
 export const GET_CURRENT_USER_TAGS = gql`
   {
@@ -55,10 +56,7 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
         loading: getCurrentUserTagsResults.loading
       }}
       onSubmit={input => {
-        input.text = CryptoJS.AES.encrypt(
-          input.text,
-          props.aesPassphrase
-        ).toString();
+        input.text = encrypt(input.text, props.aesPassphrase);
 
         createNoteMutation({
           variables: { input },
