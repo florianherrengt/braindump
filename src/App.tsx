@@ -54,29 +54,29 @@ function App() {
     <div className="App">
       <ApolloProvider client={client}>
         <Router>
-          <Switch>
-            <Route path={routerUri.signUp}>
-              <SignUpPage />
-            </Route>
-            <Route path={routerUri.privacy}>
-              <PrivacyPage />
-            </Route>
-            <Route path={routerUri.termAndConditions}>
-              <TnCPage />
-            </Route>
-            <Route path={routerUri.signIn}>
-              <SignInPage />
-            </Route>
-            <PrivateRoute path={routerUri.notes}>
-              <NotesPage />
-            </PrivateRoute>
-            <PrivateRoute path={routerUri.tags}>
-              <TagsPage />
-            </PrivateRoute>
-            <Route path="/">
-              <MainLayout>Welcome</MainLayout>
-            </Route>
-          </Switch>
+          <MainLayout>
+            <Switch>
+              <Route path={routerUri.signUp}>
+                <SignUpPage />
+              </Route>
+              <Route path={routerUri.privacy}>
+                <PrivacyPage />
+              </Route>
+              <Route path={routerUri.termAndConditions}>
+                <TnCPage />
+              </Route>
+              <Route path={routerUri.signIn}>
+                <SignInPage />
+              </Route>
+              <PrivateRoute path={routerUri.notes}>
+                <NotesPage />
+              </PrivateRoute>
+              <PrivateRoute path={routerUri.tags}>
+                <TagsPage />
+              </PrivateRoute>
+              <Route path="/">Welcome</Route>
+            </Switch>
+          </MainLayout>
         </Router>
       </ApolloProvider>
     </div>

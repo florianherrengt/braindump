@@ -2,7 +2,6 @@ import { useQuery, useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
 import { LineSpacer } from "../../components";
-import { MainLayout } from "../Layout";
 import { AesPassphraseContainer } from "./AesPassphraseContainer";
 import { CreateNoteContainer } from "./CreateNoteContainer";
 import { NoteListContainer } from "./NoteListContainer";
@@ -23,7 +22,7 @@ export const NotesPage = () => {
   const client = useApolloClient();
 
   return (
-    <MainLayout>
+    <div>
       <LineSpacer />
       {!aesPassphrase ? (
         <AesPassphraseContainer
@@ -36,6 +35,6 @@ export const NotesPage = () => {
       )}
       <LineSpacer />
       <NoteListContainer aesPassphrase={aesPassphrase} />
-    </MainLayout>
+    </div>
   );
 };

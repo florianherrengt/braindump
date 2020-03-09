@@ -1,20 +1,17 @@
 import {
-  AppBar,
   Divider,
   Drawer,
   Icon,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  Toolbar
+  ListItemText
 } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 import { routerUri } from "../../config";
+import { TopBar } from "./TopBar";
 
 const Container = styled.div``;
 
@@ -39,31 +36,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
 
   return (
     <div>
-      <AppBar
-        style={{ color: grey[500] }}
-        color="transparent"
-        variant="outlined"
-        position="static"
-      >
-        <Toolbar>
-          <IconButton
-            onClick={() => setDrawerOpen(true)}
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-          >
-            <Icon>menu</Icon>
-          </IconButton>
-          <div style={{ flexGrow: 1 }} />
-
-          {/* <IconButton edge="end" color="inherit" aria-label="menu"> */}
-
-          {/* </IconButton> */}
-          <IconButton edge="end" color="inherit" aria-label="menu">
-            <Icon>account_circle</Icon>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <TopBar onMenuClick={() => setDrawerOpen(true)} />
       <Drawer
         anchor="left"
         open={drawerOpen}
@@ -77,13 +50,25 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             <ListItemText primary="Back" />
           </ListItem>
           <Divider />
-          <ListItem button onClick={() => history.push(routerUri.notes)}>
+          <ListItem
+            button
+            onClick={() => {
+              history.push(routerUri.notes);
+              setDrawerOpen(false);
+            }}
+          >
             <ListItemIcon>
               <Icon>notes</Icon>
             </ListItemIcon>
             <ListItemText primary="Notes" />
           </ListItem>
-          <ListItem button onClick={() => history.push(routerUri.tags)}>
+          <ListItem
+            button
+            onClick={() => {
+              history.push(routerUri.tags);
+              setDrawerOpen(false);
+            }}
+          >
             <ListItemIcon>
               <Icon>label</Icon>
             </ListItemIcon>
