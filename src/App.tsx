@@ -15,7 +15,8 @@ import { TnCPage } from "./pages/TnC";
 import { ApolloLink } from "apollo-link";
 
 import { onError } from "apollo-link-error";
-import CryptoJS from "crypto-js";
+import { MainLayout } from "./pages/Layout";
+import { TagsPage } from "./pages/Tags";
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
@@ -29,7 +30,7 @@ const errorLink = onError(
   }
 );
 const httpLink = new HttpLink({
-  uri: "http://localhost:8080/api/graphql",
+  uri: "http://192.168.1.138:8080/api/graphql",
   headers: {
     authorization: "Bearer " + localStorage.getItem("token")
   }
@@ -42,6 +43,10 @@ const cache = new InMemoryCache({ addTypename: false });
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
   link: ApolloLink.from([errorLink, httpLink])
+});
+
+client.writeData({
+  data: { aesPassphrase: localStorage.getItem("aesPassphrase") }
 });
 
 function App() {
@@ -62,9 +67,15 @@ function App() {
             <Route path={routerUri.signIn}>
               <SignInPage />
             </Route>
-            <PrivateRoute path="/notes">
+            <PrivateRoute path={routerUri.notes}>
               <NotesPage />
             </PrivateRoute>
+            <PrivateRoute path={routerUri.tags}>
+              <TagsPage />
+            </PrivateRoute>
+            <Route path="/">
+              <MainLayout>Welcome</MainLayout>
+            </Route>
           </Switch>
         </Router>
       </ApolloProvider>

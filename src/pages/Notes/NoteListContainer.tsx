@@ -1,22 +1,8 @@
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import React from "react";
 import { LoadingOrError, NoteList } from "../../components";
-import CryptoJS from "crypto-js";
 import { decrypt } from "../../helpers";
-
-export const GET_CURRENT_USER_NOTES = gql`
-  {
-    currentUserNotes {
-      id
-      text
-      tags {
-        id
-        label
-      }
-    }
-  }
-`;
+import { GET_CURRENT_USER_NOTES, GET_CURRENT_USER_TAGS } from "../../queries";
 
 interface NoteListContainerProps {
   aesPassphrase: string;
@@ -24,21 +10,47 @@ interface NoteListContainerProps {
 
 export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
   const getCurrentUserNotesResults = useQuery(GET_CURRENT_USER_NOTES);
-  console.log(props.aesPassphrase);
+  const getCurrentUserTags = useQuery(GET_CURRENT_USER_TAGS);
+  const currentUserNotes = getCurrentUserNotesResults.data?.currentUserNotes;
+  const currentUserTags = getCurrentUserTags.data?.currentUserTags;
+
+  const decryptedTags =
+    props.aesPassphrase &&
+    currentUserTags &&
+    currentUserTags.map((tag: any) => {
+      return { ...tag, label: decrypt(tag.label, props.aesPassphrase) };
+    });
+
+  const decryptedNotes =
+    props.aesPassphrase &&
+    decryptedTags &&
+    currentUserNotes &&
+    currentUserNotes.map((note: any) => {
+      const decryptedNotes = {
+        ...note,
+        text: decrypt(note.text, props.aesPassphrase),
+        tags:
+          (note.tags &&
+            note.tags.length &&
+            note.tags.map((tag: any) =>
+              decryptedTags.find((dtag: any) => dtag.id === tag.id)
+            )) ||
+          []
+      };
+      return decryptedNotes;
+    });
+  if (
+    decryptedNotes &&
+    decryptedNotes.lenght &&
+    !decryptedNotes[0].text &&
+    !decryptedNotes.map(({ text }: any) => text).lenght
+  ) {
+    localStorage.removeItem("aesPassphrase");
+    window.location.reload();
+  }
   return (
-    <LoadingOrError query={getCurrentUserNotesResults}>
-      <NoteList
-        notes={getCurrentUserNotesResults.data?.currentUserNotes.map(
-          (note: any) => {
-            return {
-              ...note,
-              text: props.aesPassphrase
-                ? decrypt(note.text, props.aesPassphrase)
-                : note.text
-            };
-          }
-        )}
-      />
+    <LoadingOrError results={getCurrentUserNotesResults}>
+      <NoteList notes={decryptedNotes || currentUserNotes} />
     </LoadingOrError>
   );
 };

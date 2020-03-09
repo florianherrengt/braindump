@@ -5,7 +5,6 @@ import {
   CircularProgress,
   Typography
 } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { LineSpacer } from "./LineSpacer";
@@ -25,11 +24,6 @@ interface NoteCardProps {
 const Container = styled(Card)<{ optimistic: number }>`
   position: relative;
   opacity: ${props => (props.optimistic ? 0.5 : 1)};
-  white-space: pre-wrap;
-  cursor: pointer;
-  &:hover {
-    border-color: ${grey[500]};
-  }
 `;
 
 const Spinner = styled(CircularProgress)`

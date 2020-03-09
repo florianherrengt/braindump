@@ -3,5 +3,6 @@ export const routerUri = {
     signUp: '/sign-up',
     privacy: '/privacy',
     termAndConditions: '/terms-and-conditions',
-    notes: '/notes'
+    notes: '/notes',
+    tags: '/tags'
 }

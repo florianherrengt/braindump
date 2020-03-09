@@ -1,21 +1,24 @@
 import {
   Button,
-  TextField,
-  CardContent,
   Card,
-  useMediaQuery,
-  Typography
+  CardContent,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery
 } from "@material-ui/core";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { SelectTag, Tag } from "./SelectTag";
-import { Tooltip } from "@material-ui/core";
-import CryptoJS from "crypto-js";
 import { decrypt } from "../helpers";
 
 interface AesPassphraseFormProps {
   testNote?: string;
-  onSubmit(input: { passphrase: string }): any;
+  onSubmit(input: {
+    passphrase: string;
+    shouldSaveToLocalstorage: boolean;
+  }): any;
 }
 
 const Container = styled.div`
@@ -24,26 +27,32 @@ const Container = styled.div`
 
 const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   const isMobile = useMediaQuery("(max-width:450px)");
-  const [text, setText] = useState<string>("");
+  const [aesPassphrase, setAesPassphrase] = useState<string>(
+    localStorage.getItem("aesPassphrase") || ""
+  );
   const [error, setError] = useState<string>();
+  const [shouldSaveToLocalstorage, setShouldSaveToLocalstorage] = useState<
+    boolean
+  >(false);
 
   const submit = () => {
-    console.log(props.testNote);
     if (props.testNote) {
-      if (!decrypt(props.testNote, text)) {
+      if (!decrypt(props.testNote, aesPassphrase)) {
         setError("Invalid passphrase");
+        setAesPassphrase("");
         return;
       }
     }
-    props.onSubmit({ passphrase: text });
-    setText("");
+
+    props.onSubmit({ passphrase: aesPassphrase, shouldSaveToLocalstorage });
   };
+
   return (
     <Container>
       <form
         onSubmit={event => {
           event.preventDefault();
-          if (!text) {
+          if (!aesPassphrase) {
             return;
           }
           submit();
@@ -54,25 +63,39 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
             <div
               style={{ display: isMobile ? "block" : "flex", marginTop: 20 }}
             >
-              <div style={{ flex: 1 }}>
-                <TextField
-                  autoFocus
-                  onChange={({ target: { value } }) => setText(value)}
-                  value={text}
-                  style={{ width: "100%" }}
-                  variant="outlined"
-                  placeholder="Enter you AES secret passphrase"
-                  onKeyDown={event => {
-                    setError("");
-                    if (event.key === "Enter") {
-                      if (event.ctrlKey || event.altKey || event.metaKey) {
-                        event.preventDefault();
-                        submit();
-                      }
+              <TextField
+                autoFocus
+                onChange={({ target: { value } }) => setAesPassphrase(value)}
+                value={aesPassphrase}
+                style={{ width: "100%" }}
+                variant="outlined"
+                placeholder="Enter you AES secret passphrase"
+                onKeyDown={event => {
+                  setError("");
+                  if (event.key === "Enter") {
+                    if (event.ctrlKey || event.altKey || event.metaKey) {
+                      event.preventDefault();
+                      submit();
                     }
-                  }}
-                />
-              </div>
+                  }
+                }}
+              />
+            </div>
+
+            <div style={{ display: isMobile ? "block" : "flex" }}>
+              <FormControlLabel
+                style={{ flex: 1 }}
+                control={
+                  <Checkbox
+                    checked={shouldSaveToLocalstorage}
+                    onChange={event => {
+                      setShouldSaveToLocalstorage(event.target.checked);
+                    }}
+                    color="primary"
+                  />
+                }
+                label="Remember on this device"
+              />
               <Tooltip
                 disableTouchListener
                 enterDelay={0}
@@ -88,7 +111,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
                   style={isMobile ? { width: "100%", marginTop: 20 } : {}}
                   type="submit"
                 >
-                  Save
+                  Decrypt
                 </Button>
               </Tooltip>
             </div>

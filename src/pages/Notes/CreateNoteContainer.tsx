@@ -1,19 +1,9 @@
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import CryptoJS from "crypto-js";
 import gql from "graphql-tag";
 import React from "react";
-import { CreateNote } from "../../components";
-import { GET_CURRENT_USER_NOTES } from "./NoteListContainer";
-import { encrypt } from "../../helpers";
-
-export const GET_CURRENT_USER_TAGS = gql`
-  {
-    currentUserTags {
-      id
-      label
-    }
-  }
-`;
+import { CreateNote, Tag, LoadingOrError } from "../../components";
+import { encrypt, decrypt } from "../../helpers";
+import { GET_CURRENT_USER_NOTES, GET_CURRENT_USER_TAGS } from "../../queries";
 
 export const CREATE_NOTE_MUTATION = gql`
   mutation CreateNote($input: CreateNoteInput!) {
@@ -35,7 +25,22 @@ interface CreateNoteContainerProps {
 export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props => {
   const getCurrentUserTagsResults = useQuery(GET_CURRENT_USER_TAGS);
   const [createNoteMutation, createNoteResults] = useMutation(
-    CREATE_NOTE_MUTATION
+    CREATE_NOTE_MUTATION,
+    {
+      update(cache, { data: { createNote } }) {
+        const { currentUserNotes } =
+          cache.readQuery({
+            query: GET_CURRENT_USER_NOTES
+          }) || {};
+
+        cache.writeQuery({
+          query: GET_CURRENT_USER_NOTES,
+          data: {
+            currentUserNotes: [createNote, ...currentUserNotes]
+          }
+        });
+      }
+    }
   );
   if (createNoteResults.error) {
     return (
@@ -46,20 +51,29 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
       </div>
     );
   }
+
   return (
     <CreateNote
       userTags={{
-        data: getCurrentUserTagsResults.data?.currentUserTags,
+        data: getCurrentUserTagsResults.data?.currentUserTags.map(
+          (tag: Tag) => ({
+            ...tag,
+            label: decrypt(tag.label, props.aesPassphrase)
+          })
+        ),
         errors: getCurrentUserTagsResults.error?.graphQLErrors.map(
           ({ message }) => message
         ),
         loading: getCurrentUserTagsResults.loading
       }}
       onSubmit={input => {
-        input.text = encrypt(input.text, props.aesPassphrase);
-
         createNoteMutation({
-          variables: { input },
+          variables: {
+            input: {
+              text: encrypt(input.text, props.aesPassphrase),
+              tags: input.tags.map(t => ({ id: t.id }))
+            }
+          },
           optimisticResponse: {
             __typename: "Mutation",
             createNote: {
@@ -67,28 +81,6 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
               id: "optimistic" + Math.random().toString(),
               ...input
             }
-          },
-          update(cache, { data: { createNote } }) {
-            const { currentUserNotes } =
-              cache.readQuery({
-                query: GET_CURRENT_USER_NOTES
-              }) || {};
-
-            cache.writeQuery({
-              query: GET_CURRENT_USER_NOTES,
-              data: {
-                currentUserNotes: [createNote, ...currentUserNotes]
-              }
-            });
-            const { currentUserTags } =
-              cache.readQuery({ query: GET_CURRENT_USER_TAGS }) || {};
-
-            cache.writeQuery({
-              query: GET_CURRENT_USER_TAGS,
-              data: {
-                currentUserTags: [...createNote.tags, ...currentUserTags]
-              }
-            });
           }
         });
       }}

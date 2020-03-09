@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { SignUp } from "../components/SignUp";
-import { useHistory } from "react-router-dom";
+import gql from "graphql-tag";
 import throttle from "lodash.throttle";
+import React, { useState } from "react";
+import { SignUp } from "../components/SignUp";
 import { routerUri } from "../config";
 
 const GET_USER_BY_ID = gql`
@@ -24,7 +23,6 @@ export const SignUpPage = () => {
     variables: { username }
   });
   const [signUpMutation] = useMutation(SIGN_UP_MUTATION);
-  const history = useHistory();
 
   if (getUserExistsResults.error) {
     return <div>{getUserExistsResults.error.message}</div>;
@@ -49,7 +47,7 @@ export const SignUpPage = () => {
             alert(errors.map(e => e.message).join(" "));
           }
           localStorage.setItem("token", data.signUp);
-          history.push(routerUri.notes);
+          window.location.replace(routerUri.notes);
         } catch (error) {
           alert(error);
         }

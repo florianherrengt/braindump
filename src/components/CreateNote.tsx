@@ -1,14 +1,14 @@
 import {
   Button,
-  TextField,
-  CardContent,
   Card,
+  CardContent,
+  TextField,
+  Tooltip,
   useMediaQuery
 } from "@material-ui/core";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { SelectTag, Tag } from "./SelectTag";
-import { Tooltip } from "@material-ui/core";
 
 interface CreateNoteProps {
   userTags: {
@@ -29,6 +29,10 @@ const CreateNote = (props: CreateNoteProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   const submit = () => {
+    if (!text) {
+      return;
+    }
+
     props.onSubmit({ text, tags: selectedTags });
     setText("");
     setSelectedTags([]);
@@ -71,7 +75,9 @@ const CreateNote = (props: CreateNoteProps) => {
                   value={selectedTags}
                   tags={props.userTags || []}
                   onSubmit={() => submit()}
-                  onChange={tags => setSelectedTags(tags)}
+                  onChange={tags => {
+                    setSelectedTags(tags);
+                  }}
                 />
               </div>
               <Tooltip

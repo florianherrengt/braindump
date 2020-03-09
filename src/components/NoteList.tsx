@@ -1,12 +1,31 @@
 import React from "react";
 import { LineSpacer } from "./LineSpacer";
 import { Note, NoteCard } from "./NoteCard";
+import { Fab, Icon, Slide } from "@material-ui/core";
+import styled from "styled-components";
+import { useState } from "react";
+import { useWindowScroll, useThrottledFn } from "beautiful-react-hooks";
 
 interface NoteListProps {
   notes?: Note[];
 }
 
+const GoToTopFabContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+`;
+
 export const NoteList: React.SFC<NoteListProps> = props => {
+  const [scrollY, setScrollY] = useState(window.scrollY);
+
+  useWindowScroll(
+    (useThrottledFn(
+      () => setScrollY(window.scrollY),
+      1000
+    ) as unknown) as Function
+  );
+
   return (
     <div>
       {props.notes &&
@@ -16,6 +35,18 @@ export const NoteList: React.SFC<NoteListProps> = props => {
             <LineSpacer />
           </div>
         ))}
+
+      <Slide direction="up" in={!!scrollY} mountOnEnter unmountOnExit>
+        <GoToTopFabContainer>
+          <Fab
+            onClick={() => window.scrollTo(0, 0)}
+            color="primary"
+            size="small"
+          >
+            <Icon>keyboard_arrow_up</Icon>
+          </Fab>
+        </GoToTopFabContainer>
+      </Slide>
     </div>
   );
 };

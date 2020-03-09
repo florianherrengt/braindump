@@ -1,31 +1,41 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
-import { Layout, LineSpacer } from "../../components";
+import { LineSpacer } from "../../components";
+import { MainLayout } from "../Layout";
 import { AesPassphraseContainer } from "./AesPassphraseContainer";
 import { CreateNoteContainer } from "./CreateNoteContainer";
 import { NoteListContainer } from "./NoteListContainer";
+import { GET_AES_PASSPHRASE } from "../../queries";
 
-const GET_AES_PASSPHRASE = gql`
+export const GET_CURRENT_USER_TAGS = gql`
   {
-    aesPassphrase @client
+    currentUserTags {
+      id
+      label
+    }
   }
 `;
 
 export const NotesPage = () => {
   const getAesPassphraseResults = useQuery(GET_AES_PASSPHRASE);
   const aesPassphrase = getAesPassphraseResults.data?.aesPassphrase;
+  const client = useApolloClient();
 
   return (
-    <Layout>
+    <MainLayout>
       <LineSpacer />
       {!aesPassphrase ? (
-        <AesPassphraseContainer />
+        <AesPassphraseContainer
+          onSubmit={aesPassphrase =>
+            client.writeData({ data: { aesPassphrase } })
+          }
+        />
       ) : (
         <CreateNoteContainer aesPassphrase={aesPassphrase} />
       )}
       <LineSpacer />
       <NoteListContainer aesPassphrase={aesPassphrase} />
-    </Layout>
+    </MainLayout>
   );
 };

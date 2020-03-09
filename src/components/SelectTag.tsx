@@ -1,9 +1,11 @@
-import { Chip, CircularProgress, TextField } from "@material-ui/core/";
+import { Chip, CircularProgress, TextField, Button } from "@material-ui/core/";
 import Autocomplete, {
   createFilterOptions
 } from "@material-ui/lab/Autocomplete";
 import React from "react";
 import styled from "styled-components";
+
+import { routerUri } from "../config";
 
 export interface Tag {
   id: string;
@@ -33,8 +35,6 @@ const Spinner = styled(CircularProgress)`
   top: 17px;
 `;
 
-const filter = createFilterOptions();
-
 export const SelectTag: React.SFC<SelectTagProps> = props => {
   return (
     <Autocomplete
@@ -45,30 +45,20 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
       selectOnFocus
       value={props.value}
       options={props.tags.data || []}
-      onChange={(_, newValue: Tag[]) => {
-        props.onChange(
-          newValue.map(value => {
-            if (value.id === "new") {
-              const label = value.label.match(/(["])((?:\\\1|.)*?)\1/);
-              value.label = label ? label.pop() || "" : value.label;
-            }
-            return value;
-          })
-        );
-      }}
-      renderOption={option => option.label}
-      filterOptions={(options, params) => {
-        const filtered = filter(options, params) as Tag[];
-
-        if (params.inputValue !== "") {
-          filtered.push({
-            id: "new",
-            label: `Create "${params.inputValue}"`
-          });
+      autoSelect
+      onChange={(event, newValues: Tag[]) => {
+        if (!newValues.filter(v => v).length) {
+          return;
         }
 
-        return filtered;
+        props.onChange(newValues);
       }}
+      noOptionsText={
+        !props.tags.data?.length
+          ? "You haven't created any tags yet."
+          : "Tag not found."
+      }
+      renderOption={option => option.label}
       renderTags={(value: Tag[], getTagProps) => {
         return value.map((option, index) => {
           return <Chip label={option.label} {...getTagProps({ index })} />;
