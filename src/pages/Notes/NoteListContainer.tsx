@@ -23,7 +23,6 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
 
   const decryptedNotes =
     props.aesPassphrase &&
-    decryptedTags &&
     currentUserNotes &&
     currentUserNotes.map((note: any) => {
       const decryptedNotes = {
@@ -32,8 +31,10 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
         tags:
           (note.tags &&
             note.tags.length &&
-            note.tags.map((tag: any) =>
-              decryptedTags.find((dtag: any) => dtag.id === tag.id)
+            decryptedTags &&
+            note.tags.map(
+              (tag: any) =>
+                decryptedTags.find((dtag: any) => dtag.id === tag.id) || null
             )) ||
           []
       };

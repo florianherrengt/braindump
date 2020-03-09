@@ -53,14 +53,17 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
           <TypographyEllipsis variant="body1">{text}</TypographyEllipsis>
         )}
         <LineSpacer />
-        {props.note.tags?.map(tag => (
-          <Chip
-            key={tag.id}
-            variant="outlined"
-            size="small"
-            label={tag.label}
-          />
-        ))}
+        {props.note.tags?.map(
+          tag =>
+            tag && (
+              <Chip
+                key={tag.id}
+                variant="outlined"
+                size="small"
+                label={tag.label}
+              />
+            )
+        )}
       </CardContent>
     </Container>
   );
