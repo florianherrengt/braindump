@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/react-hooks";
-import React from "react";
+import React, { useState } from "react";
 import { LoadingOrError, NoteList } from "../../components";
 import { decrypt } from "../../helpers";
 import { GET_CURRENT_USER_NOTES, GET_CURRENT_USER_TAGS } from "../../queries";
@@ -18,11 +18,12 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
     getCurrentUserNotesResults.data?.currentUserNotes.hasMore;
   const currentUserTags = getCurrentUserTags.data?.currentUserTags;
 
-  const fetchMoreNotes = () => {
-    if (!hasMoreNotes) {
+  const fetchMoreNotes = async () => {
+    if (!hasMoreNotes && !getCurrentUserNotesResults.loading) {
       return;
     }
-    getCurrentUserNotesResults.fetchMore({
+
+    await getCurrentUserNotesResults.fetchMore({
       variables: {
         skip: getCurrentUserNotesResults.data.currentUserNotes.items.length
       },
