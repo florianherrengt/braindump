@@ -25,11 +25,7 @@ export const NotesPage = () => {
     <div>
       <LineSpacer />
       {!aesPassphrase ? (
-        <AesPassphraseContainer
-          onSubmit={aesPassphrase =>
-            client.writeData({ data: { aesPassphrase } })
-          }
-        />
+        <AesPassphraseContainer />
       ) : (
         <CreateNoteContainer aesPassphrase={aesPassphrase} />
       )}

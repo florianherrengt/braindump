@@ -76,7 +76,13 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
           </ListItem>
           <Divider />
           <div style={{ flexGrow: 1 }} />
-          <ListItem button>
+          <ListItem
+            button
+            onClick={() => {
+              history.push(routerUri.settings);
+              setDrawerOpen(false);
+            }}
+          >
             <ListItemIcon>
               <Icon>settings</Icon>
             </ListItemIcon>

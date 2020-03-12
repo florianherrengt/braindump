@@ -15,6 +15,7 @@ import { decrypt } from "../helpers";
 
 interface AesPassphraseFormProps {
   testNote?: string;
+  submitLabel?: string;
   onSubmit(input: {
     passphrase: string;
     shouldSaveToLocalstorage: boolean;
@@ -33,7 +34,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   const [error, setError] = useState<string>();
   const [shouldSaveToLocalstorage, setShouldSaveToLocalstorage] = useState<
     boolean
-  >(false);
+  >(true);
 
   const submit = () => {
     if (props.testNote) {
@@ -111,7 +112,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
                   style={isMobile ? { width: "100%", marginTop: 20 } : {}}
                   type="submit"
                 >
-                  Decrypt
+                  {props.submitLabel || "Decrypt"}
                 </Button>
               </Tooltip>
             </div>

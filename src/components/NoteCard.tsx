@@ -45,13 +45,15 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
   const text = decodeURIComponent(props.note.text);
   return (
     <Container variant="outlined" optimistic={isOptimistic ? 1 : 0}>
-      <CardContent onClick={() => setExpanded(!expanded)}>
+      <CardContent>
         {isOptimistic && <Spinner size={10} />}
-        {expanded ? (
-          <Typography variant="body1">{text}</Typography>
-        ) : (
-          <TypographyEllipsis variant="body1">{text}</TypographyEllipsis>
-        )}
+        <Typography
+          variant="body1"
+          dangerouslySetInnerHTML={{
+            __html: text.replace(/\n/gi, "<br />").trim()
+          }}
+        />
+
         <LineSpacer />
         {props.note.tags?.map(
           tag =>

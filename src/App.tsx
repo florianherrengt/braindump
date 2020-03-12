@@ -3,7 +3,12 @@ import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import "./App.css";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { routerUri } from "./config/routerUri";
@@ -11,6 +16,7 @@ import { NotesPage } from "./pages/Notes";
 import { PrivacyPage } from "./pages/Privacy";
 import { SignInPage } from "./pages/SignIn";
 import { SignUpPage } from "./pages/SignUp";
+import { SettingsPage } from "./pages/Settings";
 import { TnCPage } from "./pages/TnC";
 import { ApolloLink } from "apollo-link";
 
@@ -30,7 +36,7 @@ const errorLink = onError(
   }
 );
 const httpLink = new HttpLink({
-  uri: "http://192.168.1.138:8080/api/graphql",
+  uri: "http://localhost:8080/api/graphql",
   headers: {
     authorization: "Bearer " + localStorage.getItem("token")
   }
@@ -71,10 +77,15 @@ function App() {
               <PrivateRoute path={routerUri.notes}>
                 <NotesPage />
               </PrivateRoute>
+              <PrivateRoute path={routerUri.settings}>
+                <SettingsPage />
+              </PrivateRoute>
               <PrivateRoute path={routerUri.tags}>
                 <TagsPage />
               </PrivateRoute>
-              <Route path="/">Welcome</Route>
+              <Route path="/">
+                <Redirect to={routerUri.notes} />
+              </Route>
             </Switch>
           </MainLayout>
         </Router>

@@ -12,7 +12,7 @@ const GET_ONE_NOTE = gql`
 `;
 
 interface AesPassphraseContainerProps {
-  onSubmit(aesPassphrase: string): any;
+  submitLabel?: string;
 }
 
 export const AesPassphraseContainer: React.SFC<AesPassphraseContainerProps> = props => {
@@ -22,6 +22,7 @@ export const AesPassphraseContainer: React.SFC<AesPassphraseContainerProps> = pr
   return (
     <LoadingOrError results={getOneNoteQuery}>
       <AesPassphraseForm
+        submitLabel={props.submitLabel}
         testNote={getOneNoteQuery.data?.currentUserNotes[0]?.text}
         onSubmit={({ passphrase, shouldSaveToLocalstorage }) => {
           client.writeData({ data: { aesPassphrase: passphrase } });

@@ -8,6 +8,7 @@ import { useWindowScroll, useThrottledFn } from "beautiful-react-hooks";
 
 interface NoteListProps {
   notes?: Note[];
+  loadMore?(): void;
 }
 
 const GoToTopFabContainer = styled.div`
@@ -25,6 +26,10 @@ export const NoteList: React.SFC<NoteListProps> = props => {
       1000
     ) as unknown) as Function
   );
+
+  if (scrollY / (document.body.scrollHeight - window.innerHeight) >= 0.8) {
+    props.loadMore && props.loadMore();
+  }
 
   return (
     <div>

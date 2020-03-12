@@ -10,6 +10,8 @@ import {
   Toolbar,
   useTheme
 } from "@material-ui/core";
+import { routerUri } from "../../config";
+import { useWindowScroll, useThrottledFn } from "beautiful-react-hooks";
 import { grey } from "@material-ui/core/colors";
 import React from "react";
 import styled from "styled-components";
@@ -32,6 +34,7 @@ const SearchIconContainer = styled.div`
 `;
 
 const SearchInput = styled(InputBase)`
+  width: 100%;
   & {
     input {
       padding: 8px 8px 8px 56px;
@@ -46,6 +49,12 @@ interface TopBarProps {
 export const TopBar: React.SFC<TopBarProps> = props => {
   const location = useLocation();
   const history = useHistory();
+
+  const searchValue = new URLSearchParams(location.search).get("search");
+
+  const onSearchChange = (useThrottledFn((searchValue: string) => {
+    history.replace(`${routerUri.notes}?search=${searchValue}`);
+  }, 100) as unknown) as Function;
 
   return (
     <AppBar
@@ -69,13 +78,10 @@ export const TopBar: React.SFC<TopBarProps> = props => {
             <Icon>search</Icon>
           </SearchIconContainer>
           <SearchInput
-            onChange={event => {
-              history.replace(
-                `${location.pathname}?seach=${event.target.value}`
-              );
-            }}
-            defaultValue={new URLSearchParams(location.search).get("search")}
-            placeholder="Search…"
+            autoFocus={!!searchValue}
+            onChange={event => onSearchChange(event.target.value)}
+            defaultValue={searchValue}
+            placeholder="Search tag..."
             inputProps={{ "aria-label": "search" }}
           />
         </SearchContainer>
@@ -83,7 +89,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
         <div style={{ flexGrow: 1 }} />
 
         <IconButton
-          onClick={() => (location.search = "?search=hadasde")}
+          onClick={() => history.push(routerUri.settings)}
           edge="end"
           color="inherit"
           aria-label="menu"

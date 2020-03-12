@@ -7,6 +7,7 @@ import {
   useMediaQuery
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useLocation } from "react-router";
 import styled from "styled-components";
 import { SelectTag, Tag } from "./SelectTag";
 
@@ -27,6 +28,7 @@ const CreateNote = (props: CreateNoteProps) => {
   const isMobile = useMediaQuery("(max-width:450px)");
   const [text, setText] = useState<string>("");
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const location = useLocation();
 
   const submit = () => {
     if (!text) {
@@ -51,7 +53,7 @@ const CreateNote = (props: CreateNoteProps) => {
         <Card variant="outlined">
           <CardContent>
             <TextField
-              autoFocus
+              autoFocus={!new URLSearchParams(location.search).get("search")}
               onChange={({ target: { value } }) => setText(value)}
               value={text}
               style={{ width: "100%" }}

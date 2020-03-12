@@ -36,7 +36,9 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
         cache.writeQuery({
           query: GET_CURRENT_USER_NOTES,
           data: {
-            currentUserNotes: [createNote, ...currentUserNotes]
+            currentUserNotes: {
+              items: [createNote, ...currentUserNotes.items]
+            }
           }
         });
       }
