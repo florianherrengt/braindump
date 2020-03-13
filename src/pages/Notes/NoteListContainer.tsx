@@ -10,13 +10,38 @@ interface NoteListContainerProps {
 }
 
 export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
-  const getCurrentUserNotesResults = useQuery(GET_CURRENT_USER_NOTES);
+  const location = useLocation();
+  const searchFilter = new URLSearchParams(location.search).get("search");
+
   const getCurrentUserTags = useQuery(GET_CURRENT_USER_TAGS);
+
+  const currentUserTags = getCurrentUserTags.data?.currentUserTags;
+
+  const decryptedTags =
+    props.aesPassphrase &&
+    currentUserTags &&
+    currentUserTags.map((tag: any) => {
+      return { ...tag, label: decrypt(tag.label, props.aesPassphrase) };
+    });
+
+  const searchFilterTags = searchFilter
+    ? decodeURIComponent(searchFilter || "")
+        .split(",")
+        .map(word => word.trim())
+    : [];
+  const tagsIdFilter = decryptedTags
+    ? decryptedTags
+        .filter((tag: any) => searchFilterTags.includes(tag.label))
+        .map((tag: any) => tag.id)
+    : [];
+
+  const getCurrentUserNotesResults = useQuery(GET_CURRENT_USER_NOTES, {
+    variables: { tagsId: tagsIdFilter, limit: tagsIdFilter.length ? 100 : 10 }
+  });
   const currentUserNotes =
     getCurrentUserNotesResults.data?.currentUserNotes.items;
   const hasMoreNotes =
     getCurrentUserNotesResults.data?.currentUserNotes.hasMore;
-  const currentUserTags = getCurrentUserTags.data?.currentUserTags;
 
   const fetchMoreNotes = async () => {
     if (!hasMoreNotes && !getCurrentUserNotesResults.loading) {
@@ -25,9 +50,10 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
 
     await getCurrentUserNotesResults.fetchMore({
       variables: {
-        skip: getCurrentUserNotesResults.data.currentUserNotes.items.length
+        skip: getCurrentUserNotesResults.data.currentUserNotes.items.length,
+        limit: 100
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
+      updateQuery: (prev: any, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
           currentUserNotes: {
@@ -41,15 +67,6 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
       }
     });
   };
-
-  const location = useLocation();
-  const searchFilter = new URLSearchParams(location.search).get("search");
-  const decryptedTags =
-    props.aesPassphrase &&
-    currentUserTags &&
-    currentUserTags.map((tag: any) => {
-      return { ...tag, label: decrypt(tag.label, props.aesPassphrase) };
-    });
 
   const decryptedNotes =
     (props.aesPassphrase &&
@@ -72,11 +89,6 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
       })) ||
     [];
 
-  const notesToDisplay = searchFilter
-    ? decryptedNotes.filter((note: any) =>
-        note.tags.map((tag: any) => tag.label).includes(searchFilter)
-      )
-    : decryptedNotes;
   if (
     decryptedNotes &&
     decryptedNotes.lenght &&
@@ -92,7 +104,7 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
         loadMore={() => {
           fetchMoreNotes();
         }}
-        notes={notesToDisplay || currentUserNotes}
+        notes={decryptedNotes || currentUserNotes}
       />
     </LoadingOrError>
   );

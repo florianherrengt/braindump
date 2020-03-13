@@ -30,16 +30,18 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
       update(cache, { data: { createNote } }) {
         const { currentUserNotes } =
           cache.readQuery({
-            query: GET_CURRENT_USER_NOTES
+            query: GET_CURRENT_USER_NOTES,
+            variables: { tagsId: [], limit: 10 }
           }) || {};
-
         cache.writeQuery({
           query: GET_CURRENT_USER_NOTES,
           data: {
             currentUserNotes: {
               items: [createNote, ...currentUserNotes.items]
             }
-          }
+          },
+
+          variables: { tagsId: [], limit: 10 }
         });
       }
     }
@@ -75,7 +77,8 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
               text: encrypt(input.text, props.aesPassphrase),
               tags: input.tags.map(t => ({ id: t.id }))
             }
-          },
+          }
+          /*
           optimisticResponse: {
             __typename: "Mutation",
             createNote: {
@@ -84,6 +87,7 @@ export const CreateNoteContainer: React.SFC<CreateNoteContainerProps> = props =>
               ...input
             }
           }
+    */
         });
       }}
     />

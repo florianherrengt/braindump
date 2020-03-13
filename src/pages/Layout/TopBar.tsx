@@ -53,7 +53,9 @@ export const TopBar: React.SFC<TopBarProps> = props => {
   const searchValue = new URLSearchParams(location.search).get("search");
 
   const onSearchChange = (useThrottledFn((searchValue: string) => {
-    history.replace(`${routerUri.notes}?search=${searchValue}`);
+    history.replace(
+      `${routerUri.notes}?search=${encodeURIComponent(searchValue)}`
+    );
   }, 100) as unknown) as Function;
 
   return (
@@ -81,7 +83,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
             autoFocus={!!searchValue}
             onChange={event => onSearchChange(event.target.value)}
             defaultValue={searchValue}
-            placeholder="Search tag..."
+            placeholder="Search tag (comma separed)..."
             inputProps={{ "aria-label": "search" }}
           />
         </SearchContainer>

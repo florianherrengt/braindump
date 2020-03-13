@@ -44,7 +44,10 @@ const httpLink = new HttpLink({
 
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
-const cache = new InMemoryCache({ addTypename: false });
+const cache = new InMemoryCache({
+  addTypename: false,
+  dataIdFromObject: object => object.id
+});
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
