@@ -1,10 +1,10 @@
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import React from "react";
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import React from 'react';
 
-import { SignIn } from "../components/SignIn";
-import { LineSpacer } from "../components/LineSpacer";
-import { routerUri } from "../config";
+import { SignIn } from '../components/SignIn';
+import { LineSpacer } from '../components/LineSpacer';
+import { routerUri } from '../config';
 
 const SIGN_UP_MUTATION = gql`
   mutation SignIn($input: SignInInput!) {
@@ -24,13 +24,13 @@ export const SignInPage = () => {
         onSubmit={async input => {
           try {
             const { data } = await signInMutation({
-              variables: { input }
+              variables: { input },
             });
             if (error) {
               return;
             }
 
-            localStorage.setItem("token", data.signIn);
+            localStorage.setItem('token', data.signIn);
             window.location.replace(routerUri.notes);
           } catch (error) {
             console.log(error);

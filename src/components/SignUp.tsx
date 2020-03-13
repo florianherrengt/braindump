@@ -1,13 +1,13 @@
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import throttle from "lodash.throttle";
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { routerUri } from "../config/routerUri";
-import { LineSpacer } from "./LineSpacer";
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import throttle from 'lodash.throttle';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { routerUri } from '../config/routerUri';
+import { LineSpacer } from './LineSpacer';
 
 interface SignUpProps {
   usernameExists: boolean;
@@ -44,12 +44,12 @@ const SmallPrintTypography = styled(Typography)`
 `;
 
 export const SignUp = (props: SignUpProps) => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const onUsernameChange = useRef(
     throttle((newUsername: string) => {
       props.onUsernameChange(newUsername);
-    }, 200)
+    }, 200),
   );
 
   useEffect(() => onUsernameChange.current(username), [username]);
@@ -68,39 +68,36 @@ export const SignUp = (props: SignUpProps) => {
               setUsername(target.value);
             }}
             InputProps={{
-              endAdornment: props.loading && <CircularProgress size={20} />
+              endAdornment: props.loading && <CircularProgress size={20} />,
             }}
             error={props.usernameExists}
-            helperText={props.usernameExists && "Username already exists"}
-            variant="outlined"
-            label="Username"
+            helperText={props.usernameExists && 'Username already exists'}
+            variant='outlined'
+            label='Username'
           />
         </div>
         <LineSpacer />
         <div>
           <CustomTextField
             onChange={({ target }) => setPassword(target.value)}
-            variant="outlined"
-            label="Password"
-            type="password"
+            variant='outlined'
+            label='Password'
+            type='password'
           />
         </div>
         <LineSpacer />
-        <SignUpButton type="submit" variant="outlined">
+        <SignUpButton type='submit' variant='outlined'>
           Sign Up
         </SignUpButton>
         <LineSpacer />
-        <SmallPrintTypography style={{ textAlign: "center" }} variant="body2">
-          By creating an account, you are agreeing to our{" "}
-          <Link to={routerUri.termAndConditions}>Terms of Service</Link> and{" "}
-          <Link to={routerUri.privacy}>Privacy Policy</Link>.
+        <SmallPrintTypography style={{ textAlign: 'center' }} variant='body2'>
+          By creating an account, you are agreeing to our <Link to={routerUri.termAndConditions}>Terms of Service</Link>{' '}
+          and <Link to={routerUri.privacy}>Privacy Policy</Link>.
         </SmallPrintTypography>
         <div>
           <LineSpacer />
-          <SmallPrintTypography variant="body2">
-            Already have an account?
-          </SmallPrintTypography>
-          <SmallPrintTypography variant="body2">
+          <SmallPrintTypography variant='body2'>Already have an account?</SmallPrintTypography>
+          <SmallPrintTypography variant='body2'>
             <Link to={routerUri.signIn}>Sign in</Link>
           </SmallPrintTypography>
         </div>

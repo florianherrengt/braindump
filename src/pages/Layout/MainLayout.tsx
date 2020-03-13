@@ -1,17 +1,9 @@
-import {
-  Divider,
-  Drawer,
-  Icon,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
-} from "@material-ui/core";
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import styled from "styled-components";
-import { routerUri } from "../../config";
-import { TopBar } from "./TopBar";
+import { Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import styled from 'styled-components';
+import { routerUri } from '../../config';
+import { TopBar } from './TopBar';
 
 const Container = styled.div``;
 
@@ -37,17 +29,13 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
   return (
     <div>
       <TopBar onMenuClick={() => setDrawerOpen(true)} />
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-      >
+      <Drawer anchor='left' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <DrawerList style={{ width: 300 }}>
           <ListItem button onClick={() => setDrawerOpen(false)}>
             <ListItemIcon>
               <Icon>arrow_left</Icon>
             </ListItemIcon>
-            <ListItemText primary="Back" />
+            <ListItemText primary='Back' />
           </ListItem>
           <Divider />
           <ListItem
@@ -60,7 +48,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             <ListItemIcon>
               <Icon>notes</Icon>
             </ListItemIcon>
-            <ListItemText primary="Notes" />
+            <ListItemText primary='Notes' />
           </ListItem>
           <ListItem
             button
@@ -72,7 +60,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             <ListItemIcon>
               <Icon>label</Icon>
             </ListItemIcon>
-            <ListItemText primary="Tags" />
+            <ListItemText primary='Tags' />
           </ListItem>
           <Divider />
           <div style={{ flexGrow: 1 }} />
@@ -86,7 +74,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             <ListItemIcon>
               <Icon>settings</Icon>
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primary='Settings' />
           </ListItem>
         </DrawerList>
       </Drawer>

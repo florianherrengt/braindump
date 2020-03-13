@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const GET_CURRENT_USER_NOTES = gql`
   query CurrentUserNotes($skip: Int, $limit: Int, $tagsId: [String!]) {

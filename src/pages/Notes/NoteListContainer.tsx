@@ -1,9 +1,9 @@
-import { useQuery } from "@apollo/react-hooks";
-import React, { useState } from "react";
-import { LoadingOrError, NoteList } from "../../components";
-import { decrypt } from "../../helpers";
-import { GET_CURRENT_USER_NOTES, GET_CURRENT_USER_TAGS } from "../../queries";
-import { useLocation } from "react-router";
+import { useQuery } from '@apollo/react-hooks';
+import React, { useState } from 'react';
+import { LoadingOrError, NoteList } from '../../components';
+import { decrypt } from '../../helpers';
+import { GET_CURRENT_USER_NOTES, GET_CURRENT_USER_TAGS } from '../../queries';
+import { useLocation } from 'react-router';
 
 interface NoteListContainerProps {
   aesPassphrase: string;
@@ -11,7 +11,7 @@ interface NoteListContainerProps {
 
 export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
   const location = useLocation();
-  const searchFilter = new URLSearchParams(location.search).get("search");
+  const searchFilter = new URLSearchParams(location.search).get('search');
 
   const getCurrentUserTags = useQuery(GET_CURRENT_USER_TAGS);
 
@@ -25,23 +25,19 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
     });
 
   const searchFilterTags = searchFilter
-    ? decodeURIComponent(searchFilter || "")
-        .split(",")
+    ? decodeURIComponent(searchFilter || '')
+        .split(',')
         .map(word => word.trim())
     : [];
   const tagsIdFilter = decryptedTags
-    ? decryptedTags
-        .filter((tag: any) => searchFilterTags.includes(tag.label))
-        .map((tag: any) => tag.id)
+    ? decryptedTags.filter((tag: any) => searchFilterTags.includes(tag.label)).map((tag: any) => tag.id)
     : [];
 
   const getCurrentUserNotesResults = useQuery(GET_CURRENT_USER_NOTES, {
-    variables: { tagsId: tagsIdFilter, limit: tagsIdFilter.length ? 100 : 10 }
+    variables: { tagsId: tagsIdFilter, limit: tagsIdFilter.length ? 100 : 10 },
   });
-  const currentUserNotes =
-    getCurrentUserNotesResults.data?.currentUserNotes.items;
-  const hasMoreNotes =
-    getCurrentUserNotesResults.data?.currentUserNotes.hasMore;
+  const currentUserNotes = getCurrentUserNotesResults.data?.currentUserNotes.items;
+  const hasMoreNotes = getCurrentUserNotesResults.data?.currentUserNotes.hasMore;
 
   const fetchMoreNotes = async () => {
     if (!hasMoreNotes && !getCurrentUserNotesResults.loading) {
@@ -51,20 +47,17 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
     await getCurrentUserNotesResults.fetchMore({
       variables: {
         skip: getCurrentUserNotesResults.data.currentUserNotes.items.length,
-        limit: 100
+        limit: 100,
       },
       updateQuery: (prev: any, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
           currentUserNotes: {
-            items: [
-              ...prev.currentUserNotes.items,
-              ...fetchMoreResult.currentUserNotes.items
-            ],
-            hasMore: fetchMoreResult.currentUserNotes.hasMore
-          }
+            items: [...prev.currentUserNotes.items, ...fetchMoreResult.currentUserNotes.items],
+            hasMore: fetchMoreResult.currentUserNotes.hasMore,
+          },
         });
-      }
+      },
     });
   };
 
@@ -79,11 +72,8 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
             (note.tags &&
               note.tags.length &&
               decryptedTags &&
-              note.tags.map(
-                (tag: any) =>
-                  decryptedTags.find((dtag: any) => dtag.id === tag.id) || null
-              )) ||
-            []
+              note.tags.map((tag: any) => decryptedTags.find((dtag: any) => dtag.id === tag.id) || null)) ||
+            [],
         };
         return decryptedNotes;
       })) ||
@@ -95,7 +85,7 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
     !decryptedNotes[0].text &&
     !decryptedNotes.map(({ text }: any) => text).lenght
   ) {
-    localStorage.removeItem("aesPassphrase");
+    localStorage.removeItem('aesPassphrase');
     window.location.reload();
   }
   return (

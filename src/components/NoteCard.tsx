@@ -1,14 +1,8 @@
-import {
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
-  Typography
-} from "@material-ui/core";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { LineSpacer } from "./LineSpacer";
-import { Tag } from "./SelectTag";
+import { Card, CardContent, Chip, CircularProgress, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { LineSpacer } from './LineSpacer';
+import { Tag } from './SelectTag';
 
 export interface Note {
   id: string;
@@ -41,31 +35,21 @@ const TypographyEllipsis = styled(Typography)`
 
 export const NoteCard: React.SFC<NoteCardProps> = props => {
   const [expanded, setExpanded] = useState(false);
-  const isOptimistic = props.note.id.includes("optimistic");
+  const isOptimistic = props.note.id.includes('optimistic');
   const text = decodeURIComponent(props.note.text);
   return (
-    <Container variant="outlined" optimistic={isOptimistic ? 1 : 0}>
+    <Container variant='outlined' optimistic={isOptimistic ? 1 : 0}>
       <CardContent>
         {isOptimistic && <Spinner size={10} />}
         <Typography
-          variant="body1"
+          variant='body1'
           dangerouslySetInnerHTML={{
-            __html: text.replace(/\n/gi, "<br />").trim()
+            __html: text.replace(/\n/gi, '<br />').trim(),
           }}
         />
 
         <LineSpacer />
-        {props.note.tags?.map(
-          tag =>
-            tag && (
-              <Chip
-                key={tag.id}
-                variant="outlined"
-                size="small"
-                label={tag.label}
-              />
-            )
-        )}
+        {props.note.tags?.map(tag => tag && <Chip key={tag.id} variant='outlined' size='small' label={tag.label} />)}
       </CardContent>
     </Container>
   );

@@ -1,15 +1,8 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  Tooltip,
-  useMediaQuery
-} from "@material-ui/core";
-import React, { useState } from "react";
-import { useLocation } from "react-router";
-import styled from "styled-components";
-import { SelectTag, Tag } from "./SelectTag";
+import { Button, Card, CardContent, TextField, Tooltip, useMediaQuery } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router';
+import styled from 'styled-components';
+import { SelectTag, Tag } from './SelectTag';
 
 interface CreateNoteProps {
   userTags: {
@@ -25,8 +18,8 @@ const Container = styled.div`
 `;
 
 const CreateNote = (props: CreateNoteProps) => {
-  const isMobile = useMediaQuery("(max-width:450px)");
-  const [text, setText] = useState<string>("");
+  const isMobile = useMediaQuery('(max-width:450px)');
+  const [text, setText] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const location = useLocation();
 
@@ -36,7 +29,7 @@ const CreateNote = (props: CreateNoteProps) => {
     }
 
     props.onSubmit({ text, tags: selectedTags });
-    setText("");
+    setText('');
     setSelectedTags([]);
   };
   return (
@@ -50,18 +43,18 @@ const CreateNote = (props: CreateNoteProps) => {
           submit();
         }}
       >
-        <Card variant="outlined">
+        <Card variant='outlined'>
           <CardContent>
             <TextField
-              autoFocus={!new URLSearchParams(location.search).get("search")}
+              autoFocus={!new URLSearchParams(location.search).get('search')}
               onChange={({ target: { value } }) => setText(value)}
               value={text}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               multiline
-              variant="outlined"
+              variant='outlined'
               placeholder="What's in your mind?"
               onKeyDown={event => {
-                if (event.key === "Enter") {
+                if (event.key === 'Enter') {
                   if (event.ctrlKey || event.altKey || event.metaKey) {
                     event.preventDefault();
                     submit();
@@ -69,9 +62,7 @@ const CreateNote = (props: CreateNoteProps) => {
                 }
               }}
             />
-            <div
-              style={{ display: isMobile ? "block" : "flex", marginTop: 20 }}
-            >
+            <div style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}>
               <div style={{ flex: 1 }}>
                 <SelectTag
                   value={selectedTags}
@@ -85,17 +76,13 @@ const CreateNote = (props: CreateNoteProps) => {
               <Tooltip
                 disableTouchListener
                 enterDelay={0}
-                title={`${
-                  navigator.platform.toLocaleLowerCase().includes("mac")
-                    ? "Cmd"
-                    : "Ctrl"
-                } + Enter`}
-                aria-label="save with Ctrl + Enter"
+                title={`${navigator.platform.toLocaleLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'} + Enter`}
+                aria-label='save with Ctrl + Enter'
               >
                 <Button
-                  variant={isMobile ? "outlined" : "text"}
-                  style={isMobile ? { width: "100%", marginTop: 20 } : {}}
-                  type="submit"
+                  variant={isMobile ? 'outlined' : 'text'}
+                  style={isMobile ? { width: '100%', marginTop: 20 } : {}}
+                  type='submit'
                 >
                   Save
                 </Button>

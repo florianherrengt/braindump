@@ -1,12 +1,12 @@
-import Button from "@material-ui/core/Button";
-import red from "@material-ui/core/colors/red";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { routerUri } from "../config/routerUri";
-import { LineSpacer } from "./LineSpacer";
+import Button from '@material-ui/core/Button';
+import red from '@material-ui/core/colors/red';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { routerUri } from '../config/routerUri';
+import { LineSpacer } from './LineSpacer';
 
 interface SignInProps {
   errors?: string[];
@@ -47,8 +47,8 @@ const ErrorTypography = styled(Typography)`
 `;
 
 export const SignIn = (props: SignInProps) => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   return (
     <Container>
       <Form
@@ -61,8 +61,8 @@ export const SignIn = (props: SignInProps) => {
           <CustomTextField
             disabled={props.loading}
             onChange={({ target }) => setUsername(target.value)}
-            variant="outlined"
-            label="Username"
+            variant='outlined'
+            label='Username'
           />
         </div>
         <LineSpacer />
@@ -70,13 +70,13 @@ export const SignIn = (props: SignInProps) => {
           <CustomTextField
             disabled={props.loading}
             onChange={({ target }) => setPassword(target.value)}
-            variant="outlined"
-            label="Password"
-            type="password"
+            variant='outlined'
+            label='Password'
+            type='password'
           />
         </div>
         <LineSpacer />
-        <SignInButton disabled={props.loading} type="submit" variant="outlined">
+        <SignInButton disabled={props.loading} type='submit' variant='outlined'>
           Sign In
         </SignInButton>
         {props.errors &&
@@ -87,10 +87,8 @@ export const SignIn = (props: SignInProps) => {
             </div>
           ))}
         <LineSpacer />
-        <SmallPrintTypography variant="body2">
-          Don't have an account yet?
-        </SmallPrintTypography>
-        <SmallPrintTypography variant="body2">
+        <SmallPrintTypography variant='body2'>Don't have an account yet?</SmallPrintTypography>
+        <SmallPrintTypography variant='body2'>
           <Link to={routerUri.signUp}>Create account</Link>
         </SmallPrintTypography>
       </Form>

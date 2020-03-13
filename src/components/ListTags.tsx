@@ -1,16 +1,7 @@
-import React from "react";
-import { Tag } from "./SelectTag";
-import {
-  Chip,
-  Icon,
-  Menu,
-  MenuItem,
-  Button,
-  ListItemIcon,
-  Typography,
-  TextField
-} from "@material-ui/core";
-import { EditTagModal } from "./EditTagModal";
+import React from 'react';
+import { Tag } from './SelectTag';
+import { Chip, Icon, Menu, MenuItem, Button, ListItemIcon, Typography, TextField } from '@material-ui/core';
+import { EditTagModal } from './EditTagModal';
 
 interface ListTagsProps {
   tags: Tag[];
@@ -35,24 +26,24 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
     <div>
       <EditTagModal
         open={isEditing}
-        label={props.tags.find(t => t.id === clickedTagId)?.label || ""}
+        label={props.tags.find(t => t.id === clickedTagId)?.label || ''}
         onClose={() => setIsEditing(false)}
         onSubmit={label => {
           setIsEditing(false);
           props.onUpdate({
             ...props.tags.find(t => t.id === clickedTagId)!,
-            label
+            label,
           });
         }}
       />
       {props.tags.map(tag => (
         <Chip
           key={tag.id}
-          style={{ margin: "10px 10px 0 0" }}
+          style={{ margin: '10px 10px 0 0' }}
           clickable
           label={tag.label}
-          size="medium"
-          deleteIcon={<Icon fontSize="small">edit</Icon>}
+          size='medium'
+          deleteIcon={<Icon fontSize='small'>edit</Icon>}
           onClick={event => {
             setClickedTagId(tag.id);
             setAnchorEl(event.currentTarget);
@@ -63,13 +54,7 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         />
       ))}
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-      >
+      <Menu id='simple-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem
           onClick={() => {
             setIsEditing(true);
@@ -77,17 +62,13 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         >
           <ListItemIcon>
-            <Icon fontSize="small">edit</Icon>
+            <Icon fontSize='small'>edit</Icon>
           </ListItemIcon>
-          <Typography variant="inherit">Edit</Typography>
+          <Typography variant='inherit'>Edit</Typography>
         </MenuItem>
         <MenuItem
           onClick={() => {
-            if (
-              window.confirm(
-                "Are you sure? This tag will be removed from all your notes."
-              )
-            ) {
+            if (window.confirm('Are you sure? This tag will be removed from all your notes.')) {
               clickedTagId && props.onDelete(clickedTagId);
             }
             setClickedTagId(null);
@@ -95,9 +76,9 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         >
           <ListItemIcon>
-            <Icon fontSize="small">delete</Icon>
+            <Icon fontSize='small'>delete</Icon>
           </ListItemIcon>
-          <Typography variant="inherit">Delete</Typography>
+          <Typography variant='inherit'>Delete</Typography>
         </MenuItem>
       </Menu>
     </div>

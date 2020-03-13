@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { TagsListContainer } from "./TagsListContainer";
-import { CreateTagContainer } from "./CreateTagContainer";
-import { LineSpacer } from "../../components";
+import { TagsListContainer } from './TagsListContainer';
+import { CreateTagContainer } from './CreateTagContainer';
+import { LineSpacer } from '../../components';
 
 interface TagsPageProps {}
 

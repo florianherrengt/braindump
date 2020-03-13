@@ -1,1 +1,1 @@
-export * from './TagsPage'
+export * from './TagsPage';

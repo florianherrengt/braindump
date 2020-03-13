@@ -1,7 +1,7 @@
-import { useApolloClient, useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import React from "react";
-import { AesPassphraseForm, LoadingOrError } from "../../components";
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import React from 'react';
+import { AesPassphraseForm, LoadingOrError } from '../../components';
 
 const GET_ONE_NOTE = gql`
   {
@@ -29,7 +29,7 @@ export const AesPassphraseContainer: React.SFC<AesPassphraseContainerProps> = pr
         onSubmit={({ passphrase, shouldSaveToLocalstorage }) => {
           client.writeData({ data: { aesPassphrase: passphrase } });
           if (shouldSaveToLocalstorage) {
-            localStorage.setItem("aesPassphrase", passphrase);
+            localStorage.setItem('aesPassphrase', passphrase);
           }
         }}
       />

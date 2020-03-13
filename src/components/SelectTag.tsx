@@ -1,11 +1,9 @@
-import { Chip, CircularProgress, TextField, Button } from "@material-ui/core/";
-import Autocomplete, {
-  createFilterOptions
-} from "@material-ui/lab/Autocomplete";
-import React from "react";
-import styled from "styled-components";
+import { Chip, CircularProgress, TextField, Button } from '@material-ui/core/';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import React from 'react';
+import styled from 'styled-components';
 
-import { routerUri } from "../config";
+import { routerUri } from '../config';
 
 export interface Tag {
   id: string;
@@ -53,11 +51,7 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
 
         props.onChange(newValues);
       }}
-      noOptionsText={
-        !props.tags.data?.length
-          ? "You haven't created any tags yet."
-          : "Tag not found."
-      }
+      noOptionsText={!props.tags.data?.length ? "You haven't created any tags yet." : 'Tag not found.'}
       renderOption={option => option.label}
       renderTags={(value: Tag[], getTagProps) => {
         return value.map((option, index) => {
@@ -69,15 +63,15 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
           {props.tags.loading && <Spinner size={20} />}
           <TextField
             onKeyDown={event => {
-              if (event.key === "Enter") {
+              if (event.key === 'Enter') {
                 if (event.ctrlKey || event.altKey || event.metaKey) {
                   props.onSubmit && props.onSubmit();
                 }
               }
             }}
-            variant="outlined"
+            variant='outlined'
             {...params}
-            placeholder={props.tags.loading ? "Loading..." : "Tags"}
+            placeholder={props.tags.loading ? 'Loading...' : 'Tags'}
           />
         </InputContainer>
       )}

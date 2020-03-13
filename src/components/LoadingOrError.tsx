@@ -1,6 +1,6 @@
-import { CircularProgress, Typography } from "@material-ui/core";
-import React from "react";
-import { QueryResult, MutationResult } from "@apollo/react-common";
+import { CircularProgress, Typography } from '@material-ui/core';
+import React from 'react';
+import { QueryResult, MutationResult } from '@apollo/react-common';
 
 interface LoadingOrErrorProps {
   results: QueryResult | MutationResult;
@@ -18,7 +18,7 @@ export const LoadingOrError: React.SFC<LoadingOrErrorProps> = props => {
     return (
       <div>
         {props.results.error?.graphQLErrors.map(({ message }) => (
-          <Typography color="error">{message}</Typography>
+          <Typography color='error'>{message}</Typography>
         ))}
       </div>
     );
