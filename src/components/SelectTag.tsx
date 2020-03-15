@@ -1,9 +1,7 @@
-import { Chip, CircularProgress, TextField, Button } from '@material-ui/core/';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { Chip, CircularProgress, TextField } from '@material-ui/core/';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import styled from 'styled-components';
-
-import { routerUri } from '../config';
 
 export interface Tag {
   id: string;
@@ -40,15 +38,11 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
       multiple
       disabled={props.tags.loading || !!props.tags.errors}
       autoHighlight
-      selectOnFocus
+      // selectOnFocus
       value={props.value}
       options={props.tags.data || []}
-      autoSelect
+      // autoSelect
       onChange={(event, newValues: Tag[]) => {
-        if (!newValues.filter(v => v).length) {
-          return;
-        }
-
         props.onChange(newValues);
       }}
       noOptionsText={!props.tags.data?.length ? "You haven't created any tags yet." : 'Tag not found.'}

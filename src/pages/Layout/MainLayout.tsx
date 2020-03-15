@@ -1,4 +1,10 @@
-import { Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+  ArrowLeft as ArrowLeftIcon,
+  Label as LabelIcon,
+  Note as NoteIcon,
+  Settings as SettingsIcon,
+} from '@material-ui/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
@@ -33,7 +39,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
         <DrawerList style={{ width: 300 }}>
           <ListItem button onClick={() => setDrawerOpen(false)}>
             <ListItemIcon>
-              <Icon>arrow_left</Icon>
+              <ArrowLeftIcon />
             </ListItemIcon>
             <ListItemText primary='Back' />
           </ListItem>
@@ -46,7 +52,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             }}
           >
             <ListItemIcon>
-              <Icon>notes</Icon>
+              <NoteIcon />
             </ListItemIcon>
             <ListItemText primary='Notes' />
           </ListItem>
@@ -58,7 +64,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             }}
           >
             <ListItemIcon>
-              <Icon>label</Icon>
+              <LabelIcon />
             </ListItemIcon>
             <ListItemText primary='Tags' />
           </ListItem>
@@ -72,7 +78,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             }}
           >
             <ListItemIcon>
-              <Icon>settings</Icon>
+              <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary='Settings' />
           </ListItem>

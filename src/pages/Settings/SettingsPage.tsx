@@ -1,8 +1,8 @@
+import { Button, Card, CardContent } from '@material-ui/core';
 import React from 'react';
+import styled from 'styled-components';
 import { LineSpacer } from '../../components';
 import { AesPassphraseContainer } from '../Notes/AesPassphraseContainer';
-import { Button, Card, CardContent, Typography } from '@material-ui/core';
-import styled from 'styled-components';
 
 interface SettingsPageProps {}
 

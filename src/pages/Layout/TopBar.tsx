@@ -1,21 +1,11 @@
-import {
-  AppBar,
-  createStyles,
-  Icon,
-  IconButton,
-  InputBase,
-  List,
-  makeStyles,
-  Theme,
-  Toolbar,
-  useTheme,
-} from '@material-ui/core';
-import { routerUri } from '../../config';
-import { useWindowScroll, useThrottledFn } from 'beautiful-react-hooks';
+import { AppBar, IconButton, InputBase, Toolbar } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
+import { AccountCircle as AccountCircleIcon, Menu as MenuIcon, Search as SearchIcon } from '@material-ui/icons';
+import { useThrottledFn } from 'beautiful-react-hooks';
 import React from 'react';
+import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
-import { useParams, useHistory, useLocation } from 'react-router';
+import { routerUri } from '../../config';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -57,21 +47,21 @@ export const TopBar: React.SFC<TopBarProps> = props => {
   }, 100) as unknown) as Function;
 
   return (
-    <AppBar style={{ color: grey[500] }} color='transparent' variant='outlined' position='static'>
+    <AppBar style={{ color: grey[500] }} color='default' variant='outlined' position='sticky'>
       <Toolbar>
         <IconButton onClick={() => props.onMenuClick()} edge='start' color='inherit' aria-label='menu'>
-          <Icon>menu</Icon>
+          <MenuIcon />
         </IconButton>
 
         <SearchContainer>
           <SearchIconContainer>
-            <Icon>search</Icon>
+            <SearchIcon />
           </SearchIconContainer>
           <SearchInput
             autoFocus={!!searchValue}
             onChange={event => onSearchChange(event.target.value)}
             defaultValue={searchValue}
-            placeholder='Search tag (comma separed)...'
+            placeholder='Search by tags (comma separed)...'
             inputProps={{ 'aria-label': 'search' }}
           />
         </SearchContainer>
@@ -79,7 +69,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
         <div style={{ flexGrow: 1 }} />
 
         <IconButton onClick={() => history.push(routerUri.settings)} edge='end' color='inherit' aria-label='menu'>
-          <Icon>account_circle</Icon>
+          <AccountCircleIcon />
         </IconButton>
       </Toolbar>
     </AppBar>

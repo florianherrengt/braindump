@@ -1,21 +1,14 @@
+import { Chip, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
 import React from 'react';
-import { Tag } from './SelectTag';
-import { Chip, Icon, Menu, MenuItem, Button, ListItemIcon, Typography, TextField } from '@material-ui/core';
 import { EditTagModal } from './EditTagModal';
+import { Tag } from './SelectTag';
+import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 
 interface ListTagsProps {
   tags: Tag[];
   onUpdate(tag: Tag): void;
   onDelete(id: string): void;
 }
-
-// const TagChip: React.SFC<{ tag: Tag }> = ({ tag }) => {
-//     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-//   return (
-
-//   );
-// };
 
 export const ListTags: React.SFC<ListTagsProps> = props => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -43,7 +36,7 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           clickable
           label={tag.label}
           size='medium'
-          deleteIcon={<Icon fontSize='small'>edit</Icon>}
+          deleteIcon={<EditIcon fontSize='small' />}
           onClick={event => {
             setClickedTagId(tag.id);
             setAnchorEl(event.currentTarget);
@@ -62,7 +55,7 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         >
           <ListItemIcon>
-            <Icon fontSize='small'>edit</Icon>
+            <EditIcon fontSize='small' />
           </ListItemIcon>
           <Typography variant='inherit'>Edit</Typography>
         </MenuItem>
@@ -76,7 +69,7 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         >
           <ListItemIcon>
-            <Icon fontSize='small'>delete</Icon>
+            <DeleteIcon fontSize='small' />
           </ListItemIcon>
           <Typography variant='inherit'>Delete</Typography>
         </MenuItem>

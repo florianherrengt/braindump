@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, TextField, Tooltip, useMediaQuery } from '@material-ui/core';
+import { Button, Card, CardContent, CardActions, TextField, Tooltip, useMediaQuery } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ interface CreateNoteProps {
     loading: boolean;
     data?: Tag[];
   };
+  onDiscard?(): void;
   onSubmit(input: { text: string; tags: Tag[] }): any;
 }
 
@@ -23,14 +24,18 @@ const CreateNote = (props: CreateNoteProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const location = useLocation();
 
+  const reset = () => {
+    setText('');
+    setSelectedTags([]);
+  };
+
   const submit = () => {
     if (!text) {
       return;
     }
 
     props.onSubmit({ text, tags: selectedTags });
-    setText('');
-    setSelectedTags([]);
+    reset();
   };
   return (
     <Container>
@@ -73,22 +78,28 @@ const CreateNote = (props: CreateNoteProps) => {
                   }}
                 />
               </div>
-              <Tooltip
-                disableTouchListener
-                enterDelay={0}
-                title={`${navigator.platform.toLocaleLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'} + Enter`}
-                aria-label='save with Ctrl + Enter'
-              >
-                <Button
-                  variant={isMobile ? 'outlined' : 'text'}
-                  style={isMobile ? { width: '100%', marginTop: 20 } : {}}
-                  type='submit'
-                >
-                  Save
-                </Button>
-              </Tooltip>
             </div>
           </CardContent>
+          <CardActions>
+            <div style={{ flexGrow: 1 }} />
+            <Button
+              color='secondary'
+              onClick={() => {
+                props.onDiscard && props.onDiscard();
+                reset();
+              }}
+            >
+              Discard
+            </Button>
+            <Tooltip
+              disableTouchListener
+              enterDelay={0}
+              title={`${navigator.platform.toLocaleLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'} + Enter`}
+              aria-label='save with Ctrl + Enter'
+            >
+              <Button type='submit'>Save</Button>
+            </Tooltip>
+          </CardActions>
         </Card>
       </form>
     </Container>

@@ -21,7 +21,7 @@ import { TagsPage } from './pages/Tags';
 
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (graphQLErrors) {
-    for (let err of graphQLErrors) {
+    for (const err of graphQLErrors) {
       if (err.extensions?.code === 'UNAUTHENTICATED') {
         window.location.replace(routerUri.signIn);
       }
@@ -45,6 +45,8 @@ const cache = new InMemoryCache({
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
   link: ApolloLink.from([errorLink, httpLink]),
+  connectToDevTools: true,
+  resolvers: {},
 });
 
 client.writeData({
