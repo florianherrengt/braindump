@@ -1,6 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { api, User } from '../helpers';
 import { RootState } from '../reducers';
+import { localStorageKeys } from '../config';
 
 export interface UserActionFetching {
   type: 'GET_CURRENT_USER_REQUEST';
@@ -75,9 +76,12 @@ export const fetchCurrentUser = (options?: Options) => async (
   }
 };
 
-export const setAesPassphrase = (aesPassphrase: string) => async (
+export const setAesPassphrase = (aesPassphrase: string, shouldSaveToLocalstorage: boolean) => async (
   dispatch: ThunkDispatch<{}, {}, UserAction>,
   getState: () => RootState,
 ) => {
   dispatch({ type: 'SET_AES_PASSPHRASE', user: { aesPassphrase } });
+  if (shouldSaveToLocalstorage) {
+    localStorage.setItem(localStorageKeys.aesPassphrase, aesPassphrase)
+  }
 };

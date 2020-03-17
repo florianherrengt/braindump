@@ -1,38 +1,34 @@
-import { useApolloClient, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { CircularProgress } from '@material-ui/core';
 import React from 'react';
-import { AesPassphraseForm, LoadingOrError } from '../../components';
-
-const GET_ONE_NOTE = gql`
-  {
-    currentUserNotes(limit: 1) {
-      items {
-        text
-      }
-    }
-  }
-`;
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentUserNotes, setAesPassphrase } from '../../actions';
+import { AesPassphraseForm } from '../../components';
+import { RootState } from '../../reducers';
+import { useHistory } from 'react-router';
+import { routerUri } from '../../config';
 
 interface AesPassphraseContainerProps {
   submitLabel?: string;
 }
 
 export const AesPassphraseContainer: React.SFC<AesPassphraseContainerProps> = props => {
-  const client = useApolloClient();
-  const getOneNoteQuery = useQuery(GET_ONE_NOTE);
+  const dispatch = useDispatch();
+  dispatch(fetchCurrentUserNotes());
+  const currentUserNotes = useSelector(
+    (state: RootState) => state.currentUserNotes,
+  );
 
+  if (currentUserNotes.isFetching) {
+    return <CircularProgress />;
+  }
   return (
-    <LoadingOrError results={getOneNoteQuery}>
-      <AesPassphraseForm
-        submitLabel={props.submitLabel}
-        testNote={getOneNoteQuery.data?.currentUserNotes[0]?.items[0].text}
-        onSubmit={({ passphrase, shouldSaveToLocalstorage }) => {
-          client.writeData({ data: { aesPassphrase: passphrase } });
-          if (shouldSaveToLocalstorage) {
-            localStorage.setItem('aesPassphrase', passphrase);
-          }
-        }}
-      />
-    </LoadingOrError>
+    <AesPassphraseForm
+      submitLabel={props.submitLabel}
+      testNote={currentUserNotes.notes[0].text}
+      onSubmit={({ passphrase, shouldSaveToLocalstorage }) => {
+        dispatch(setAesPassphrase(passphrase, shouldSaveToLocalstorage));
+        window.location.replace(routerUri.notes);
+      }}
+    />
   );
 };

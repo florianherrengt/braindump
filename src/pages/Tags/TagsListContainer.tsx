@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentUserTags } from '../../actions';
+import { fetchCurrentUserTags, deleteTag, updateTag } from '../../actions';
 import { ListTags } from '../../components';
 import { RootState } from '../../reducers';
 
@@ -25,10 +25,8 @@ export const TagsListContainer: React.SFC<TagsListContainerProps> = props => {
   return (
     <div>
       <ListTags
-        onUpdate={tag => console.log('onUpdate')}
-        onDelete={id => {
-          console.log('onDelete');
-        }}
+        onUpdate={tag => dispatch(updateTag({ input: tag }))}
+        onDelete={id => dispatch(deleteTag({ id }))}
         tags={currentUserTags.tags}
       />
       {currentUserTags.isFetching && <CircularProgress />}

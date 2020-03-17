@@ -14,7 +14,8 @@ import styled from 'styled-components';
 import { decrypt } from '../helpers';
 
 interface AesPassphraseFormProps {
-  testNote?: string;
+  testNote: string;
+  defaultValue?: string;
   submitLabel?: string;
   onSubmit(input: {
     passphrase: string;
@@ -29,7 +30,7 @@ const Container = styled.div`
 const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   const isMobile = useMediaQuery('(max-width:450px)');
   const [aesPassphrase, setAesPassphrase] = useState<string>(
-    localStorage.getItem('aesPassphrase') || '',
+    props.defaultValue || '',
   );
   const [error, setError] = useState<string>();
   const [shouldSaveToLocalstorage, setShouldSaveToLocalstorage] = useState<
@@ -37,14 +38,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   >(true);
 
   const submit = () => {
-    if (props.testNote) {
-      if (!decrypt(props.testNote, aesPassphrase)) {
-        setError('Invalid passphrase');
-        setAesPassphrase('');
-        return;
-      }
-    }
-
+    console.log(aesPassphrase);
     props.onSubmit({ passphrase: aesPassphrase, shouldSaveToLocalstorage });
   };
 

@@ -183,6 +183,30 @@ export type GetCurrentUserTagsQuery = { __typename?: 'Query' } & {
   currentUserTags: Array<{ __typename?: 'Tag' } & TagFieldsFragment>;
 };
 
+export type CreateTagMutationVariables = {
+  input: CreateTagInput;
+};
+
+export type CreateTagMutation = { __typename?: 'Mutation' } & {
+  createTag: { __typename?: 'Tag' } & TagFieldsFragment;
+};
+
+export type UpdateTagMutationVariables = {
+  input: UpdateTagInput;
+};
+
+export type UpdateTagMutation = { __typename?: 'Mutation' } & {
+  updateTag: { __typename?: 'Tag' } & TagFieldsFragment;
+};
+
+export type DeleteTagMutationVariables = {
+  id: Scalars['String'];
+};
+
+export type DeleteTagMutation = { __typename?: 'Mutation' } & {
+  deleteTag: { __typename?: 'Tag' } & Pick<Tag, 'id'>;
+};
+
 export type TagFieldsFragment = { __typename?: 'Tag' } & Pick<
   Tag,
   'id' | 'label'
@@ -257,6 +281,29 @@ export const GetCurrentUserTagsDocument = gql`
   }
   ${TagFieldsFragmentDoc}
 `;
+export const CreateTagDocument = gql`
+  mutation createTag($input: CreateTagInput!) {
+    createTag(input: $input) {
+      ...TagFields
+    }
+  }
+  ${TagFieldsFragmentDoc}
+`;
+export const UpdateTagDocument = gql`
+  mutation updateTag($input: UpdateTagInput!) {
+    updateTag(input: $input) {
+      ...TagFields
+    }
+  }
+  ${TagFieldsFragmentDoc}
+`;
+export const DeleteTagDocument = gql`
+  mutation deleteTag($id: String!) {
+    deleteTag(id: $id) {
+      id
+    }
+  }
+`;
 export const GetCurrentUserDocument = gql`
   query getCurrentUser {
     currentUser {
@@ -296,6 +343,30 @@ export function getSdk(client: GraphQLClient) {
     ): Promise<GetCurrentUserTagsQuery> {
       return client.request<GetCurrentUserTagsQuery>(
         print(GetCurrentUserTagsDocument),
+        variables,
+      );
+    },
+    createTag(
+      variables: CreateTagMutationVariables,
+    ): Promise<CreateTagMutation> {
+      return client.request<CreateTagMutation>(
+        print(CreateTagDocument),
+        variables,
+      );
+    },
+    updateTag(
+      variables: UpdateTagMutationVariables,
+    ): Promise<UpdateTagMutation> {
+      return client.request<UpdateTagMutation>(
+        print(UpdateTagDocument),
+        variables,
+      );
+    },
+    deleteTag(
+      variables: DeleteTagMutationVariables,
+    ): Promise<DeleteTagMutation> {
+      return client.request<DeleteTagMutation>(
+        print(DeleteTagDocument),
         variables,
       );
     },

@@ -1,5 +1,5 @@
-import { NotesAction } from '../actions';
-import { Note, Tag } from '../helpers';
+import { NotesAction, UserActionSetAesPassphrase } from '../actions';
+import { Note, Tag, decrypt } from '../helpers';
 import CryptoJS from 'crypto-js';
 
 interface CurrentUserNotesState {
@@ -25,9 +25,11 @@ const defaultState: CurrentUserNotesState = {
 
 export const currentUserNotes = (
   state: CurrentUserNotesState = defaultState,
-  action: NotesAction,
+  action: NotesAction | UserActionSetAesPassphrase,
 ): CurrentUserNotesState => {
   switch (action.type) {
+    case 'SET_AES_PASSPHRASE':
+      return { ...state, notes: state.notes.map(note => ({ ...note, text: decrypt(note.text, action.user.aesPassphrase) })) };
     case 'GET_CURRENT_USER_NOTES_REQUEST':
       return { ...state, ...action };
     case 'GET_CURRENT_USER_NOTES_SUCCESS':

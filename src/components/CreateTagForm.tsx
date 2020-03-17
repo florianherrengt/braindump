@@ -18,6 +18,7 @@ export const CreateTagForm: React.SFC<CreateTagFormProps> = props => {
     >
       <TextField
         autoFocus
+        value={label}
         onChange={event => setLabel(event.target.value)}
         style={{ flex: 1 }}
         variant='outlined'
