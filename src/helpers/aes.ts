@@ -6,12 +6,15 @@ export const encrypt = (str: string, secret: string): string => {
 
 export const decrypt = (str: string, secret: string): string => {
   try {
-    const decrypted = CryptoJS.AES.decrypt(decodeURIComponent(str), secret).toString(CryptoJS.enc.Utf8);
+    const decrypted = CryptoJS.AES.decrypt(
+      decodeURIComponent(str),
+      secret,
+    ).toString(CryptoJS.enc.Utf8);
     if (!decrypted) {
-      return 'Invalid passphrase'
+      return 'Invalid passphrase';
     }
-    return decrypted
+    return decrypted;
   } catch (error) {
-    return 'Invalid passphrase'
+    return 'Invalid passphrase';
   }
 };

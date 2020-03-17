@@ -87,7 +87,9 @@ export const SignIn = (props: SignInProps) => {
             </div>
           ))}
         <LineSpacer />
-        <SmallPrintTypography variant='body2'>Don't have an account yet?</SmallPrintTypography>
+        <SmallPrintTypography variant='body2'>
+          Don't have an account yet?
+        </SmallPrintTypography>
         <SmallPrintTypography variant='body2'>
           <Link to={routerUri.signUp}>Create account</Link>
         </SmallPrintTypography>

@@ -21,21 +21,24 @@ const CREATE_TAG_MUTATION = gql`
 export const CreateTagContainer: React.SFC<TagsListContainerProps> = props => {
   const getAesPassphraseResults = useQuery(GET_AES_PASSPHRASE);
   const aesPassphrase = getAesPassphraseResults.data?.aesPassphrase;
-  const [createTagMutation, createTagMutationResults] = useMutation(CREATE_TAG_MUTATION, {
-    update(cache, { data: { createTag } }) {
-      const { currentUserTags } =
-        cache.readQuery({
-          query: GET_CURRENT_USER_TAGS,
-        }) || {};
+  const [createTagMutation, createTagMutationResults] = useMutation(
+    CREATE_TAG_MUTATION,
+    {
+      update(cache, { data: { createTag } }) {
+        const { currentUserTags } =
+          cache.readQuery({
+            query: GET_CURRENT_USER_TAGS,
+          }) || {};
 
-      cache.writeQuery({
-        query: GET_CURRENT_USER_TAGS,
-        data: {
-          currentUserTags: [...currentUserTags, createTag],
-        },
-      });
+        cache.writeQuery({
+          query: GET_CURRENT_USER_TAGS,
+          data: {
+            currentUserTags: [...currentUserTags, createTag],
+          },
+        });
+      },
     },
-  });
+  );
 
   if (!aesPassphrase) {
     return <Typography>No aes passphrase found...</Typography>;

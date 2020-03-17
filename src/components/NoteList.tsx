@@ -4,11 +4,14 @@ import { useThrottledFn, useWindowScroll } from 'beautiful-react-hooks';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LineSpacer } from './LineSpacer';
-import { Note, NoteCard } from './NoteCard';
+import { NoteCard, NoteCardProps } from './NoteCard';
+import { RootState } from '../reducers/';
 
 interface NoteListProps {
-  notes?: Note[];
-  loadMore?(): void;
+  notes: Array<{
+    note: NoteCardProps['note'];
+    tags: NoteCardProps['tags'];
+  }>;
   onEditClick(noteId: string): void;
   onDeleteClick(noteId: string): void;
 }
@@ -22,25 +25,41 @@ const GoToTopFabContainer = styled.div`
 export const NoteList: React.SFC<NoteListProps> = props => {
   const [scrollY, setScrollY] = useState(window.scrollY);
 
-  useWindowScroll((useThrottledFn(() => setScrollY(window.scrollY), 200) as unknown) as () => {});
+  useWindowScroll(
+    (useThrottledFn(
+      () => setScrollY(window.scrollY),
+      1000,
+    ) as unknown) as () => {},
+  );
 
-  if (scrollY / (document.body.scrollHeight - window.innerHeight) >= 0.8) {
-    props.loadMore && props.loadMore();
-  }
-
+  // if (Math.round(scrollY / (document.body.scrollHeight - window.innerHeight)) === 1) {
+  //   props.loadMore && props.loadMore();
+  // }
+  // console.log(props.notes);
   return (
     <div>
-      {props.notes &&
-        props.notes.map(note => (
-          <div key={note.id}>
-            <NoteCard onEditClick={props.onEditClick} onDeleteClick={props.onDeleteClick} note={note} />
-            <LineSpacer />
-          </div>
-        ))}
+      {props.notes.map(({ note, tags }) => (
+        <div key={note.id}>
+          <NoteCard
+            onEditClick={props.onEditClick}
+            onDeleteClick={props.onDeleteClick}
+            note={note}
+            tags={tags}
+          />
+          <LineSpacer />
+        </div>
+      ))}
 
       <Slide direction='up' in={!!scrollY} mountOnEnter unmountOnExit>
         <GoToTopFabContainer>
-          <Fab onClick={() => window.scrollTo(0, 0)} color='primary' size='small'>
+          <Fab
+            onClick={() => {
+              window.scrollTo(0, 0);
+              setScrollY(0);
+            }}
+            color='primary'
+            size='small'
+          >
             <KeyboardArrowUpIcon />
           </Fab>
         </GoToTopFabContainer>

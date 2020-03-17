@@ -1,0 +1,9 @@
+query getCurrentUser {
+  currentUser {
+    ...UserFields
+  }
+}
+
+fragment UserFields on User {
+  username
+}

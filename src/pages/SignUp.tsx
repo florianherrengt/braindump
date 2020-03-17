@@ -34,7 +34,9 @@ export const SignUpPage = () => {
       <LineSpacer />
       <SignUp
         loading={getUserExistsResults.loading}
-        usernameExists={!!(getUserExistsResults.data && getUserExistsResults.data.userExists)}
+        usernameExists={
+          !!(getUserExistsResults.data && getUserExistsResults.data.userExists)
+        }
         onUsernameChange={throttle(username => {
           setUsername(username);
         }, 2000)}

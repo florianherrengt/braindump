@@ -33,7 +33,7 @@ export const SignInPage = () => {
             localStorage.setItem('token', data.signIn);
             window.location.replace(routerUri.notes);
           } catch (error) {
-            console.log(error);
+            console.error(error);
           }
         }}
       />

@@ -48,7 +48,10 @@ export const EditTagModal: React.SFC<EditTagModalProps> = props => {
               props.onSubmit(value);
             }}
           >
-            <TextField onChange={event => setValue(event.target.value)} defaultValue={props.label} />
+            <TextField
+              onChange={event => setValue(event.target.value)}
+              defaultValue={props.label}
+            />
             <Button type='submit'>Save</Button>
           </form>
         </Content>

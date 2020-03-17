@@ -1,4 +1,11 @@
-import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
 import {
   ArrowLeft as ArrowLeftIcon,
   Label as LabelIcon,
@@ -35,7 +42,11 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
   return (
     <div>
       <TopBar onMenuClick={() => setDrawerOpen(true)} />
-      <Drawer anchor='left' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        anchor='left'
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <DrawerList style={{ width: 300 }}>
           <ListItem button onClick={() => setDrawerOpen(false)}>
             <ListItemIcon>

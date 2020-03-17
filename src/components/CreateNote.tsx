@@ -1,15 +1,20 @@
-import { Button, Card, CardContent, CardActions, TextField, Tooltip, useMediaQuery } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  TextField,
+  Tooltip,
+  useMediaQuery,
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
-import { SelectTag, Tag } from './SelectTag';
+import { SelectTag, Tag, SelectTagProps } from './SelectTag';
 
 interface CreateNoteProps {
-  userTags: {
-    errors?: string[];
-    loading: boolean;
-    data?: Tag[];
-  };
+  tags: SelectTagProps['tags'];
+  isTagLoading: SelectTagProps['isLoading'];
   onDiscard?(): void;
   onSubmit(input: { text: string; tags: Tag[] }): any;
 }
@@ -21,7 +26,7 @@ const Container = styled.div`
 const CreateNote = (props: CreateNoteProps) => {
   const isMobile = useMediaQuery('(max-width:450px)');
   const [text, setText] = useState<string>('');
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<SelectTagProps['tags']>([]);
   const location = useLocation();
 
   const reset = () => {
@@ -67,11 +72,14 @@ const CreateNote = (props: CreateNoteProps) => {
                 }
               }}
             />
-            <div style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}>
+            <div
+              style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}
+            >
               <div style={{ flex: 1 }}>
                 <SelectTag
                   value={selectedTags}
-                  tags={props.userTags || []}
+                  tags={props.tags}
+                  isLoading={props.isTagLoading}
                   onSubmit={() => submit()}
                   onChange={tags => {
                     setSelectedTags(tags);
@@ -94,7 +102,11 @@ const CreateNote = (props: CreateNoteProps) => {
             <Tooltip
               disableTouchListener
               enterDelay={0}
-              title={`${navigator.platform.toLocaleLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'} + Enter`}
+              title={`${
+                navigator.platform.toLocaleLowerCase().includes('mac')
+                  ? 'Cmd'
+                  : 'Ctrl'
+              } + Enter`}
               aria-label='save with Ctrl + Enter'
             >
               <Button type='submit'>Save</Button>

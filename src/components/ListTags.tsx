@@ -1,4 +1,10 @@
-import { Chip, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
+import {
+  Chip,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@material-ui/core';
 import React from 'react';
 import { EditTagModal } from './EditTagModal';
 import { Tag } from './SelectTag';
@@ -47,7 +53,13 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
           }}
         />
       ))}
-      <Menu id='simple-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Menu
+        id='simple-menu'
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
         <MenuItem
           onClick={() => {
             setIsEditing(true);
@@ -61,7 +73,11 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            if (window.confirm('Are you sure? This tag will be removed from all your notes.')) {
+            if (
+              window.confirm(
+                'Are you sure? This tag will be removed from all your notes.',
+              )
+            ) {
               clickedTagId && props.onDelete(clickedTagId);
             }
             setClickedTagId(null);

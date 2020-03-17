@@ -1,0 +1,10 @@
+query getCurrentUserTags {
+  currentUserTags {
+    ...TagFields
+  }
+}
+
+fragment TagFields on Tag {
+  id
+  label
+}

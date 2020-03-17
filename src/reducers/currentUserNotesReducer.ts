@@ -1,0 +1,110 @@
+import { NotesAction } from '../actions';
+import { Note, Tag } from '../helpers';
+import CryptoJS from 'crypto-js';
+
+interface CurrentUserNotesState {
+  notes: Array<
+    Omit<Note, 'tags'> & {
+      tags: Array<Pick<Tag, 'id'>>;
+      isLoading: boolean;
+      transactionId?: string;
+    }
+  >;
+  isFetching: boolean;
+  error?: string;
+  fetched: boolean;
+  hasMore: boolean;
+}
+
+const defaultState: CurrentUserNotesState = {
+  notes: [],
+  isFetching: false,
+  fetched: false,
+  hasMore: false,
+};
+
+export const currentUserNotes = (
+  state: CurrentUserNotesState = defaultState,
+  action: NotesAction,
+): CurrentUserNotesState => {
+  switch (action.type) {
+    case 'GET_CURRENT_USER_NOTES_REQUEST':
+      return { ...state, ...action };
+    case 'GET_CURRENT_USER_NOTES_SUCCESS':
+      const notes = [
+        ...state.notes,
+        ...action.notes.items.map(note => ({
+          ...note,
+          isLoading: false,
+        })),
+      ];
+      return {
+        ...state,
+        notes,
+        hasMore: action.notes.hasMore,
+        fetched: true,
+        isFetching: false,
+      };
+    case 'GET_CURRENT_USER_NOTES_FAILURE':
+      return { ...state, ...action, fetched: true, isFetching: false };
+
+    case 'DELETE_NOTE_REQUEST':
+      return {
+        ...state,
+        notes: state.notes.map(note => ({
+          ...note,
+          isLoading: note.id === action.id,
+        })),
+      };
+
+    case 'DELETE_NOTE_SUCCESS':
+      return {
+        ...state,
+        notes: state.notes.filter(note => note.id !== action.id),
+      };
+
+    case 'DELETE_NOTE_FAILURE':
+      return {
+        ...state,
+        notes: state.notes.map(note => ({ ...note, isLoading: false })),
+      };
+
+    case 'CREATE_NOTE_REQUEST':
+      return {
+        ...state,
+        notes: [
+          {
+            ...action.note,
+            id: 'optimistic' + CryptoJS.MD5(action.note.text),
+            createdAt: new Date(),
+            isLoading: true,
+            transactionId: action.transactionId,
+          },
+          ...state.notes,
+        ],
+      };
+
+    case 'CREATE_NOTE_SUCCESS':
+      return {
+        ...state,
+        notes: [
+          { ...action.note, isLoading: false },
+          ...state.notes.filter(
+            note => note.transactionId !== action.transactionId,
+          ),
+        ],
+      };
+
+    case 'CREATE_NOTE_FAILURE':
+      alert('Oops! Something wrong happened.');
+      return {
+        ...state,
+        notes: state.notes.filter(
+          note => note.transactionId !== action.transactionId,
+        ),
+      };
+
+    default:
+      return state;
+  }
+};

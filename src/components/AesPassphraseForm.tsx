@@ -16,7 +16,10 @@ import { decrypt } from '../helpers';
 interface AesPassphraseFormProps {
   testNote?: string;
   submitLabel?: string;
-  onSubmit(input: { passphrase: string; shouldSaveToLocalstorage: boolean }): any;
+  onSubmit(input: {
+    passphrase: string;
+    shouldSaveToLocalstorage: boolean;
+  }): any;
 }
 
 const Container = styled.div`
@@ -25,9 +28,13 @@ const Container = styled.div`
 
 const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   const isMobile = useMediaQuery('(max-width:450px)');
-  const [aesPassphrase, setAesPassphrase] = useState<string>(localStorage.getItem('aesPassphrase') || '');
+  const [aesPassphrase, setAesPassphrase] = useState<string>(
+    localStorage.getItem('aesPassphrase') || '',
+  );
   const [error, setError] = useState<string>();
-  const [shouldSaveToLocalstorage, setShouldSaveToLocalstorage] = useState<boolean>(true);
+  const [shouldSaveToLocalstorage, setShouldSaveToLocalstorage] = useState<
+    boolean
+  >(true);
 
   const submit = () => {
     if (props.testNote) {
@@ -54,7 +61,9 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
       >
         <Card variant='outlined'>
           <CardContent>
-            <div style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}>
+            <div
+              style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}
+            >
               <TextField
                 autoFocus
                 onChange={({ target: { value } }) => setAesPassphrase(value)}
@@ -91,7 +100,11 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
               <Tooltip
                 disableTouchListener
                 enterDelay={0}
-                title={`${navigator.platform.toLocaleLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'} + Enter`}
+                title={`${
+                  navigator.platform.toLocaleLowerCase().includes('mac')
+                    ? 'Cmd'
+                    : 'Ctrl'
+                } + Enter`}
                 aria-label='save with Ctrl + Enter'
               >
                 <Button

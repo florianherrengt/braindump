@@ -1,6 +1,10 @@
 import { AppBar, IconButton, InputBase, Toolbar } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
-import { AccountCircle as AccountCircleIcon, Menu as MenuIcon, Search as SearchIcon } from '@material-ui/icons';
+import {
+  AccountCircle as AccountCircleIcon,
+  Menu as MenuIcon,
+  Search as SearchIcon,
+} from '@material-ui/icons';
 import { useThrottledFn } from 'beautiful-react-hooks';
 import React from 'react';
 import { useHistory, useLocation } from 'react-router';
@@ -43,13 +47,25 @@ export const TopBar: React.SFC<TopBarProps> = props => {
   const searchValue = new URLSearchParams(location.search).get('search');
 
   const onSearchChange = (useThrottledFn((searchValue: string) => {
-    history.replace(`${routerUri.notes}?search=${encodeURIComponent(searchValue)}`);
+    history.replace(
+      `${routerUri.notes}?search=${encodeURIComponent(searchValue)}`,
+    );
   }, 100) as unknown) as Function;
 
   return (
-    <AppBar style={{ color: grey[500] }} color='default' variant='outlined' position='sticky'>
+    <AppBar
+      style={{ color: grey[500] }}
+      color='default'
+      variant='outlined'
+      position='sticky'
+    >
       <Toolbar>
-        <IconButton onClick={() => props.onMenuClick()} edge='start' color='inherit' aria-label='menu'>
+        <IconButton
+          onClick={() => props.onMenuClick()}
+          edge='start'
+          color='inherit'
+          aria-label='menu'
+        >
           <MenuIcon />
         </IconButton>
 
@@ -68,7 +84,12 @@ export const TopBar: React.SFC<TopBarProps> = props => {
 
         <div style={{ flexGrow: 1 }} />
 
-        <IconButton onClick={() => history.push(routerUri.settings)} edge='end' color='inherit' aria-label='menu'>
+        <IconButton
+          onClick={() => history.push(routerUri.settings)}
+          edge='end'
+          color='inherit'
+          aria-label='menu'
+        >
           <AccountCircleIcon />
         </IconButton>
       </Toolbar>

@@ -2,19 +2,17 @@ import { Chip, CircularProgress, TextField } from '@material-ui/core/';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import styled from 'styled-components';
+import { RootState } from '../reducers';
 
 export interface Tag {
   id: string;
   label: string;
 }
 
-interface SelectTagProps {
-  tags: {
-    errors?: string[];
-    loading: boolean;
-    data?: Tag[];
-  };
-  value: Tag[];
+export interface SelectTagProps {
+  tags: RootState['currentUserTags']['tags'];
+  isLoading: boolean;
+  value: RootState['currentUserTags']['tags'];
   onSubmit?(): void;
   onChange(tags: Tag[]): void;
 }
@@ -36,16 +34,20 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
     <Autocomplete
       style={{ flex: 1 }}
       multiple
-      disabled={props.tags.loading || !!props.tags.errors}
+      disabled={props.isLoading}
       autoHighlight
       // selectOnFocus
       value={props.value}
-      options={props.tags.data || []}
+      options={props.tags}
       // autoSelect
       onChange={(event, newValues: Tag[]) => {
         props.onChange(newValues);
       }}
-      noOptionsText={!props.tags.data?.length ? "You haven't created any tags yet." : 'Tag not found.'}
+      noOptionsText={
+        !props.tags.length
+          ? "You haven't created any tags yet."
+          : 'Tag not found.'
+      }
       renderOption={option => option.label}
       renderTags={(value: Tag[], getTagProps) => {
         return value.map((option, index) => {
@@ -54,7 +56,7 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
       }}
       renderInput={params => (
         <InputContainer>
-          {props.tags.loading && <Spinner size={20} />}
+          {props.isLoading && <Spinner size={20} />}
           <TextField
             onKeyDown={event => {
               if (event.key === 'Enter') {
@@ -65,7 +67,7 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
             }}
             variant='outlined'
             {...params}
-            placeholder={props.tags.loading ? 'Loading...' : 'Tags'}
+            placeholder={props.isLoading ? 'Loading...' : 'Tags'}
           />
         </InputContainer>
       )}

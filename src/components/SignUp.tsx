@@ -91,12 +91,15 @@ export const SignUp = (props: SignUpProps) => {
         </SignUpButton>
         <LineSpacer />
         <SmallPrintTypography style={{ textAlign: 'center' }} variant='body2'>
-          By creating an account, you are agreeing to our <Link to={routerUri.termAndConditions}>Terms of Service</Link>{' '}
-          and <Link to={routerUri.privacy}>Privacy Policy</Link>.
+          By creating an account, you are agreeing to our{' '}
+          <Link to={routerUri.termAndConditions}>Terms of Service</Link> and{' '}
+          <Link to={routerUri.privacy}>Privacy Policy</Link>.
         </SmallPrintTypography>
         <div>
           <LineSpacer />
-          <SmallPrintTypography variant='body2'>Already have an account?</SmallPrintTypography>
+          <SmallPrintTypography variant='body2'>
+            Already have an account?
+          </SmallPrintTypography>
           <SmallPrintTypography variant='body2'>
             <Link to={routerUri.signIn}>Sign in</Link>
           </SmallPrintTypography>

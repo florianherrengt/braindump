@@ -1,40 +1,37 @@
 import {
   Card,
-  Menu,
-  MenuItem,
-  ListItemIcon,
   CardContent,
+  CardHeader,
   Chip,
   CircularProgress,
-  Typography,
-  CardHeader,
   IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Typography,
 } from '@material-ui/core';
-import { MoreVert as MoreVertIcon } from '@material-ui/icons';
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  MoreVert as MoreVertIcon,
+} from '@material-ui/icons';
+import { formatDistance } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
-import { LineSpacer } from './LineSpacer';
-import { Tag } from './SelectTag';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
-import { formatDistance } from 'date-fns';
+import { Optional, ValuesType } from 'utility-types';
+import { RootState } from '../reducers';
 
-export interface Note {
-  id: string;
-  text: string;
-  createdAt: string;
-  tags?: Tag[];
-}
-
-interface NoteCardProps {
-  note: Note;
+export interface NoteCardProps {
+  note: ValuesType<RootState['currentUserNotes']['notes']>;
+  tags: Array<Optional<ValuesType<RootState['currentUserTags']['tags']>>>;
   onEditClick(noteId: string): void;
   onDeleteClick(noteId: string): void;
 }
 
 // using number instead of boolean because react complains about it otherwise...
-const Container = styled(Card)<{ optimistic: number }>`
+const Container = styled(Card)<{ loading: number }>`
   position: relative;
-  opacity: ${props => (props.optimistic ? 0.5 : 1)};
+  opacity: ${props => (props.loading ? 0.5 : 1)};
 `;
 
 const Spinner = styled(CircularProgress)`
@@ -49,30 +46,41 @@ const HeaderTypography = styled(Typography)`
 `;
 
 export const NoteCard: React.SFC<NoteCardProps> = props => {
-  const isOptimistic = props.note.id.includes('optimistic');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const text = decodeURIComponent(props.note.text);
+  const text = props.note.text;
+
   return (
-    <Container variant='outlined' optimistic={isOptimistic ? 1 : 0}>
+    <Container variant='outlined' loading={props.note.isLoading ? 1 : 0}>
       <CardHeader
+        style={{ paddingBottom: 0 }}
         title={
-          <HeaderTypography>{formatDistance(new Date(props.note.createdAt), new Date()) + ' ago'}</HeaderTypography>
+          <HeaderTypography>
+            {formatDistance(new Date(props.note.createdAt), new Date()) +
+              ' ago'}
+          </HeaderTypography>
         }
-        subheader={
-          props.note.tags &&
-          props.note.tags?.map(
-            tag =>
-              tag && <Chip key={tag.id} style={{ marginRight: 5 }} variant='outlined' size='small' label={tag.label} />,
-          )
-        }
+        subheader={props.tags.map(tag => {
+          return (
+            <Chip
+              key={tag.id}
+              style={{ marginRight: 5 }}
+              variant='outlined'
+              size='small'
+              label={tag.label}
+            />
+          );
+        })}
         action={
-          <IconButton onClick={event => setAnchorEl(event.currentTarget)} aria-label='note-more-actions'>
+          <IconButton
+            onClick={event => setAnchorEl(event.currentTarget)}
+            aria-label='note-more-actions'
+          >
             <MoreVertIcon />
           </IconButton>
         }
       />
-      <CardContent>
-        {isOptimistic && <Spinner size={10} />}
+      <CardContent style={!props.tags.length ? { paddingTop: 0 } : {}}>
+        {props.note.isLoading && <Spinner size={10} />}
         <Typography
           variant='body1'
           dangerouslySetInnerHTML={{
@@ -80,7 +88,12 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
           }}
         />
       </CardContent>
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
