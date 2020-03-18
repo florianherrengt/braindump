@@ -51,7 +51,9 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
       renderOption={option => option.label}
       renderTags={(value: Tag[], getTagProps) => {
         return value.map((option, index) => {
-          return <Chip label={option.label} {...getTagProps({ index })} />;
+          return option ? (
+            <Chip label={option.label} {...getTagProps({ index })} />
+          ) : null;
         });
       }}
       renderInput={params => (

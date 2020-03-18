@@ -4,7 +4,7 @@ query getCurrentUser {
   }
 }
 
-mutation SignIn($input: SignInInput!) {
+mutation signIn($input: SignInInput!) {
   signIn(input: $input)
 }
 
@@ -12,7 +12,7 @@ query userExists($username: String!) {
   userExists(username: $username)
 }
 
-mutation SignUp($input: SignUpInput!) {
+mutation signUp($input: SignUpInput!) {
   signUp(input: $input)
 }
 

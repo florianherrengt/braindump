@@ -10,6 +10,10 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 import { routerUri } from '../../config';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
+import { searchNotes } from '../../actions';
+import { Tag } from '../../helpers';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -41,14 +45,14 @@ interface TopBarProps {
 }
 
 export const TopBar: React.SFC<TopBarProps> = props => {
-  const location = useLocation();
   const history = useHistory();
-
-  const searchValue = new URLSearchParams(location.search).get('search');
+  const dispatch = useDispatch();
 
   const onSearchChange = (useThrottledFn((searchValue: string) => {
-    history.replace(
-      `${routerUri.notes}?search=${encodeURIComponent(searchValue)}`,
+    dispatch(
+      searchNotes({
+        searchValue,
+      }),
     );
   }, 100) as unknown) as Function;
 
@@ -74,9 +78,9 @@ export const TopBar: React.SFC<TopBarProps> = props => {
             <SearchIcon />
           </SearchIconContainer>
           <SearchInput
-            autoFocus={!!searchValue}
+            // autoFocus={!!searchValue}
             onChange={event => onSearchChange(event.target.value)}
-            defaultValue={searchValue}
+            // defaultValue={searchValue}
             placeholder='Search by tags (comma separed)...'
             inputProps={{ 'aria-label': 'search' }}
           />

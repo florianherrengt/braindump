@@ -218,6 +218,33 @@ export type GetCurrentUserQuery = { __typename?: 'Query' } & {
   currentUser: Maybe<{ __typename?: 'User' } & UserFieldsFragment>;
 };
 
+export type SignInMutationVariables = {
+  input: SignInInput;
+};
+
+export type SignInMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'signIn'
+>;
+
+export type UserExistsQueryVariables = {
+  username: Scalars['String'];
+};
+
+export type UserExistsQuery = { __typename?: 'Query' } & Pick<
+  Query,
+  'userExists'
+>;
+
+export type SignUpMutationVariables = {
+  input: SignUpInput;
+};
+
+export type SignUpMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'signUp'
+>;
+
 export type UserFieldsFragment = { __typename?: 'User' } & Pick<
   User,
   'username'
@@ -312,6 +339,21 @@ export const GetCurrentUserDocument = gql`
   }
   ${UserFieldsFragmentDoc}
 `;
+export const SignInDocument = gql`
+  mutation signIn($input: SignInInput!) {
+    signIn(input: $input)
+  }
+`;
+export const UserExistsDocument = gql`
+  query userExists($username: String!) {
+    userExists(username: $username)
+  }
+`;
+export const SignUpDocument = gql`
+  mutation signUp($input: SignUpInput!) {
+    signUp(input: $input)
+  }
+`;
 export function getSdk(client: GraphQLClient) {
   return {
     getCurrentUserNotes(
@@ -377,6 +419,18 @@ export function getSdk(client: GraphQLClient) {
         print(GetCurrentUserDocument),
         variables,
       );
+    },
+    signIn(variables: SignInMutationVariables): Promise<SignInMutation> {
+      return client.request<SignInMutation>(print(SignInDocument), variables);
+    },
+    userExists(variables: UserExistsQueryVariables): Promise<UserExistsQuery> {
+      return client.request<UserExistsQuery>(
+        print(UserExistsDocument),
+        variables,
+      );
+    },
+    signUp(variables: SignUpMutationVariables): Promise<SignUpMutation> {
+      return client.request<SignUpMutation>(print(SignUpDocument), variables);
     },
   };
 }

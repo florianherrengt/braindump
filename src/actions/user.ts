@@ -1,42 +1,41 @@
 import { ThunkDispatch } from 'redux-thunk';
-import { api, User } from '../helpers';
+import { api, User, MutationSignInArgs, MutationSignUpArgs } from '../helpers';
 import { RootState } from '../reducers';
-import { localStorageKeys } from '../config';
+import { localStorageKeys, routerUri } from '../config';
 
-export interface UserActionFetching {
+export interface GetCurrentUserActionFetching {
   type: 'GET_CURRENT_USER_REQUEST';
   isFetching: true;
 }
 
-export interface UserActionSuccess {
+export interface GetCurrentUserActionSuccess {
   type: 'GET_CURRENT_USER_SUCCESS';
   user: User;
   isFetching: false;
 }
 
-export interface UserActionFailure {
+export interface GetCurrentUserActionFailure {
   type: 'GET_CURRENT_USER_FAILURE';
   error: string;
   isFetching: false;
 }
 
-export interface UserActionSetAesPassphrase {
+export interface CurrentUserActionSetAesPassphrase {
   type: 'SET_AES_PASSPHRASE';
   user: { aesPassphrase: string };
 }
 
+export type GetCurrentUserAction =
+  | GetCurrentUserActionFetching
+  | GetCurrentUserActionSuccess
+  | GetCurrentUserActionFailure;
+
 export type UserAction =
-  | UserActionFetching
-  | UserActionSuccess
-  | UserActionFailure
-  | UserActionSetAesPassphrase;
+  | GetCurrentUserAction
+  | CurrentUserActionSetAesPassphrase;
 
-interface Options {
-  forceReload: boolean;
-}
-
-export const fetchCurrentUser = (options?: Options) => async (
-  dispatch: ThunkDispatch<{}, {}, UserAction>,
+export const fetchCurrentUser = (options?: { forceReload: boolean }) => async (
+  dispatch: ThunkDispatch<{}, {}, GetCurrentUserAction>,
   getState: () => RootState,
 ) => {
   if (!options?.forceReload) {
@@ -76,12 +75,31 @@ export const fetchCurrentUser = (options?: Options) => async (
   }
 };
 
-export const setAesPassphrase = (aesPassphrase: string, shouldSaveToLocalstorage: boolean) => async (
-  dispatch: ThunkDispatch<{}, {}, UserAction>,
+export const setAesPassphrase = (
+  aesPassphrase: string,
+  shouldSaveToLocalstorage: boolean,
+) => async (
+  dispatch: ThunkDispatch<{}, {}, CurrentUserActionSetAesPassphrase>,
   getState: () => RootState,
 ) => {
   dispatch({ type: 'SET_AES_PASSPHRASE', user: { aesPassphrase } });
   if (shouldSaveToLocalstorage) {
-    localStorage.setItem(localStorageKeys.aesPassphrase, aesPassphrase)
+    localStorage.setItem(localStorageKeys.aesPassphrase, aesPassphrase);
   }
+};
+
+export const signIn = async (variables: MutationSignInArgs['input']) => {
+  const { signIn: token } = await api.signIn({ input: variables });
+  if (token) {
+    localStorage.setItem(localStorageKeys.token, token);
+  }
+  window.location.replace(routerUri.notes);
+};
+
+export const signUp = async (variables: MutationSignUpArgs['input']) => {
+  const { signUp: token } = await api.signUp({ input: variables });
+  if (token) {
+    localStorage.setItem(localStorageKeys.token, token);
+  }
+  window.location.replace(routerUri.notes);
 };

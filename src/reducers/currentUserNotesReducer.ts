@@ -1,8 +1,8 @@
-import { NotesAction, UserActionSetAesPassphrase } from '../actions';
+import { NotesAction, CurrentUserActionSetAesPassphrase } from '../actions';
 import { Note, Tag, decrypt } from '../helpers';
 import CryptoJS from 'crypto-js';
 
-interface CurrentUserNotesState {
+export interface CurrentUserNotesState {
   notes: Array<
     Omit<Note, 'tags'> & {
       tags: Array<Pick<Tag, 'id'>>;
@@ -25,14 +25,21 @@ const defaultState: CurrentUserNotesState = {
 
 export const currentUserNotes = (
   state: CurrentUserNotesState = defaultState,
-  action: NotesAction | UserActionSetAesPassphrase,
+  action: NotesAction | CurrentUserActionSetAesPassphrase,
 ): CurrentUserNotesState => {
   switch (action.type) {
     case 'SET_AES_PASSPHRASE':
-      return { ...state, notes: state.notes.map(note => ({ ...note, text: decrypt(note.text, action.user.aesPassphrase) })) };
+      return {
+        ...state,
+        notes: state.notes.map(note => ({
+          ...note,
+          text: decrypt(note.text, action.user.aesPassphrase),
+        })),
+      };
     case 'GET_CURRENT_USER_NOTES_REQUEST':
-      return { ...state, ...action };
+      return { ...state, ...action, isFetching: true };
     case 'GET_CURRENT_USER_NOTES_SUCCESS':
+      console.log('GET_CURRENT_USER_NOTES_SUCCESS');
       const notes = [
         ...state.notes,
         ...action.notes.items.map(note => ({

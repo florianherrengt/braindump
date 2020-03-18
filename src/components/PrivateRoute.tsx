@@ -22,9 +22,7 @@ export const PrivateRoute: React.SFC<RouteProps> = ({ children, ...rest }) => {
             </div>
           );
         }
-        if (currentUser.error) {
-          return <div>{currentUser.error}</div>;
-        }
+
         if (!currentUser.user || currentUser.error) {
           return (
             <Redirect

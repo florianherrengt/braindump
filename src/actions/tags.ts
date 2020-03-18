@@ -124,52 +124,53 @@ export const fetchCurrentUserTags = (
 ) => async (
   dispatch: ThunkDispatch<{}, {}, GetTagsAction>,
   getState: () => RootState,
-  ) => {
-    const state = getState();
-    const { aesPassphrase } = state.currentUser;
+) => {
+  const state = getState();
+  const { aesPassphrase } = state.currentUser;
 
-    if (!options?.forceReload) {
-      if (
-        state.currentUserTags.isFetching ||
-        state.currentUserTags.tags.length ||
-        state.currentUserTags.error
-      ) {
-        return;
-      }
+  if (!options?.forceReload) {
+    if (
+      state.currentUserTags.isFetching ||
+      state.currentUserTags.fetched ||
+      state.currentUserTags.error
+    ) {
+      return;
+    }
+  }
+
+  dispatch({
+    type: 'GET_CURRENT_USER_TAGS_REQUEST',
+    isFetching: true,
+  });
+  try {
+    const { currentUserTags } = await api.getCurrentUserTags(
+      options?.variables,
+    );
+    if (!currentUserTags) {
+      return dispatch({
+        type: 'GET_CURRENT_USER_TAGS_FAILURE',
+        error: 'No user returned',
+        isFetching: false,
+      });
     }
     dispatch({
-      type: 'GET_CURRENT_USER_TAGS_REQUEST',
-      isFetching: true,
+      type: 'GET_CURRENT_USER_TAGS_SUCCESS',
+      tags: currentUserTags.map(tag => ({
+        ...tag,
+        label: aesPassphrase ? decrypt(tag.label, aesPassphrase) : tag.label,
+      })),
+      aesPassphrase: state.currentUser.aesPassphrase,
+      isFetching: false,
     });
-    try {
-      const { currentUserTags } = await api.getCurrentUserTags(
-        options?.variables,
-      );
-      if (!currentUserTags) {
-        return dispatch({
-          type: 'GET_CURRENT_USER_TAGS_FAILURE',
-          error: 'No user returned',
-          isFetching: false,
-        });
-      }
-      dispatch({
-        type: 'GET_CURRENT_USER_TAGS_SUCCESS',
-        tags: currentUserTags.map(tag => ({
-          ...tag,
-          label: aesPassphrase ? decrypt(tag.label, aesPassphrase) : tag.label,
-        })),
-        aesPassphrase: state.currentUser.aesPassphrase,
-        isFetching: false,
-      });
-    } catch (error) {
-      console.error(error);
-      dispatch({
-        type: 'GET_CURRENT_USER_TAGS_FAILURE',
-        error,
-        isFetching: false,
-      });
-    }
-  };
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: 'GET_CURRENT_USER_TAGS_FAILURE',
+      error,
+      isFetching: false,
+    });
+  }
+};
 
 export const createTag = (variables: MutationCreateTagArgs) => async (
   dispatch: ThunkDispatch<{}, {}, CreateTagsAction>,

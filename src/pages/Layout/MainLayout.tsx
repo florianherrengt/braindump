@@ -17,6 +17,10 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { routerUri } from '../../config';
 import { TopBar } from './TopBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../reducers';
+import { Tag } from '../../helpers';
+import { searchNotes } from '../../actions';
 
 const Container = styled.div``;
 
@@ -37,6 +41,7 @@ const DrawerList = styled(List)`
 
 const MainLayout: React.SFC<MainLayoutProps> = props => {
   const history = useHistory();
+
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   return (

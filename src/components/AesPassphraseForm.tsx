@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { decrypt } from '../helpers';
 
 interface AesPassphraseFormProps {
   testNote: string;

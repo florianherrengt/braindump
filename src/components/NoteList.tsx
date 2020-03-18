@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LineSpacer } from './LineSpacer';
 import { NoteCard, NoteCardProps } from './NoteCard';
-import { RootState } from '../reducers/';
 
 interface NoteListProps {
   notes: Array<{
