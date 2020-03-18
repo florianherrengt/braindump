@@ -5,12 +5,19 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LineSpacer } from './LineSpacer';
 import { NoteCard, NoteCardProps } from './NoteCard';
+import { CreateNote, CreateNoteProps } from './CreateNote';
+import { Tag } from '../helpers';
 
 interface NoteListProps {
   notes: Array<{
     note: NoteCardProps['note'];
     tags: NoteCardProps['tags'];
   }>;
+  tags: CreateNoteProps['tags'];
+  isTagLoading: CreateNoteProps['isTagLoading'];
+  onEditDiscard: CreateNoteProps['onDiscard'];
+  onEditSubmit: CreateNoteProps['onSubmit'];
+  editingNoteId?: NoteCardProps['note']['id'];
   onEditClick(noteId: string): void;
   onDeleteClick(noteId: string): void;
 }
@@ -31,20 +38,27 @@ export const NoteList: React.SFC<NoteListProps> = props => {
     ) as unknown) as () => {},
   );
 
-  // if (Math.round(scrollY / (document.body.scrollHeight - window.innerHeight)) === 1) {
-  //   props.loadMore && props.loadMore();
-  // }
-  // console.log(props.notes);
   return (
     <div>
       {props.notes.map(({ note, tags }) => (
         <div key={note.id}>
-          <NoteCard
-            onEditClick={props.onEditClick}
-            onDeleteClick={props.onDeleteClick}
-            note={note}
-            tags={tags}
-          />
+          {props.editingNoteId === note.id ? (
+            <CreateNote
+              defaultText={note.text}
+              defaultTags={tags}
+              isTagLoading={props.isTagLoading}
+              tags={props.tags}
+              onSubmit={props.onEditSubmit}
+              onDiscard={props.onEditDiscard}
+            />
+          ) : (
+            <NoteCard
+              onEditClick={props.onEditClick}
+              onDeleteClick={props.onDeleteClick}
+              note={note}
+              tags={tags}
+            />
+          )}
           <LineSpacer />
         </div>
       ))}

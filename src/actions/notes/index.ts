@@ -2,6 +2,7 @@ import { GetNoteAction } from './fetchNotes';
 import { DeleteNoteAction } from './deleteNote';
 import { CreateNoteAction } from './createNote';
 import { SearchNoteAction } from './searchNotes';
+import { UpdateNoteAction } from './updateNote';
 
 export * from './fetchNotes';
 export * from './createNote';
@@ -13,4 +14,5 @@ export type NotesAction =
   | GetNoteAction
   | DeleteNoteAction
   | CreateNoteAction
-  | SearchNoteAction;
+  | SearchNoteAction
+  | UpdateNoteAction;

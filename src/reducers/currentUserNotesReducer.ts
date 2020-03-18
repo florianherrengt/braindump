@@ -2,14 +2,15 @@ import { NotesAction, CurrentUserActionSetAesPassphrase } from '../actions';
 import { Note, Tag, decrypt } from '../helpers';
 import CryptoJS from 'crypto-js';
 
+type StateNote = Omit<Note, 'tags'> & {
+  tags: Array<Pick<Tag, 'id'>>;
+  isLoading: boolean;
+  transactionId?: string;
+  revert?: StateNote
+}
+
 export interface CurrentUserNotesState {
-  notes: Array<
-    Omit<Note, 'tags'> & {
-      tags: Array<Pick<Tag, 'id'>>;
-      isLoading: boolean;
-      transactionId?: string;
-    }
-  >;
+  notes: StateNote[];
   isFetching: boolean;
   error?: string;
   fetched: boolean;
@@ -84,7 +85,7 @@ export const currentUserNotes = (
         notes: [
           {
             ...action.note,
-            id: 'optimistic' + CryptoJS.MD5(action.note.text),
+            id: action.transactionId,
             createdAt: new Date(),
             isLoading: true,
             transactionId: action.transactionId,
@@ -111,6 +112,32 @@ export const currentUserNotes = (
         notes: state.notes.filter(
           note => note.transactionId !== action.transactionId,
         ),
+      };
+
+    case 'UPDATE_NOTE_REQUEST':
+      return {
+        ...state,
+        notes: state.notes.map(note => note.id === action.note.id ? {
+          ...note,
+          text: action.note.text || note.text,
+          tags: action.note.tags || note.tags,
+          isLoading: true,
+          transactionId: action.transactionId,
+          revert: note,
+        } : note),
+      };
+
+    case 'UPDATE_NOTE_SUCCESS':
+      return {
+        ...state,
+        notes: state.notes.map(note => note.transactionId === action.transactionId ? { ...action.note, isLoading: false } : note)
+      };
+
+    case 'UPDATE_NOTE_FAILURE':
+      alert('Oops! Something wrong happened.');
+      return {
+        ...state,
+        notes: state.notes.map(note => note.transactionId === action.transactionId ? note.revert! : note),
       };
 
     default:

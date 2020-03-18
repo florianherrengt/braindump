@@ -10,13 +10,21 @@ import {
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
-import { SelectTag, Tag, SelectTagProps } from './SelectTag';
+import { SelectTag, SelectTagProps } from './SelectTag';
+import { NoteCardProps } from './NoteCard';
 
-interface CreateNoteProps {
+export interface CreateNoteFormValues {
+  text: string;
+  tags: SelectTagProps['tags'];
+}
+
+export interface CreateNoteProps {
+  defaultText?: string;
+  defaultTags?: NoteCardProps['tags'];
   tags: SelectTagProps['tags'];
   isTagLoading: SelectTagProps['isLoading'];
   onDiscard?(): void;
-  onSubmit(input: { text: string; tags: Tag[] }): any;
+  onSubmit(input: CreateNoteFormValues): void;
 }
 
 const Container = styled.div`
@@ -25,8 +33,12 @@ const Container = styled.div`
 
 const CreateNote = (props: CreateNoteProps) => {
   const isMobile = useMediaQuery('(max-width:450px)');
-  const [text, setText] = useState<string>('');
-  const [selectedTags, setSelectedTags] = useState<SelectTagProps['tags']>([]);
+  const [text, setText] = useState<string>(props.defaultText || '');
+  // @ts-ignore
+  const [selectedTags, setSelectedTags] = useState<SelectTagProps['tags']>(
+    // @ts-ignore
+    props.defaultTags || [],
+  );
   const location = useLocation();
 
   const reset = () => {
@@ -42,6 +54,7 @@ const CreateNote = (props: CreateNoteProps) => {
     props.onSubmit({ text, tags: selectedTags });
     reset();
   };
+
   return (
     <Container>
       <form
@@ -97,7 +110,7 @@ const CreateNote = (props: CreateNoteProps) => {
                 reset();
               }}
             >
-              Discard
+              {props.defaultText ? 'Cancel' : 'Discard'}
             </Button>
             <Tooltip
               disableTouchListener

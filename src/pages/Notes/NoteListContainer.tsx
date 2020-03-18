@@ -1,8 +1,8 @@
 import { Button, CircularProgress } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteNote, fetchCurrentUserNotes } from '../../actions';
-import { NoteList } from '../../components';
+import { deleteNote, fetchCurrentUserNotes, updateNote } from '../../actions';
+import { NoteList, CreateNoteFormValues } from '../../components';
 import { RootState } from '../../reducers';
 
 interface NoteListContainerProps {}
@@ -29,6 +29,7 @@ export const getTagsIdFromSearch = (
 };
 
 export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
+  const [editingNoteId, setEditingNoteId] = useState('');
   const dispatch = useDispatch();
 
   const currentUserNotes = useSelector(
@@ -60,9 +61,17 @@ export const NoteListContainer: React.SFC<NoteListContainerProps> = props => {
       <div>
         {
           <NoteList
+            editingNoteId={editingNoteId}
             onEditClick={noteId => {
-              console.log(noteId);
+              setEditingNoteId(noteId);
             }}
+            onEditDiscard={() => setEditingNoteId('')}
+            onEditSubmit={(input: CreateNoteFormValues) => {
+              dispatch(updateNote({ ...input, id: editingNoteId }));
+              setEditingNoteId('');
+            }}
+            tags={currentUserTags.tags}
+            isTagLoading={currentUserTags.isFetching}
             onDeleteClick={noteId => {
               dispatch(deleteNote(noteId));
             }}

@@ -7,12 +7,13 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { EditTagModal } from './EditTagModal';
-import { Tag } from './SelectTag';
+import { SelectTagProps } from './SelectTag';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import { ValuesType } from 'utility-types';
 
 interface ListTagsProps {
-  tags: Tag[];
-  onUpdate(tag: Tag): void;
+  tags: SelectTagProps['tags'];
+  onUpdate(tag: ValuesType<SelectTagProps['tags']>): void;
   onDelete(id: string): void;
 }
 

@@ -25,6 +25,15 @@ mutation createNote($input: CreateNoteInput!) {
   }
 }
 
+mutation updateNote($input: UpdateNoteInput!) {
+  updateNote(input: $input) {
+    ...NoteFields
+    tags {
+      id
+    }
+  }
+}
+
 fragment NoteFields on Note {
   id
   text

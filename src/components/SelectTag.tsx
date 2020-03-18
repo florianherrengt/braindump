@@ -4,17 +4,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { RootState } from '../reducers';
 
-export interface Tag {
-  id: string;
-  label: string;
-}
-
 export interface SelectTagProps {
   tags: RootState['currentUserTags']['tags'];
   isLoading: boolean;
   value: RootState['currentUserTags']['tags'];
   onSubmit?(): void;
-  onChange(tags: Tag[]): void;
+  onChange(tags: RootState['currentUserTags']['tags']): void;
 }
 
 const InputContainer = styled.div`
@@ -40,7 +35,7 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
       value={props.value}
       options={props.tags}
       // autoSelect
-      onChange={(event, newValues: Tag[]) => {
+      onChange={(event, newValues: SelectTagProps['tags']) => {
         props.onChange(newValues);
       }}
       noOptionsText={
@@ -49,7 +44,7 @@ export const SelectTag: React.SFC<SelectTagProps> = props => {
           : 'Tag not found.'
       }
       renderOption={option => option.label}
-      renderTags={(value: Tag[], getTagProps) => {
+      renderTags={(value: SelectTagProps['tags'], getTagProps) => {
         return value.map((option, index) => {
           return option ? (
             <Chip label={option.label} {...getTagProps({ index })} />
