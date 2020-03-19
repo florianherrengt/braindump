@@ -70,17 +70,17 @@ context('Smoke tests', () => {
     cy.get('.NoteList .NoteCard').first().should('contain', 'edited')
   })
 
-  // it('add a lot of notes and scroll back to top', function () {
-  //   for (let i = 0; i < 10; i++) {
-  //     cy.get('.CreateNote_TextField_Text').type(Math.random().toString()).type('{alt}{enter}')
-  //   }
-  //   cy.scrollTo('bottom')
-  //   cy.get('.NoteList_Button_ScrollTop')
-  //     .should('be.visible')
-  //   cy.get('.NoteList_Button_ScrollTop').click()
-  //   cy.get('.NoteList_Button_ScrollTop')
-  //     .should('not.be.visible')
-  // })
+  it('add a lot of notes and scroll back to top', function () {
+    for (let i = 0; i < 10; i++) {
+      cy.get('.CreateNote_TextField_Text').type(Math.random().toString()).type('{alt}{enter}')
+    }
+    cy.scrollTo('bottom')
+    cy.get('.NoteList_Button_ScrollTop')
+      .should('be.visible')
+    cy.get('.NoteList_Button_ScrollTop').click()
+    cy.get('.NoteList_Button_ScrollTop')
+      .should('not.be.visible')
+  })
 
   it('logout', function () {
     cy.get('.TopBar_IconButton_Menu').click()
