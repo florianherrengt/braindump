@@ -41,7 +41,7 @@ const DrawerList = styled(List)`
 
 const MainLayout: React.SFC<MainLayoutProps> = props => {
   const history = useHistory();
-
+  // const currentUser = useSelector((state: RootState) => state.currentUser);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   return (

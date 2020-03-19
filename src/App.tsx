@@ -60,20 +60,20 @@ function App() {
         <FetchData />
 
         <Router>
-          <MainLayout>
-            <Switch>
-              <Route path={routerUri.signUp}>
-                <SignUpPage />
-              </Route>
-              <Route path={routerUri.privacy}>
-                <PrivacyPage />
-              </Route>
-              <Route path={routerUri.termAndConditions}>
-                <TnCPage />
-              </Route>
-              <Route path={routerUri.signIn}>
-                <SignInPage />
-              </Route>
+          <Switch>
+            <Route path={routerUri.signUp}>
+              <SignUpPage />
+            </Route>
+            <Route path={routerUri.signIn}>
+              <SignInPage />
+            </Route>
+            <Route path={routerUri.privacy}>
+              <PrivacyPage />
+            </Route>
+            <Route path={routerUri.termAndConditions}>
+              <TnCPage />
+            </Route>
+            <MainLayout>
               <PrivateRoute path={routerUri.notes}>
                 <NotesPage />
               </PrivateRoute>
@@ -86,8 +86,8 @@ function App() {
               <Route path='/'>
                 <Redirect to={routerUri.notes} />
               </Route>
-            </Switch>
-          </MainLayout>
+            </MainLayout>
+          </Switch>
         </Router>
       </Provider>
     </div>

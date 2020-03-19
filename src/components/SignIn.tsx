@@ -59,6 +59,7 @@ export const SignIn = (props: SignInProps) => {
       >
         <div>
           <CustomTextField
+            autoFocus
             disabled={props.loading}
             onChange={({ target }) => setUsername(target.value)}
             variant='outlined'

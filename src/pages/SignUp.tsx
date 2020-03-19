@@ -4,13 +4,18 @@ import { signUp } from '../actions';
 import { LineSpacer } from '../components/LineSpacer';
 import { SignUp } from '../components/SignUp';
 import { api } from '../helpers';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  height: 100%;
+`;
 
 export const SignUpPage = () => {
   const [usernameExists, setUsernameExists] = useState(false);
   const [loading, setLoading] = useState(false);
 
   return (
-    <div>
+    <Container>
       <LineSpacer />
       <SignUp
         loading={loading}
@@ -26,6 +31,6 @@ export const SignUpPage = () => {
           signUp(input);
         }}
       />
-    </div>
+    </Container>
   );
 };
