@@ -27,6 +27,7 @@ const Spinner = styled(CircularProgress)`
 export const SelectTag: React.SFC<SelectTagProps> = props => {
   return (
     <Autocomplete
+      className='SelectTag'
       style={{ flex: 1 }}
       multiple
       disabled={props.isLoading}

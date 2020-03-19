@@ -42,7 +42,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
   };
 
   return (
-    <Container>
+    <Container className='AesPassphraseForm'>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -58,6 +58,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
               style={{ display: isMobile ? 'block' : 'flex', marginTop: 20 }}
             >
               <TextField
+                className='AesPassphraseForm_TextField_Passphrase'
                 autoFocus
                 onChange={({ target: { value } }) => setAesPassphrase(value)}
                 value={aesPassphrase}
@@ -81,6 +82,7 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
                 style={{ flex: 1 }}
                 control={
                   <Checkbox
+                    className='AesPassphraseForm_Checkbox_Remember'
                     checked={shouldSaveToLocalstorage}
                     onChange={event => {
                       setShouldSaveToLocalstorage(event.target.checked);
@@ -101,6 +103,8 @@ const AesPassphraseForm = (props: AesPassphraseFormProps) => {
                 aria-label='save with Ctrl + Enter'
               >
                 <Button
+                  className='AesPassphraseForm_Button_Submit'
+                  id='submit-aes-passphrase-button'
                   variant={isMobile ? 'outlined' : 'text'}
                   style={isMobile ? { width: '100%', marginTop: 20 } : {}}
                   type='submit'

@@ -61,6 +61,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
           </ListItem>
           <Divider />
           <ListItem
+            className='MainLayout_Drawer_ListItem_Notes'
             button
             onClick={() => {
               history.push(routerUri.notes);
@@ -73,6 +74,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
             <ListItemText primary='Notes' />
           </ListItem>
           <ListItem
+            className='MainLayout_Drawer_ListItem_Tags'
             button
             onClick={() => {
               history.push(routerUri.tags);
@@ -87,6 +89,7 @@ const MainLayout: React.SFC<MainLayoutProps> = props => {
           <Divider />
           <div style={{ flexGrow: 1 }} />
           <ListItem
+            className='MainLayout_Drawer_ListItem_Settings'
             button
             onClick={() => {
               history.push(routerUri.settings);

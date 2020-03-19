@@ -23,7 +23,7 @@ export const ListTags: React.SFC<ListTagsProps> = props => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   return (
-    <div>
+    <div className='ListTags'>
       <EditTagModal
         open={isEditing}
         label={props.tags.find(t => t.id === clickedTagId)?.label || ''}

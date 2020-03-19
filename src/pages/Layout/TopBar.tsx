@@ -65,6 +65,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
     >
       <Toolbar>
         <IconButton
+          className='TopBar_IconButton_Menu'
           onClick={() => props.onMenuClick()}
           edge='start'
           color='inherit'

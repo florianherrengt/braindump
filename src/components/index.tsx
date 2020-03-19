@@ -9,3 +9,4 @@ export * from './SelectTag';
 export * from './SignIn';
 export * from './SignUp';
 export * from './ListTags';
+export * from './Settings';

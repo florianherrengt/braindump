@@ -56,7 +56,7 @@ const CreateNote = (props: CreateNoteProps) => {
   };
 
   return (
-    <Container>
+    <Container className='CreateNote'>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -69,6 +69,7 @@ const CreateNote = (props: CreateNoteProps) => {
         <Card variant='outlined'>
           <CardContent>
             <TextField
+              className='CreateNote_TextField_Text'
               autoFocus={!new URLSearchParams(location.search).get('search')}
               onChange={({ target: { value } }) => setText(value)}
               value={text}
@@ -104,6 +105,7 @@ const CreateNote = (props: CreateNoteProps) => {
           <CardActions>
             <div style={{ flexGrow: 1 }} />
             <Button
+              id='note-button-discard'
               color='secondary'
               onClick={() => {
                 props.onDiscard && props.onDiscard();
@@ -122,7 +124,9 @@ const CreateNote = (props: CreateNoteProps) => {
               } + Enter`}
               aria-label='save with Ctrl + Enter'
             >
-              <Button type='submit'>Save</Button>
+              <Button className='CreateNote_Button_Submit' type='submit'>
+                Save
+              </Button>
             </Tooltip>
           </CardActions>
         </Card>

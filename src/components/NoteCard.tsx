@@ -50,7 +50,11 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
   const text = props.note.text;
 
   return (
-    <Container variant='outlined' loading={props.note.isLoading ? 1 : 0}>
+    <Container
+      className='NoteCard'
+      variant='outlined'
+      loading={props.note.isLoading ? 1 : 0}
+    >
       <CardHeader
         style={{ paddingBottom: 0 }}
         title={
@@ -72,6 +76,7 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
         })}
         action={
           <IconButton
+            className='NoteCard_IconButton_MoreActions'
             onClick={event => setAnchorEl(event.currentTarget)}
             aria-label='note-more-actions'
           >
@@ -95,6 +100,7 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
         onClose={() => setAnchorEl(null)}
       >
         <MenuItem
+          className='NoteCard_MenuItem_Edit'
           onClick={() => {
             setAnchorEl(null);
             props.onEditClick(props.note.id);
@@ -106,6 +112,7 @@ export const NoteCard: React.SFC<NoteCardProps> = props => {
           <Typography variant='inherit'>Edit</Typography>
         </MenuItem>
         <MenuItem
+          className='NoteCard_MenuItem_Delete'
           onClick={() => {
             setAnchorEl(null);
             props.onDeleteClick(props.note.id);

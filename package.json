@@ -42,7 +42,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.0.1",
-    "typescript": "~3.7.2",
+    "typescript": "^3.8.3",
     "utility-types": "^3.10.0"
   },
   "scripts": {
@@ -67,10 +67,12 @@
     ]
   },
   "devDependencies": {
+    "@bahmutov/add-typescript-to-cypress": "^2.1.2",
     "@graphql-codegen/cli": "^1.13.0",
     "@graphql-codegen/typescript": "^1.13.0",
     "@graphql-codegen/typescript-graphql-request": "^1.13.0",
     "@graphql-codegen/typescript-operations": "^1.13.0",
+    "cypress": "^4.2.0",
     "prettier": "^1.19.1",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",

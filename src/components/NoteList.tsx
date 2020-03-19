@@ -39,7 +39,7 @@ export const NoteList: React.SFC<NoteListProps> = props => {
   );
 
   return (
-    <div>
+    <div className='NoteList'>
       {props.notes.map(({ note, tags }) => (
         <div key={note.id}>
           {props.editingNoteId === note.id ? (
@@ -66,6 +66,7 @@ export const NoteList: React.SFC<NoteListProps> = props => {
       <Slide direction='up' in={!!scrollY} mountOnEnter unmountOnExit>
         <GoToTopFabContainer>
           <Fab
+            className='NoteList_Button_ScrollTop'
             onClick={() => {
               window.scrollTo(0, 0);
               setScrollY(0);

@@ -17,6 +17,7 @@ export const CreateTagForm: React.SFC<CreateTagFormProps> = props => {
       style={{ display: 'flex' }}
     >
       <TextField
+        className='CreateTagForm_TextField_Label'
         autoFocus
         value={label}
         onChange={event => setLabel(event.target.value)}
@@ -24,7 +25,9 @@ export const CreateTagForm: React.SFC<CreateTagFormProps> = props => {
         variant='outlined'
         placeholder='New tag'
       />
-      <Button type='submit'>Add</Button>
+      <Button className='CreateTagForm_Button_Submit' type='submit'>
+        Add
+      </Button>
     </form>
   );
 };

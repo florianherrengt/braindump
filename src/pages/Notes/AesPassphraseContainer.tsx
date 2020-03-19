@@ -28,7 +28,7 @@ export const AesPassphraseContainer: React.SFC<AesPassphraseContainerProps> = pr
       }
       onSubmit={({ passphrase, shouldSaveToLocalstorage }) => {
         dispatch(setAesPassphrase(passphrase, shouldSaveToLocalstorage));
-        window.location.replace(routerUri.notes);
+        // window.location.replace(routerUri.notes);
       }}
     />
   );

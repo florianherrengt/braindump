@@ -54,7 +54,7 @@ export const SignUp = (props: SignUpProps) => {
 
   useEffect(() => onUsernameChange.current(username), [username]);
   return (
-    <Container>
+    <Container className='SignUp'>
       <Form
         onSubmit={event => {
           event.preventDefault();
@@ -63,6 +63,7 @@ export const SignUp = (props: SignUpProps) => {
       >
         <div>
           <CustomTextField
+            className='SignUp_TextField_Username'
             autoFocus
             onChange={({ target }) => {
               setUsername(target.value);
@@ -79,6 +80,7 @@ export const SignUp = (props: SignUpProps) => {
         <LineSpacer />
         <div>
           <CustomTextField
+            className='SignUp_TextField_Password'
             onChange={({ target }) => setPassword(target.value)}
             variant='outlined'
             label='Password'
@@ -86,7 +88,11 @@ export const SignUp = (props: SignUpProps) => {
           />
         </div>
         <LineSpacer />
-        <SignUpButton type='submit' variant='outlined'>
+        <SignUpButton
+          className='SignUp_Button_Submit'
+          type='submit'
+          variant='outlined'
+        >
           Sign Up
         </SignUpButton>
         <LineSpacer />
