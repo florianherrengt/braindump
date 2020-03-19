@@ -1,7 +1,7 @@
 FROM node:12
 
-WORKDIR /app
+WORKDIR /home
 
-COPY . /app
+COPY . .
 
 RUN yarn
