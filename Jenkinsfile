@@ -3,24 +3,23 @@ pipeline {
     dockerfile {
       filename 'Dockerfile'
     }
-
   }
-  stages {
-    stage('Build') {
-      steps {
-        echo 'Building..'
-      }
+    environment { 
+        CI = 'true'
     }
+  stages {
 
     stage('Test') {
       steps {
         echo 'Testing..'
+        yarn test
       }
     }
 
-    stage('Deploy') {
+    stage('Build') {
       steps {
-        echo 'Deploying....'
+        echo 'Building....'
+        yarn build
       }
     }
 
