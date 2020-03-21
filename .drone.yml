@@ -1,0 +1,17 @@
+kind: pipeline
+type: kubernetes
+name: scramblr_web
+
+metadata:
+  namespace: drone
+
+steps:
+  - name: build
+    image: node:13
+    commands:
+      - yarn
+
+  - name: test
+    image: node:13
+    commands:
+      - yarn test

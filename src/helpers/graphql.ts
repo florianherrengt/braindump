@@ -1,9 +1,8 @@
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from './api';
-import { graphqlUrl } from '../config/'
 
 export const graphqlClient = new GraphQLClient(
-  graphqlUrl,
+  '/api/graphql',
   {
     headers: {
       authorization: 'Bearer ' + localStorage.getItem('token'),
