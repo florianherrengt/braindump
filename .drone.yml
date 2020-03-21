@@ -2,11 +2,8 @@ kind: pipeline
 type: kubernetes
 name: scramblr_web
 
-metadata:
-  namespace: drone
-
 steps:
-  - name: build
+  - name: prepare
     image: node:13
     commands:
       - yarn
@@ -15,3 +12,15 @@ steps:
     image: node:13
     commands:
       - yarn test
+
+  - name: build
+    image: node:13
+    commands:
+      - yarn build
+
+  - name: deploy
+    image: minio/mc
+    commands:
+      - mc config host add minio https://minio.herrengtltd.com $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+      - mc rm -r --force minio/scramblr/assets
+      - mc cp -r build/ minio/scramblr/assets
