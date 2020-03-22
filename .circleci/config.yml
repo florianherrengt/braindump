@@ -6,6 +6,7 @@ jobs:
     docker:
       - image: node:13
     steps:
+      - checkout
       - run: yarn build
 workflows:
   build-and-test:
