@@ -11,10 +11,10 @@ jobs:
           steps:
             - run: yarn
             - run: yarn test
-            - yarn build
-            - mc config host add minio https://minio.herrengtltd.com $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
-            - mc rm -r --force minio/scramblr/assets
-            - mc cp -r build/ minio/scramblr/assets
+            - run: yarn build
+            - run: mc config host add minio https://minio.herrengtltd.com $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+            - run: mc rm -r --force minio/scramblr/assets
+            - run: mc cp -r build/ minio/scramblr/assets
 workflows:
   build-and-test:
     jobs:
