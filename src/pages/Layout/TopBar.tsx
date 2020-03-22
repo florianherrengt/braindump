@@ -7,13 +7,11 @@ import {
 } from '@material-ui/icons';
 import { useThrottledFn } from 'beautiful-react-hooks';
 import React from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { routerUri } from '../../config';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../reducers';
 import { searchNotes } from '../../actions';
-import { Tag } from '../../helpers';
+import { routerUri } from '../../config';
 
 const SearchContainer = styled.div`
   position: relative;

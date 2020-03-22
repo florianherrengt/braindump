@@ -3,7 +3,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAesPassphrase } from '../../actions';
 import { AesPassphraseForm } from '../../components';
-import { routerUri } from '../../config';
 import { RootState } from '../../reducers';
 
 interface AesPassphraseContainerProps {

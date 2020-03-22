@@ -3,10 +3,9 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@material-ui/icons';
 import { useThrottledFn, useWindowScroll } from 'beautiful-react-hooks';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CreateNote, CreateNoteProps } from './CreateNote';
 import { LineSpacer } from './LineSpacer';
 import { NoteCard, NoteCardProps } from './NoteCard';
-import { CreateNote, CreateNoteProps } from './CreateNote';
-import { Tag } from '../helpers';
 
 interface NoteListProps {
   notes: Array<{

@@ -1,6 +1,5 @@
-import { NotesAction, CurrentUserActionSetAesPassphrase } from '../actions';
-import { Note, Tag, decrypt } from '../helpers';
-import CryptoJS from 'crypto-js';
+import { CurrentUserActionSetAesPassphrase, NotesAction } from '../actions';
+import { decrypt, Note, Tag } from '../helpers';
 
 type StateNote = Omit<Note, 'tags'> & {
   tags: Array<Pick<Tag, 'id'>>;
