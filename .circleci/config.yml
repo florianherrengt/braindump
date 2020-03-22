@@ -16,6 +16,7 @@ jobs:
   deploy:
     docker:
       - image: node:13
+    working_directory: ~/app
     steps:
       - attach_workspace:
           at: ~/app
