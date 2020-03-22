@@ -11,6 +11,8 @@ steps:
     image: node:13
     commands:
       - echo test
+    depends_on:
+      - prepare
   # - name: prepare
   #   image: node:13
   #   commands:
