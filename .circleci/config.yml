@@ -1,31 +1,13 @@
 version: 2.1
+orbs:
+  node: circleci/node@1.1.6
 jobs:
-  test:
+  build-and-test:
     docker:
       - image: node:13
     steps:
-      - checkout
-
-      - run: yarn
-      - run: yarn test
-  build:
-    docker:
-      - image: node:13
-    steps:
-      - checkout
-
       - run: yarn build
-  deploy:
-    docker:
-      - image: minio/mc
-    steps:
-      - checkout
-
-      - run: ls build
-      - run: mc
 workflows:
   build-and-test:
     jobs:
-      - test
-      - build
-      - deploy
+      - build-and-test
