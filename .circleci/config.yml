@@ -1,15 +1,30 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+
 jobs:
   build-and-test:
     docker:
       - image: node:13
+    working_directory: /tmp
     steps:
       - checkout
       - run: yarn
       - run: yarn build
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  deploy:
+    docker:
+      - image: node:13
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run: ls build
+
 workflows:
   build-and-test:
     jobs:
       - build-and-test
+      - deploy:
+          requires:
+            - build-and-test
