@@ -4,24 +4,21 @@ name: scramblr_web
 
 steps:
   - name: prepare
-      image: node:13
-      commands:
-        - echo prepare
+    image: node:13
+    commands:
+      - echo prepare
   # - name: prepare
   #   image: node:13
   #   commands:
   #     - yarn
-
   # - name: test
   #   image: node:13
   #   commands:
   #     - yarn test
-
   # - name: build
   #   image: node:13
   #   commands:
   #     - yarn build
-
   # - name: deploy
   #   image: minio/mc
   #   commands:
