@@ -4,23 +4,27 @@ name: scramblr_web
 
 steps:
   - name: prepare
-    image: node:13
-    commands:
-      - yarn
+      image: node:13
+      commands:
+        - echo prepare
+  # - name: prepare
+  #   image: node:13
+  #   commands:
+  #     - yarn
 
-  - name: test
-    image: node:13
-    commands:
-      - yarn test
+  # - name: test
+  #   image: node:13
+  #   commands:
+  #     - yarn test
 
-  - name: build
-    image: node:13
-    commands:
-      - yarn build
+  # - name: build
+  #   image: node:13
+  #   commands:
+  #     - yarn build
 
-  - name: deploy
-    image: minio/mc
-    commands:
-      - mc config host add minio https://minio.herrengtltd.com $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
-      - mc rm -r --force minio/scramblr/assets
-      - mc cp -r build/ minio/scramblr/assets
+  # - name: deploy
+  #   image: minio/mc
+  #   commands:
+  #     - mc config host add minio https://minio.herrengtltd.com $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+  #     - mc rm -r --force minio/scramblr/assets
+  #     - mc cp -r build/ minio/scramblr/assets
