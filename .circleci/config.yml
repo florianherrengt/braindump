@@ -23,3 +23,9 @@ jobs:
 
       - run: ls build
       - run: mc
+workflows:
+  build-and-test:
+    jobs:
+      - test
+      - build
+      - deploy
