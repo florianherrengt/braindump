@@ -4,7 +4,7 @@ jobs:
   build-and-test:
     docker:
       - image: node:13
-    working_directory: /tmp
+    working_directory: /build
     steps:
       - checkout
       - run: yarn
@@ -18,7 +18,7 @@ jobs:
       - image: node:13
     steps:
       - attach_workspace:
-          at: ~/app
+          at: ~/build
       - run: ls build
 
 workflows:
