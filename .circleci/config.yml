@@ -6,9 +6,6 @@ jobs:
     steps:
       - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
-
       - run: yarn
       - run: yarn test
   build:
@@ -17,18 +14,12 @@ jobs:
     steps:
       - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
-
       - run: yarn build
   deploy:
     docker:
       - image: minio/mc
     steps:
       - checkout
-
-      - setup_remote_docker:
-          docker_layer_caching: true
 
       - run: ls build
       - run: mc
