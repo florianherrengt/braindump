@@ -1,0 +1,26 @@
+@import '../../styles/index.scss';
+
+.AutoComplete {
+    width: 100%;
+
+    .TextField {
+        width: 100%;
+    }
+    &_Results_List {
+        width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        margin-top: $space-medium;
+
+        &_Item {
+            padding: $space-medium;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $color-background-secondary;
+            }
+        }
+    }
+}

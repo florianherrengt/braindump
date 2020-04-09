@@ -6,17 +6,17 @@
 
     border: 1px solid;
     border-radius: 5px;
-    color: $color-primary-contrast;
+    color: $color-text-primary-contrast;
     font-weight: bold;
 
     &--secondary,
     &--tertiary {
         background-color: transparent;
-        color: $color-primary;
+        color: $color-text-primary;
         font-weight: inherit;
     }
     &--primary {
-        background-color: $color-secondary;
+        background-color: $color-primary;
         border-color: $color-border;
         &.Button--positive {
             background-color: $color-positive;

@@ -12,11 +12,13 @@ interface ButtonProps {
     color?: Color;
     variant?: Variant;
     styles?: CSSProperties;
+    ariaLabel: string;
 }
 
 export const Button: React.SFC<ButtonProps> = props => {
     return (
         <button
+            aria-label={props.ariaLabel}
             style={props.styles}
             className={classNames([
                 props.className,

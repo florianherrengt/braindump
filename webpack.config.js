@@ -9,7 +9,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: modulePath =>
+                    !modulePath.endsWith('test.ts') &&
+                    !modulePath.endsWith('test.tsx') &&
+                    (modulePath.endsWith('.ts') || modulePath.endsWith('.tsx')),
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },

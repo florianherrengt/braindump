@@ -11,6 +11,7 @@ interface CardActionButtonProps {
 export const CardActionButton: React.SFC<CardActionButtonProps> = props => {
     return (
         <Button
+            ariaLabel='Open more actions'
             className='Card_Actions_Button_Open'
             onClick={() => {
                 props.onClick && props.onClick();

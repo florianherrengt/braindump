@@ -4,8 +4,8 @@ import { Button } from './Button';
 import { Variant, Color } from '../../config/theme';
 
 describe('Components/Button', () => {
-    it('<Button />', () => {
-        const { container } = render(<Button />);
+    it('<Button ariaLabel="test" />', () => {
+        const { container } = render(<Button ariaLabel='test' />);
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--primary',
         );
@@ -13,7 +13,9 @@ describe('Components/Button', () => {
 
     it('should add .Button--primary class', () => {
         const variant = Variant.primary;
-        const { container } = render(<Button variant={variant} />);
+        const { container } = render(
+            <Button ariaLabel='test' variant={variant} />,
+        );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--primary',
         );
@@ -21,7 +23,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--primary class and .Button--positive', () => {
         const { container } = render(
-            <Button variant={Variant.primary} color={Color.positive} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.primary}
+                color={Color.positive}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--primary',
@@ -33,7 +39,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--primary class and .Button--negative', () => {
         const { container } = render(
-            <Button variant={Variant.primary} color={Color.negative} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.primary}
+                color={Color.negative}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--primary',
@@ -45,7 +55,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--secondary class and .Button--positive', () => {
         const { container } = render(
-            <Button variant={Variant.secondary} color={Color.positive} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.secondary}
+                color={Color.positive}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--secondary',
@@ -57,7 +71,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--secondary class and .Button--negative', () => {
         const { container } = render(
-            <Button variant={Variant.secondary} color={Color.negative} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.secondary}
+                color={Color.negative}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--secondary',
@@ -69,7 +87,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--tertiary class and .Button--positive', () => {
         const { container } = render(
-            <Button variant={Variant.tertiary} color={Color.positive} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.tertiary}
+                color={Color.positive}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--tertiary',
@@ -81,7 +103,11 @@ describe('Components/Button', () => {
 
     it('should add .Button--tertiary class and .Button--negative', () => {
         const { container } = render(
-            <Button variant={Variant.tertiary} color={Color.negative} />,
+            <Button
+                ariaLabel='test'
+                variant={Variant.tertiary}
+                color={Color.negative}
+            />,
         );
         expect(container.querySelector('.Button')?.className).toContain(
             'Button--tertiary',

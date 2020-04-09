@@ -3,8 +3,13 @@ $color-light-gray: #e0e0e0;
 
 $color-shadow: $color-light-gray;
 
+$color-text-primary: #212121;
+$color-text-primary-contrast: white;
+
 $color-background: white;
-$color-primary: #212121;
+$color-background-secondary: $color-light-gray;
+
+$color-primary: #0d47a1;
 $color-primary-contrast: white;
 $color-secondary: #757575;
 $color-positive: #4caf50;
@@ -13,6 +18,8 @@ $color-warning: #ff9800;
 $color-border: $color-light-gray;
 $color-yellow: #fdd835;
 
+$space-xxsmall: 5px;
+$space-xsmall: 8px;
 $space-small: 12px;
 $space-medium: 16px;
 $space-large: 24px;

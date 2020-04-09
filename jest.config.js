@@ -14,4 +14,7 @@ module.exports = {
             tsConfig: 'tsconfig.json',
         },
     },
+    moduleNameMapper: {
+        '\\.(css|scss)$': '<rootDir>/CSSStub.js',
+    },
 };

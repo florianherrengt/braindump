@@ -13,7 +13,7 @@ interface CardProps {
 const ActionButton: React.SFC<{}> = () => {
     const [open, setOpen] = useState(false);
     return (
-        <Button variant={Variant.tertiary}>
+        <Button ariaLabel='open more actions' variant={Variant.tertiary}>
             <i className='material-icons'>
                 {open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
             </i>

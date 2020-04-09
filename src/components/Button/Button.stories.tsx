@@ -12,23 +12,42 @@ export default {
 export const Default = () => (
     <div style={{ padding: 20 }}>
         <div>
-            <Button styles={{ marginRight: 20 }}>Default</Button>
-            <Button styles={{ marginRight: 20 }} variant={Variant.primary}>
+            <Button ariaLabel='story' styles={{ marginRight: 20 }}>
+                Default
+            </Button>
+            <Button
+                ariaLabel='story'
+                styles={{ marginRight: 20 }}
+                variant={Variant.primary}
+            >
                 Next
             </Button>
-            <Button styles={{ marginRight: 20 }} variant={Variant.secondary}>
+            <Button
+                ariaLabel='story'
+                styles={{ marginRight: 20 }}
+                variant={Variant.secondary}
+            >
                 Next
             </Button>
-            <Button styles={{ marginRight: 20 }} variant={Variant.tertiary}>
+            <Button
+                ariaLabel='story'
+                styles={{ marginRight: 20 }}
+                variant={Variant.tertiary}
+            >
                 Next
             </Button>
         </div>
         <LineSpacer />
         <div>
-            <Button color={Color.positive} styles={{ marginRight: 20 }}>
+            <Button
+                ariaLabel='story'
+                color={Color.positive}
+                styles={{ marginRight: 20 }}
+            >
                 Default
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.positive}
                 styles={{ marginRight: 20 }}
                 variant={Variant.primary}
@@ -36,6 +55,7 @@ export const Default = () => (
                 Next
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.positive}
                 styles={{ marginRight: 20 }}
                 variant={Variant.secondary}
@@ -43,6 +63,7 @@ export const Default = () => (
                 Next
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.positive}
                 styles={{ marginRight: 20 }}
                 variant={Variant.tertiary}
@@ -52,10 +73,15 @@ export const Default = () => (
         </div>
         <LineSpacer />
         <div>
-            <Button color={Color.negative} styles={{ marginRight: 20 }}>
+            <Button
+                ariaLabel='story'
+                color={Color.negative}
+                styles={{ marginRight: 20 }}
+            >
                 Default
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.negative}
                 styles={{ marginRight: 20 }}
                 variant={Variant.primary}
@@ -63,6 +89,7 @@ export const Default = () => (
                 Next
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.negative}
                 styles={{ marginRight: 20 }}
                 variant={Variant.secondary}
@@ -70,6 +97,7 @@ export const Default = () => (
                 Next
             </Button>
             <Button
+                ariaLabel='story'
                 color={Color.negative}
                 styles={{ marginRight: 20 }}
                 variant={Variant.tertiary}

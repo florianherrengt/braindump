@@ -1,0 +1,8 @@
+@import '../../styles/index.scss';
+
+.TagChip {
+    border: 1px solid $color-border;
+    padding: $space-xxsmall $space-medium;
+    font-size: $font-small;
+    border-radius: 16px;
+}

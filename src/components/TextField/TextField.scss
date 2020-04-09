@@ -1,0 +1,19 @@
+@import '../../styles/index.scss';
+
+.TextField {
+    box-sizing: border-box;
+
+    padding: $space-medium;
+    background-color: $color-background;
+    border-radius: $border-radius;
+    border: 1px solid;
+    border-color: $color-border;
+
+    &:hover {
+        border-color: $color-secondary;
+    }
+
+    &:focus {
+        border-color: $color-primary;
+    }
+}
