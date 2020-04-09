@@ -1,0 +1,54 @@
+@import '../../styles/index.scss';
+
+.Button {
+    font-size: $font-small;
+    padding: $space-small;
+
+    border: 1px solid;
+    border-radius: 5px;
+    color: $color-primary-contrast;
+    font-weight: bold;
+
+    &--secondary,
+    &--tertiary {
+        background-color: transparent;
+        color: $color-primary;
+        font-weight: inherit;
+    }
+    &--primary {
+        background-color: $color-secondary;
+        border-color: $color-border;
+        &.Button--positive {
+            background-color: $color-positive;
+            border-color: $color-positive;
+        }
+        &.Button--negative {
+            background-color: $color-negative;
+            border-color: $color-negative;
+        }
+    }
+
+    &--secondary {
+        border-color: $color-border;
+        &.Button--positive {
+            border-color: $color-positive;
+        }
+        &.Button--negative {
+            border-color: $color-negative;
+        }
+    }
+
+    &--tertiary {
+        border: 0;
+        &.Button--positive {
+            color: $color-positive;
+        }
+        &.Button--negative {
+            color: $color-negative;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}

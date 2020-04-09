@@ -1,0 +1,37 @@
+@import '../../styles/variables';
+
+.Card {
+    position: relative;
+    padding: $space-large;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+
+    &_Actions {
+        &_Button_Open {
+            position: absolute;
+            top: 0;
+            right: 0;
+            i.material-icons {
+                color: $color-secondary;
+            }
+        }
+
+        &_Container {
+            position: absolute;
+            top: $space-xlarge + $space-small / 2;
+            right: $space-medium;
+            border: 1px solid $color-border;
+            background-color: $color-background;
+            border-radius: $border-radius;
+            overflow: hidden;
+
+            @media only screen and (max-width: $breakpoint-small) {
+                top: inherit;
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                left: 0;
+            }
+        }
+    }
+}
