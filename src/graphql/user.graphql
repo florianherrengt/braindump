@@ -1,0 +1,43 @@
+query getCurrentUser {
+    currentUser {
+        ...UserFields
+    }
+}
+
+mutation signIn($input: SignInInput!) {
+    signIn(input: $input)
+}
+
+mutation signOut {
+    signOut
+}
+
+query userExists($username: String!) {
+    userExists(username: $username)
+}
+
+query getStripeSessionId {
+    stripeSessionId
+}
+
+mutation signUp($input: SignUpInput!) {
+    signUp(input: $input)
+}
+
+mutation updateEmail($input: UpdateEmailInput!) {
+    updateEmail(input: $input) {
+        ...UserFields
+    }
+}
+
+mutation resendConfirmEmail {
+    resendConfirmEmail {
+        ...UserFields
+    }
+}
+
+fragment UserFields on User {
+    username
+    email
+    emailConfirmed
+}
