@@ -2,7 +2,49 @@
 
 .TagChip {
     border: 1px solid $color-border;
-    padding: $space-xxsmall $space-medium;
+    padding: $space-xxsmall/2 $space-small;
     font-size: $font-small;
-    border-radius: 16px;
+    border-radius: $space-medium;
+    font-weight: bold;
+    position: relative;
+
+    &--delete {
+        padding-right: $space-large;
+    }
+
+    &--neutral {
+        color: $color-secondary;
+        i {
+            color: $color-secondary;
+        }
+    }
+
+    &--positive {
+        color: $color-positive;
+        border-color: $color-positive;
+        i {
+            color: $color-positive;
+        }
+    }
+
+    &--negative {
+        color: $color-negative;
+        border-color: $color-negative;
+
+        i {
+            color: $color-negative;
+        }
+    }
+
+    &_Button_Delete {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        top: 0;
+        right: 0;
+
+        i {
+            font-size: $font-large;
+        }
+    }
 }
