@@ -9,13 +9,7 @@ module.exports = {
     mode: 'development',
     module: defaultConfig.module,
     resolve: defaultConfig.resolve,
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-    },
+    output: defaultConfig.output,
     devtool: 'inline-source-map',
-    externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-    },
+    externals: defaultConfig.externals,
 };

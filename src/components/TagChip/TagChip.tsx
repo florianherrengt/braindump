@@ -1,20 +1,14 @@
-import React, {
-    HTMLAttributes,
-    ButtonHTMLAttributes,
-    CSSProperties,
-    useCallback,
-} from 'react';
 import classNames from 'classnames';
-import { Color, Variant } from '../../config/theme';
-import { AutoComplete } from '../AutoComplete';
-import { Tag, TagEmotion } from '../../helpers';
-import { RootState } from '../../redux';
+import React from 'react';
 import { ValuesType } from 'utility-types';
+import { Variant } from '../../config/theme';
+import { TagEmotion } from '../../helpers';
+import { RootState } from '../../redux';
 import { Button } from '../Button';
 
 interface TagProps {
     tag: ValuesType<RootState['currentUserTags']['tags']>;
-    onDelete?(): void;
+    onDelete?(tag: ValuesType<RootState['currentUserTags']['tags']>): void;
 }
 
 export const TagChip: React.SFC<TagProps> = props => {
@@ -45,7 +39,7 @@ export const TagChip: React.SFC<TagProps> = props => {
                     className='TagChip_Button_Delete'
                     ariaLabel='delete tag'
                     variant={Variant.tertiary}
-                    onClick={() => {}}
+                    onClick={() => props.onDelete && props.onDelete(props.tag)}
                 >
                     <i className='material-icons'>cancel</i>
                 </Button>

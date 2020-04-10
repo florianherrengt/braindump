@@ -1,0 +1,52 @@
+@import '../../styles/index.scss';
+
+.TagsPicker {
+    width: 100%;
+
+    &_Input {
+        padding: $space-small;
+        border: 1px solid $color-border;
+        flex-wrap: wrap;
+
+        .TextField {
+            flex: 1;
+            padding: 0;
+            border: 0;
+            font-size: $font-medium;
+        }
+
+        .TagChip {
+            margin-right: $space-xxsmall;
+        }
+    }
+    &_PickedTags {
+        margin-right: $space-xsmall;
+    }
+    &_Results_List {
+        width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        margin-top: $space-medium;
+
+        &_Item {
+            &:first-child {
+                background-color: $color-background-tertiary;
+            }
+            a {
+                cursor: pointer;
+                padding: $space-medium;
+                display: block;
+
+                &:hover {
+                    background-color: $color-background-tertiary;
+                }
+            }
+            &--no-results {
+                padding: $space-medium;
+                display: block;
+            }
+        }
+    }
+}

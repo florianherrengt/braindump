@@ -1,16 +1,12 @@
-import React, {
-    HTMLAttributes,
-    ButtonHTMLAttributes,
-    CSSProperties,
-} from 'react';
-import classNames from 'classnames';
-import { Color, Variant } from '../../config/theme';
+import React from 'react';
 
 interface TextFieldProps {
     value?: string;
+    onClick?(): void;
     onChange?(value: string): void;
     ariaLabel: string;
     placeholder: string;
+    onKeyDown?: React.InputHTMLAttributes<HTMLInputElement>['onKeyDown'];
 }
 
 export const TextField: React.SFC<TextFieldProps> = props => {
@@ -18,6 +14,8 @@ export const TextField: React.SFC<TextFieldProps> = props => {
         <input
             className='TextField'
             value={props.value}
+            onClick={props.onClick}
+            onKeyDown={props.onKeyDown}
             onChange={event =>
                 props.onChange && props.onChange(event.target.value)
             }
