@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
-import { Button } from '../Button';
-import { Variant } from '../../config/theme';
 import { CardActionButton } from './CardActionButton';
-import { CardActionsContainer } from './CardActionsContainer';
+import {
+    CardActionsContainer,
+    CardActionsContainerProps,
+} from './CardActionsContainer';
 
-interface CardProps {
-    actions?: React.ReactNode;
+export interface CardProps {
+    actions?: CardActionsContainerProps['actions'];
     actionOpen?: boolean;
 }
-
-const ActionButton: React.SFC<{}> = () => {
-    const [open, setOpen] = useState(false);
-    return (
-        <Button ariaLabel='open more actions' variant={Variant.tertiary}>
-            <i className='material-icons'>
-                {open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-            </i>
-        </Button>
-    );
-};
 
 export const Card: React.SFC<CardProps> = props => {
     const [actionOpen, setActionOpen] = useState(props.actionOpen || false);
@@ -29,8 +18,11 @@ export const Card: React.SFC<CardProps> = props => {
                 open={actionOpen}
                 onClick={() => setActionOpen(!actionOpen)}
             />
-            {actionOpen ? (
-                <CardActionsContainer onClose={() => setActionOpen(false)}>
+            {actionOpen && props.actions ? (
+                <CardActionsContainer
+                    actions={props.actions}
+                    onClose={() => setActionOpen(false)}
+                >
                     {props.actions}
                 </CardActionsContainer>
             ) : null}

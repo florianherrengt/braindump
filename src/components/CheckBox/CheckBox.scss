@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+
+$size: $space-xsmall;
+
+.CheckBox {
+    position: relative;
+    input:checked + label {
+        background: $color-primary-20;
+    }
+    label {
+        font-size: $size;
+        border-color: $color-primary;
+        &::before {
+            background: $color-primary;
+        }
+    }
+    label span {
+        color: transparent;
+        visibility: hidden;
+    }
+
+    &_Label {
+        color: $color-text-primary;
+        position: absolute;
+        top: $size;
+        margin-left: $space-xsmall;
+    }
+}

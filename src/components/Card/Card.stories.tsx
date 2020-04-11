@@ -1,5 +1,6 @@
+import { action } from '@storybook/addon-actions';
 import React from 'react';
-import { Card } from './';
+import { Card, CardProps } from './';
 
 export default {
     component: Card,
@@ -13,15 +14,28 @@ const SomeActions = () => (
     </div>
 );
 
+const actions: CardProps['actions'] = [
+    {
+        icon: 'edit',
+        label: 'Edit',
+        onClick: action('edit'),
+    },
+    {
+        icon: 'delete',
+        label: 'Delete',
+        onClick: action('delete'),
+    },
+];
+
 export const Default = () => (
     <div style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-        <Card actions={<SomeActions />}>Card content</Card>
+        <Card actions={actions}>Card content</Card>
     </div>
 );
 
 export const ActionOpened = () => (
     <div style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-        <Card actionOpen actions={<SomeActions />}>
+        <Card actionOpen actions={actions}>
             Card content
         </Card>
     </div>

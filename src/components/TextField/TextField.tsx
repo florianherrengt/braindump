@@ -6,7 +6,7 @@ interface TextFieldProps {
     onChange?(value: string): void;
     onFocus?: React.InputHTMLAttributes<HTMLInputElement>['onFocus'];
     ariaLabel: string;
-    placeholder: string;
+    placeholder?: string;
     onKeyDown?: React.InputHTMLAttributes<HTMLInputElement>['onKeyDown'];
     onKeyUp?: React.InputHTMLAttributes<HTMLInputElement>['onKeyUp'];
 }
