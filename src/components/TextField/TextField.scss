@@ -6,8 +6,11 @@
     padding: $space-medium;
     background-color: $color-background;
     border-radius: $border-radius;
-    border: 1px solid;
+    border: $border-size solid;
     border-color: $color-border;
+
+    color: $color-text-primary;
+    font-size: $font-medium;
 
     &:hover {
         border-color: $color-secondary;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { routerUri } from '../../config';
-import { $Keys } from 'utility-types';
 import { useToggle } from '@umijs/hooks';
+import classNames from 'classnames';
+import React from 'react';
+import { $Keys } from 'utility-types';
+import { routerUri } from '../../config';
+import { Variant } from '../../config/theme';
+import { Button } from '../Button';
 
 interface TopBarProps {
     elevated?: boolean;
@@ -31,15 +33,29 @@ const links: Array<{ label: string; uri: string }> = [
     { label: 'Insights', uri: routerUri.insights },
 ];
 
+export const getTitle = (location: string): string => {
+    return links.find(link => link.uri.includes(location))?.label || '';
+};
+
 export const TopBar: React.SFC<TopBarProps> = props => {
     const { state, toggle } = useToggle(false);
 
     return (
         <div className={classNames(['TopBar', { elevated: props.elevated }])}>
-            <button onClick={() => toggle()}>
-                <i className='material-icons'>menu</i>
-            </button>
-            <div className='TopBar_Title'>{props.title}</div>
+            <div className='flex grow'>
+                <Button
+                    className='TopBar_Button_Open-Menu'
+                    variant={Variant.tertiary}
+                    ariaLabel='open menu'
+                    onClick={() => toggle()}
+                >
+                    <i className='material-icons'>menu</i>
+                </Button>
+                <div className='TopBar_Title grow'>
+                    {getTitle(props.location)}
+                </div>
+                <div className='TopBar_Title--scramblr '>Scramblr</div>
+            </div>
             <ul
                 className={classNames([
                     'TopBar_Links',
@@ -48,6 +64,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
             >
                 {links.map(({ label, uri }) => (
                     <li
+                        key={uri}
                         className={classNames([
                             'TopBar_Links_Item',
                             {
@@ -57,7 +74,7 @@ export const TopBar: React.SFC<TopBarProps> = props => {
                             },
                         ])}
                     >
-                        {label}
+                        <a href={uri}>{label}</a>
                     </li>
                 ))}
             </ul>

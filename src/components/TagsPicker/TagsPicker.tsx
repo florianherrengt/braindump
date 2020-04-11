@@ -1,4 +1,5 @@
 import { useClickAway } from '@umijs/hooks';
+import classNames from 'classnames';
 import Fuse from 'fuse.js';
 import React, { useMemo, useState } from 'react';
 import { ValuesType } from 'utility-types';
@@ -20,14 +21,19 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
     const [pickedTags, setPickedTags] = useState<TagsPickerProps['tags']>(
         props.pickedTags || [],
     );
+    const [focused, setFocused] = useState(false);
     const pickedTagsId = pickedTags.map(({ id }) => id);
     const [searchableTags, setSearchableTags] = useState(
         props.tags.filter(({ id }) => !pickedTagsId.includes(id)),
     );
     const [showResults, setShowResults] = useState(!!props.value);
 
-    const clickAwayRef = useClickAway(() => {
+    const resultsClickAwayRef = useClickAway(() => {
         showResults && setShowResults(false);
+    });
+
+    const inputClickAwayRef = useClickAway(() => {
+        focused && setFocused(false);
     });
 
     const fuse = useMemo(
@@ -71,7 +77,13 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
 
     return (
         <div className='TagsPicker'>
-            <div className='TagsPicker_Input flex'>
+            <div
+                ref={inputClickAwayRef}
+                className={classNames([
+                    'TagsPicker_Input',
+                    { 'TagsPicker_Input--focused': focused },
+                ])}
+            >
                 <div className='TagsPicker_PickedTags'>
                     {pickedTags?.map(tag => {
                         return (
@@ -84,6 +96,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                     })}
                 </div>
                 <TextField
+                    onFocus={() => setFocused(true)}
                     onKeyDown={event => {
                         if (event.key.toLocaleLowerCase() === 'enter') {
                             pickTag(results[0].item);
@@ -97,7 +110,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                 />
             </div>
             {filterValue && showResults ? (
-                <div ref={clickAwayRef}>
+                <div ref={resultsClickAwayRef}>
                     <ul className='TagsPicker_Results_List'>
                         {results.map(row => {
                             return (

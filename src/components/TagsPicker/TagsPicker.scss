@@ -4,15 +4,20 @@
     width: 100%;
 
     &_Input {
+        display: flex;
         padding: $space-small;
-        border: 1px solid $color-border;
+        border: $border-size solid $color-border;
         flex-wrap: wrap;
+        border-radius: $border-radius;
+
+        &--focused {
+            border-color: $color-primary;
+        }
 
         .TextField {
             flex: 1;
             padding: 0;
             border: 0;
-            font-size: $font-medium;
         }
 
         .TagChip {
@@ -27,8 +32,9 @@
         overflow: hidden;
         box-sizing: border-box;
         border: 1px solid $color-border;
-        border-radius: $border-radius;
-        margin-top: $space-medium;
+        border-radius: 0 0 $border-radius;
+        box-shadow: 0 2px 2px -2px $color-secondary;
+        margin-top: $space-xxsmall;
 
         &_Item {
             &:first-child {

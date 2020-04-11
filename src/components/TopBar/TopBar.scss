@@ -6,6 +6,7 @@
     padding: $space-medium $space-large;
     font-size: $font-medium;
     display: flex;
+    font-weight: 500;
 
     @media only screen and (max-width: 480px) {
         display: block;
@@ -13,6 +14,25 @@
 
     &--elevated {
         box-shadow: 0px 1px 5px $color-shadow;
+    }
+
+    &_Title {
+        &--scramblr {
+            display: none;
+        }
+        @media only screen and (min-width: 480px) {
+            display: none;
+            &--scramblr {
+                display: block;
+            }
+        }
+    }
+
+    .TopBar_Button_Open-Menu {
+        padding: 0;
+        @media only screen and (min-width: 480px) {
+            display: none;
+        }
     }
 
     &_Title {
@@ -28,6 +48,7 @@
 
         @media only screen and (max-width: 480px) {
             display: none;
+            margin-top: $space-small;
 
             &--show {
                 display: block;
@@ -44,7 +65,6 @@
 
             &--active {
                 color: $color-text-primary;
-                font-weight: 500;
             }
         }
     }
