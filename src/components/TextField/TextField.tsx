@@ -8,6 +8,7 @@ interface TextFieldProps {
     ariaLabel: string;
     placeholder: string;
     onKeyDown?: React.InputHTMLAttributes<HTMLInputElement>['onKeyDown'];
+    onKeyUp?: React.InputHTMLAttributes<HTMLInputElement>['onKeyUp'];
 }
 
 export const TextField: React.SFC<TextFieldProps> = props => {
@@ -18,6 +19,7 @@ export const TextField: React.SFC<TextFieldProps> = props => {
             value={props.value}
             onClick={props.onClick}
             onKeyDown={props.onKeyDown}
+            onKeyUp={props.onKeyUp}
             onChange={event =>
                 props.onChange && props.onChange(event.target.value)
             }

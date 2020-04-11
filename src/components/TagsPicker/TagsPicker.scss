@@ -10,6 +10,12 @@
         flex-wrap: wrap;
         border-radius: $border-radius;
 
+        &--unfocused {
+            &:hover {
+                border-color: $color-secondary;
+            }
+        }
+
         &--focused {
             border-color: $color-primary;
         }

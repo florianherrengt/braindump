@@ -55,7 +55,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
     );
 
     const results = fuse.search(filterValue);
-
+    console.log(pickedTags);
     const pickTag = (tag: ValuesType<TagsPickerProps['tags']>) => {
         setPickedTags([...pickedTags, tag]);
         setShowResults(false);
@@ -64,7 +64,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
         props.onChange && props.onChange(pickedTags);
     };
 
-    const removeTags = (tag: ValuesType<TagsPickerProps['tags']>) => {
+    const removeTag = (tag: ValuesType<TagsPickerProps['tags']>) => {
         setPickedTags(pickedTags.filter(({ id }) => tag.id !== id));
         setSearchableTags([...searchableTags, tag]);
         props.onChange && props.onChange(pickedTags);
@@ -82,6 +82,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                 className={classNames([
                     'TagsPicker_Input',
                     { 'TagsPicker_Input--focused': focused },
+                    { 'TagsPicker_Input--unfocused': !focused },
                 ])}
             >
                 <div className='TagsPicker_PickedTags'>
@@ -90,16 +91,19 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                             <TagChip
                                 key={tag.id}
                                 tag={tag}
-                                onDelete={removeTags}
+                                onDelete={removeTag}
                             />
                         );
                     })}
                 </div>
                 <TextField
                     onFocus={() => setFocused(true)}
-                    onKeyDown={event => {
-                        if (event.key.toLocaleLowerCase() === 'enter') {
+                    onKeyUp={event => {
+                        if (event.key.toLowerCase() === 'enter') {
                             pickTag(results[0].item);
+                        }
+                        if (event.key.toLowerCase() === 'backspace') {
+                            removeTag(pickedTags[pickedTags.length - 1]);
                         }
                     }}
                     onClick={() => setShowResults(true)}
