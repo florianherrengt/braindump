@@ -35,21 +35,30 @@
                 left: 0;
             }
 
-            ul button {
-                vertical-align: middle;
-                font-size: 1rem;
-                width: 100%;
-                padding-left: $space-xlarge;
-                padding-right: $space-xlarge;
-                border-radius: 0;
-
-                i {
-                    font-size: 1.25rem;
-                    margin-right: $space-medium;
+            ul {
+                &:first-child {
+                    padding-top: $space-small;
                 }
+                &:last-child {
+                    padding-bottom: $space-small;
+                }
+                button {
+                    vertical-align: middle;
+                    font-size: 1rem;
+                    width: 100%;
+                    padding-left: $space-xlarge;
+                    padding-right: $space-xlarge;
+                    border-radius: 0;
+                    text-transform: capitalize;
 
-                &:hover {
-                    background-color: $color-background-tertiary;
+                    i {
+                        font-size: 1.25rem;
+                        margin-right: $space-medium;
+                    }
+
+                    &:hover {
+                        background-color: $color-background-tertiary;
+                    }
                 }
             }
         }

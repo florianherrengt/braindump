@@ -1,9 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react';
-import { TagsPicker } from './TagsPicker';
-import { Variant, Color } from '../../config/theme';
-import { RootState } from '../../redux';
+import React from 'react';
 import { TagEmotion } from '../../helpers';
+import { RootState } from '../../redux';
+import { TagsPicker } from './TagsPicker';
 
 const tags: RootState['currentUserTags']['tags'] = [
     {
@@ -28,6 +27,6 @@ const tags: RootState['currentUserTags']['tags'] = [
 
 describe('Components/TagsPicker', () => {
     it('render', () => {
-        render(<TagsPicker tags={tags} placeholder='test' ariaLabel='test' />);
+        render(<TagsPicker tags={tags} />);
     });
 });

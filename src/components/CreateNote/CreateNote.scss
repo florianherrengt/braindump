@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+.CreateNote {
+    textarea {
+        width: 100%;
+        font-size: $font-medium;
+        padding: $space-small;
+        border: $border-size solid $color-border;
+        border-radius: $border-radius;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        margin-bottom: $space-small;
+        resize: none;
+
+        &:hover {
+            border-color: $color-secondary;
+        }
+
+        &:focus {
+            border-color: $color-primary;
+        }
+    }
+}

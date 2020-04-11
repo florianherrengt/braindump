@@ -1,0 +1,13 @@
+@import '../../styles/variables';
+
+.Note {
+    &_Text {
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+    &_DateFrom {
+        font-size: $font-small;
+        color: $color-text-secondary;
+        margin-bottom: $space-small;
+    }
+}

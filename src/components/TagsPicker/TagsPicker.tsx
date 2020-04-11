@@ -7,13 +7,12 @@ import { RootState } from '../../redux';
 import { TagChip } from '../TagChip';
 import { TextField } from '../TextField';
 
-interface TagsPickerProps {
+export interface TagsPickerProps {
     tags: RootState['currentUserTags']['tags'];
-    ariaLabel: string;
-    placeholder: string;
     value?: string;
     pickedTags?: RootState['currentUserTags']['tags'];
     onChange?(pickedTags: RootState['currentUserTags']['tags']): void;
+    placeholder?: string;
 }
 
 export const TagsPicker: React.SFC<TagsPickerProps> = props => {
@@ -55,7 +54,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
     );
 
     const results = fuse.search(filterValue);
-    console.log(pickedTags);
+
     const pickTag = (tag: ValuesType<TagsPickerProps['tags']>) => {
         setPickedTags([...pickedTags, tag]);
         setShowResults(false);
@@ -85,17 +84,19 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                     { 'TagsPicker_Input--unfocused': !focused },
                 ])}
             >
-                <div className='TagsPicker_PickedTags'>
-                    {pickedTags?.map(tag => {
-                        return (
-                            <TagChip
-                                key={tag.id}
-                                tag={tag}
-                                onDelete={removeTag}
-                            />
-                        );
-                    })}
-                </div>
+                {pickedTags.length ? (
+                    <div className='TagsPicker_PickedTags'>
+                        {pickedTags.map(tag => {
+                            return (
+                                <TagChip
+                                    key={tag.id}
+                                    tag={tag}
+                                    onDelete={removeTag}
+                                />
+                            );
+                        })}
+                    </div>
+                ) : null}
                 <TextField
                     onFocus={() => setFocused(true)}
                     onKeyUp={event => {
@@ -103,15 +104,17 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                             pickTag(results[0].item);
                         }
                         if (event.key.toLowerCase() === 'backspace') {
-                            removeTag(pickedTags[pickedTags.length - 1]);
+                            pickedTags.length &&
+                                removeTag(pickedTags[pickedTags.length - 1]);
                         }
                     }}
                     onClick={() => setShowResults(true)}
                     value={filterValue}
                     onChange={onChange}
-                    ariaLabel={props.ariaLabel}
-                    placeholder={props.placeholder}
+                    ariaLabel='Select tags'
+                    placeholder={props.placeholder || 'Select tags'}
                 />
+                {/* <i className='material-icons'>keyboard_arrow_down</i> */}
             </div>
             {filterValue && showResults ? (
                 <div ref={resultsClickAwayRef}>

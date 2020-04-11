@@ -10,7 +10,7 @@ interface Action {
 }
 
 export interface CardActionsContainerProps {
-    onClose?(): void;
+    onClose(): void;
     actions: Action[];
 }
 
@@ -28,7 +28,10 @@ export const CardActionsContainer: React.SFC<CardActionsContainerProps> = props 
                             ariaLabel='acton'
                             variant={Variant.tertiary}
                             className='flex'
-                            onClick={action.onClick}
+                            onClick={() => {
+                                props.onClose();
+                                action.onClick();
+                            }}
                         >
                             <i className='material-icons'>{action.icon}</i>
                             {action.label}

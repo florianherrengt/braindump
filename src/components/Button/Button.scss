@@ -1,4 +1,4 @@
-@import '../../styles/index.scss';
+@import '../../styles/variables.scss';
 
 .Button {
     font-size: $font-small;
@@ -32,9 +32,13 @@
         border-color: $color-border;
         &.Button--positive {
             border-color: $color-positive;
+            color: $color-positive;
+            font-weight: bold;
         }
         &.Button--negative {
             border-color: $color-negative;
+            color: $color-negative;
+            font-weight: bold;
         }
     }
 

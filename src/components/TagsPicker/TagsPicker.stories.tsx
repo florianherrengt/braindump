@@ -34,25 +34,13 @@ const tags: RootState['currentUserTags']['tags'] = [
 
 export const Default = () => (
     <div style={{ padding: 20 }}>
-        <TagsPicker
-            tags={tags}
-            placeholder='Enter your text here'
-            ariaLabel='test'
-        >
-            Default
-        </TagsPicker>
+        <TagsPicker tags={tags}>Default</TagsPicker>
     </div>
 );
 
 export const WithResults = () => (
     <div style={{ padding: 20 }}>
-        <TagsPicker
-            pickedTags={[tags[0]]}
-            tags={tags}
-            value='posi'
-            placeholder='Enter your text here'
-            ariaLabel='test'
-        >
+        <TagsPicker pickedTags={[tags[0]]} tags={tags} value='posi'>
             Default
         </TagsPicker>
     </div>
