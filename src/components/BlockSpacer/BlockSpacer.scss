@@ -1,0 +1,14 @@
+@import '../../styles/variables';
+
+.BlockSpacer {
+    width: $space-medium;
+    height: 100%;
+
+    &--small {
+        width: $space-xsmall;
+    }
+
+    &--large {
+        width: $space-large;
+    }
+}

@@ -48,12 +48,13 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                 threshold: 0.6,
                 location: 0,
                 distance: 100,
+                caseSensitive: false,
                 keys: ['label'],
             }),
         [searchableTags],
     );
 
-    const results = fuse.search(filterValue);
+    const results = fuse.search(filterValue).slice(0, 3);
 
     const pickTag = (tag: ValuesType<TagsPickerProps['tags']>) => {
         setPickedTags([...pickedTags, tag]);
@@ -117,7 +118,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                 {/* <i className='material-icons'>keyboard_arrow_down</i> */}
             </div>
             {filterValue && showResults ? (
-                <div ref={resultsClickAwayRef}>
+                <div className='TagsPicker_Results' ref={resultsClickAwayRef}>
                     <ul className='TagsPicker_Results_List'>
                         {results.map(row => {
                             return (

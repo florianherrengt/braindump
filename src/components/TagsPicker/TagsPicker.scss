@@ -33,6 +33,9 @@
     &_PickedTags {
         margin-right: $space-xsmall;
     }
+    &_Results {
+        background-color: $color-background;
+    }
     &_Results_List {
         width: 100%;
         overflow: hidden;

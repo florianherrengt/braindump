@@ -1,9 +1,5 @@
-import React, {
-    HTMLAttributes,
-    ButtonHTMLAttributes,
-    CSSProperties,
-} from 'react';
 import classNames from 'classnames';
+import React, { CSSProperties } from 'react';
 import { Color, Variant } from '../../config/theme';
 
 interface ButtonProps {
@@ -13,13 +9,17 @@ interface ButtonProps {
     variant?: Variant;
     styles?: CSSProperties;
     ariaLabel: string;
+    disabled?: boolean;
+    type?: React.ButtonHTMLAttributes<HTMLInputElement>['type'];
 }
 
 export const Button: React.SFC<ButtonProps> = props => {
     return (
         <button
+            disabled={true}
             aria-label={props.ariaLabel}
             style={props.styles}
+            type={props.type}
             className={classNames([
                 props.className,
                 'Button',

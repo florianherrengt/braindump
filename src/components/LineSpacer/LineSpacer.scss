@@ -3,4 +3,16 @@
 .LineSpacer {
     height: $space-large;
     width: 100%;
+
+    &--xsmall {
+        height: $space-small;
+    }
+
+    &--small {
+        height: $space-medium;
+    }
+
+    &--large {
+        height: $space-xlarge;
+    }
 }

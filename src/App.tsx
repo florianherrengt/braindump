@@ -1,6 +1,6 @@
 // import { SnackbarProvider } from 'notistack';
 import { hot } from 'react-hot-loader/root';
-import React, { Fragment, lazy, Suspense } from 'react';
+import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { AppRouter } from './AppRouter';
 import { localStorageKeys } from './config';
@@ -22,10 +22,9 @@ export const App: React.SFC<{}> = () => {
         <div className='App'>
             <ReduxProvider store={store}>
                 {/* <SnackbarProvider> */}
-                <Fragment>
-                    <Suspense fallback={<div />}>{/* <Notifier /> */}</Suspense>
-                    <AppRouter />
-                </Fragment>
+
+                <AppRouter />
+
                 {/* </SnackbarProvider> */}
             </ReduxProvider>
         </div>

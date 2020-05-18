@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.tsx',
+    entry: ['react-hot-loader/patch', './src/index.tsx'],
     mode: 'development',
     module: {
         rules: [
@@ -28,12 +28,17 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            'react-dom': '@hot-loader/react-dom',
+        },
     },
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     devtool: 'inline-source-map',
+    // devtool: 'inline-cheap-module-source-map',
+
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html',
@@ -45,7 +50,7 @@ module.exports = {
     ],
     externals: {
         react: 'React',
-        'react-dom': 'ReactDOM',
+        // 'react-dom': 'ReactDOM',
     },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),

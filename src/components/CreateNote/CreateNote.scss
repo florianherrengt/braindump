@@ -9,7 +9,6 @@
         border-radius: $border-radius;
         flex-wrap: wrap;
         box-sizing: border-box;
-        margin-bottom: $space-small;
         resize: none;
 
         &:hover {
@@ -18,6 +17,14 @@
 
         &:focus {
             border-color: $color-primary;
+        }
+    }
+
+    &_Actions {
+        flex-direction: row-reverse;
+
+        &_Button_Add {
+            padding: 0 $space-large;
         }
     }
 }
