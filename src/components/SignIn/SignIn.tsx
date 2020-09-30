@@ -32,7 +32,7 @@ export const SignIn = (props: SignInProps) => {
                         className='SignIn_TextField_Username width-100'
                         autoFocus
                         disabled={props.loading}
-                        onChange={setUsername}
+                        onChange={event => setUsername(event.target.value)}
                     />
                 </div>
                 <LineSpacer />
@@ -43,7 +43,7 @@ export const SignIn = (props: SignInProps) => {
                         autoComplete='password'
                         className='SignIn_TextField_Password width-100'
                         disabled={props.loading}
-                        onChange={setPassword}
+                        onChange={event => setPassword(event.target.value)}
                         type='password'
                     />
                 </div>

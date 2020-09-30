@@ -6,7 +6,7 @@ import { Color, Variant } from '../../config/theme';
 
 export default {
     component: Button,
-    title: 'Button',
+    title: 'Input/Button',
 };
 
 export const Default = () => (

@@ -4,6 +4,9 @@
     height: $space-large;
     width: 100%;
 
+    &--xxsmall {
+        height: $space-xsmall;
+    }
     &--xsmall {
         height: $space-small;
     }

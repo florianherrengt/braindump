@@ -111,7 +111,7 @@ export const TagsPicker: React.SFC<TagsPickerProps> = props => {
                     }}
                     onClick={() => setShowResults(true)}
                     value={filterValue}
-                    onChange={onChange}
+                    onChange={event => onChange(event.target.value)}
                     ariaLabel='Select tags'
                     placeholder={props.placeholder || 'Select tags'}
                 />

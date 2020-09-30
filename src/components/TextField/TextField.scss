@@ -12,6 +12,14 @@
     color: $color-text-primary;
     font-size: $font-medium;
 
+    &--error {
+        border-color: $color-negative;
+    }
+
+    &::placeholder {
+        text-transform: capitalize;
+    }
+
     &:hover {
         border-color: $color-secondary;
     }

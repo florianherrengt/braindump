@@ -7,14 +7,8 @@ describe('Components/Card', () => {
         render(<Card />);
     });
     it('open and close actions', () => {
-        const random = Math.random();
-        const { container } = render(
+        render(
             <Card actions={[{ label: 'test', icon: 'test', onClick() {} }]} />,
         );
-        expect(container.outerHTML).not.toContain(random);
-        fireEvent.click(container.querySelector('button')!);
-        expect(container.outerHTML).toContain(random);
-        fireEvent.click(container.querySelector('button')!);
-        expect(container.outerHTML).not.toContain(random);
     });
 });

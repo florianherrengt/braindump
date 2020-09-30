@@ -1,2 +1,2 @@
-export * from './SignIn';
+import './SignUp.scss';
 export * from './SignUp';

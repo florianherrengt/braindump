@@ -1,4 +1,10 @@
 @import '../../styles/index.scss';
 
 .Typography {
+    &--body2 {
+        font-size: $font-small;
+    }
+    &--error {
+        color: $color-negative;
+    }
 }

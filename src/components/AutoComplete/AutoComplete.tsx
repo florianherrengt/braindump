@@ -46,7 +46,7 @@ export const AutoComplete: React.SFC<AutoCompleteProps> = props => {
         <div className='AutoComplete'>
             <TextField
                 value={filterValue}
-                onChange={setFilterValue}
+                onChange={event => setFilterValue(event.target.value)}
                 ariaLabel={props.ariaLabel}
                 placeholder={props.placeholder}
             />

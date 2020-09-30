@@ -6,7 +6,7 @@ import { Color, Variant } from '../../config/theme';
 
 export default {
     component: AutoComplete,
-    title: 'AutoComplete',
+    title: 'Input/AutoComplete',
 };
 
 const data = [

@@ -6,7 +6,7 @@ import '../../styles/index.scss';
 
 export default {
     component: TagsPicker,
-    title: 'TagsPicker',
+    title: 'Input/TagsPicker',
 };
 
 const tags: RootState['currentUserTags']['tags'] = [

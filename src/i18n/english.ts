@@ -5,4 +5,8 @@ export const english = {
     reset: 'discard',
     save: 'save',
     add: 'add',
+    username: 'username',
+    password: 'password',
+    passwordConfirm: 'Confirm password',
+    passwordConfirmNoMatch: 'Password confirmation does not match',
 };
